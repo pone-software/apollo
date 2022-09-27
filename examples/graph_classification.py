@@ -28,7 +28,7 @@ if __name__ == "__main__":
         g.nodes[x]["hmmm"] = test[x]
 
     filename = os.path.join(
-        os.path.dirname(__file__), "../../data/events_track_0.pickle"
+        os.path.dirname(__file__), "../../data/tracks/events_track_0.pickle"
     )
 
     event_collection = EventCollection.from_pickle(filename)
@@ -60,6 +60,8 @@ if __name__ == "__main__":
     graph_builder = TimeSeriesGraphGenerator(base_graph, event_collection)
 
     graphs = graph_builder.generate_graphs()
+
+    print("test")
 
     # print(graphs)
 

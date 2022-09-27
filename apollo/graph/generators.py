@@ -52,7 +52,6 @@ class TimeSeriesGraphGenerator(AbstractGraphGenerator):
         
         def get_graph(i, base_graph, histogram):
             base_graph = annotator.annotate_graph(base_graph, histogram)
-            print(i)
 
             return (i, base_graph)
 
@@ -103,7 +102,6 @@ class PerEventGraphGenerator(AbstractGraphGenerator):
         
         def get_histogram(i, event_collection, bin_size):
             histogram = event_collection.generate_histogram(bin_size, event_index=i)
-            print(i)
 
             return (i, histogram)
 
@@ -139,7 +137,6 @@ class PerEventGraphGenerator(AbstractGraphGenerator):
         
         def get_graph(i, base_graph, histogram):
             base_graph = annotator.annotate_graph(base_graph, histogram)
-            print(i)
 
             return (i, base_graph)
 
@@ -168,7 +165,6 @@ class PerEventGraphGenerator(AbstractGraphGenerator):
         pool.close()
         pool.join()
 
-        print(graphs)
         self._graphs = graphs
 
         return dgl_graph
