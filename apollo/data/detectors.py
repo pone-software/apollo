@@ -12,7 +12,7 @@ class Module(JSONSerializable):
     Detection module.
 
     Attributes:
-        pos: np.ndarray
+        position: np.ndarray
             Module position (x, y, z)
         noise_rate: float
             Noise rate in 1/ns

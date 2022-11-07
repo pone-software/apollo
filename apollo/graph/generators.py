@@ -1,14 +1,12 @@
 from abc import ABC, abstractmethod
-import dgl
-import networkx as nx
-from typing import Optional, List
 from multiprocessing import Pool, cpu_count
-import numpy as np
-import torch as th
-import time
-from tqdm import tqdm
-from apollo.graph.annotators import DimensionTimelineAnnotator
+from typing import Optional, List
 
+import dgl
+import numpy as np
+from tqdm import tqdm
+
+from apollo.graph.annotators import DimensionTimelineAnnotator
 from ..data.events import EventCollection
 
 
@@ -139,10 +137,6 @@ class PerEventGraphGenerator(AbstractGraphGenerator):
             base_graph = annotator.annotate_graph(base_graph, histogram)
 
             return (i, base_graph)
-
-        def get_results(result):
-            global graphs
-            graphs.append(result)
 
         def get_error(error):
             print(error)

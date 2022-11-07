@@ -10,6 +10,7 @@ import numpy as np
 
 from numpy.random import BitGenerator
 
+from ..data.importers import EventCollectionImporter
 from ..utils.random import get_rng
 from ..data.events import EventCollection
 from ..data.configs import HistogramConfig, HistogramDatasetConfig
@@ -80,9 +81,10 @@ class AbstractNoisedHistogramGenerator(AbstractHistogramGenerator, ABC):
 
     def _generate_histogram(self, event_collection: Optional[EventCollection] = None) -> np.ndarray:
         # TODO: Fix here and remove generator collection
-        generated_noise = self.noise_generators.generate_per_timeframe(self.histogram_config.start,
-                                                                       self.histogram_config.end)
-        histogram = generated_noise.get_histogram(histogram_config=self.histogram_config)
+        generated_noise = self.noise_generators.generate_per_timeframe(int(self.histogram_config.start),
+                                                                       int(self.histogram_config.end))
+        event_collection = EventCollectionImporter.from_olympus(generated_noise)
+        histogram = event_collection.get_histogram(histogram_config=self.histogram_config)
 
         if event_collection is not None:
             histogram += super()._generate_histogram(event_collection)
@@ -174,7 +176,7 @@ class NoisedHistogramGenerator(AbstractNoisedHistogramGenerator):
 
         noise_histograms_range = np.arange(0, number_of_histograms - final_number_of_events)
 
-        for x in noise_histograms_range:
+        for _ in noise_histograms_range:
             noise_histogram = self._generate_histogram(None)
             rows.append({
                 'histogram': noise_histogram,

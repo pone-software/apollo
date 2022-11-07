@@ -1,18 +1,16 @@
-from abc import abstractmethod
-from typing import Callable, Optional, Union
-import numpy as np
-from enum import Enum
 import logging
+import math
 import os
+from abc import abstractmethod
+from typing import Callable, Optional
 
-import pandas as pd
+import numpy as np
 from torch.utils.data import Dataset
 from torch.utils.data.dataset import T_co
-import math
 
 from ..data.configs import HistogramConfig
-from ..utils.random import get_rng
 from ..data.events import EventCollection
+from ..utils.random import get_rng
 
 
 class AbstractDataset(Dataset):

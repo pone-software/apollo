@@ -11,7 +11,6 @@ def plot_timeline(
 ):
     histogram = event_collection.get_histogram(histogram_config=histogram_config)
     detector = event_collection.detector
-    plot_target = np.log10(histogram)
     module_coordinates = detector.module_coordinates
 
     traces = [
@@ -121,7 +120,6 @@ def plot_timeline(
                     ],  # set color to an array/list of desired values
                     colorscale="Viridis",  # choose a colorscale
                     opacity=0.8,
-                    # showscale=True,
                 ),
             ),
 
@@ -154,7 +152,6 @@ def plot_timeline(
                         color="black",
                         colorscale="Viridis",
                         opacity=0.8,
-                        # showscale=True,
                     ),
                 )
             )

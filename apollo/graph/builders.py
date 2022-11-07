@@ -18,6 +18,6 @@ class AbstractGraphBuilder(ABC):
 
 class CompleteGraphBuilder(AbstractGraphBuilder):
     def build_graph(self, **kwargs) -> dgl.DGLGraph:
-        nx_graph = nx.complete_graph(self._detector.n_modules)
+        nx_graph = nx.complete_graph(self._detector.number_of_modules)
         dgl_graph = dgl.from_networkx(nx_graph)
         return dgl_graph

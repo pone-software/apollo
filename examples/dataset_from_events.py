@@ -1,10 +1,9 @@
-from apollo.data.configs import HistogramConfig
-from apollo.dataset.generators import NoisedHistogramGenerator
-import numpy as np
-
-from apollo.utils.detector_helpers import get_line_detector
-from apollo.data.events import EventCollection, EventTimeframeMode
 import matplotlib.pyplot as plt
+
+from apollo.data.configs import HistogramConfig
+from apollo.data.events import EventCollection, EventTimeframeMode
+from apollo.dataset.generators import NoisedHistogramGenerator
+from apollo.utils.detector_helpers import get_line_detector
 
 plt.rcParams["figure.figsize"] = [7.00, 3.50]
 plt.rcParams["figure.autolayout"] = True

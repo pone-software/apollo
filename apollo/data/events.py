@@ -1,16 +1,13 @@
 from __future__ import annotations
 
 import copy
-import os
-from typing import Union, List, Optional
+import logging
 from dataclasses import dataclass
 from enum import Enum, auto
+from typing import List, Optional
 
-import numpy as np
 import awkward as ak
-import logging
-
-import pandas as pd
+import numpy as np
 
 from apollo.data.configs import Interval, HistogramConfig
 from apollo.data.detectors import Detector
@@ -324,7 +321,8 @@ class Event(JSONSerializable):
         histogram = np.zeros([number_of_modules, number_of_bins])
 
         for module_index, module in enumerate(self.hits):
-            histogram[module_index] += np.histogram(ak.to_numpy(module), bins=number_of_bins, range=histogram_config.range)[0]
+            histogram[module_index] += \
+            np.histogram(ak.to_numpy(module), bins=number_of_bins, range=histogram_config.range)[0]
 
         return histogram
 
@@ -406,8 +404,9 @@ class EventCollection(FolderSavable, FolderLoadable, JSONSerializable):
         if histogram_config is None:
             histogram_config = HistogramConfig()
 
-        histogram_bins = [(x, x + histogram_config.bin_size) for x in np.arange(histogram_config.start, histogram_config.end, histogram_config.bin_size)]
-        source_bins = [[] for x in histogram_bins]
+        histogram_bins = [(x, x + histogram_config.bin_size) for x in
+                          np.arange(histogram_config.start, histogram_config.end, histogram_config.bin_size)]
+        source_bins = [[] for _ in histogram_bins]
 
         for event in self.events:
             record = event.record
@@ -415,12 +414,10 @@ class EventCollection(FolderSavable, FolderLoadable, JSONSerializable):
                 if source.time < histogram_config.start or source.time >= histogram_config.end:
                     continue
 
-                index = int(np.floor((source.time - histogram_config.start)/histogram_config.bin_size))
+                index = int(np.floor((source.time - histogram_config.start) / histogram_config.bin_size))
                 source_bins[index].append(source)
 
         return source_bins
-
-
 
     def get_histogram(self, histogram_config: Optional[HistogramConfig] = None) -> np.ndarray:
         if histogram_config is None:

@@ -6,17 +6,11 @@ from apollo.data.detectors import Detector
 
 def get_line_detector() -> Detector:
     rng = np.random.RandomState(1337)
-    oms_per_line = 20
-    dist_z = 50  # m
     dark_noise_rate = 16 * 1e4 * 1e-9  # 1/ns
 
     pmts_per_module = 16
     pmt_cath_area_r = 75e-3 / 2  # m
     module_radius = 0.21  # m
-
-    start_time = 0
-    end_time = 10000000
-    step_size = 50
 
     # Calculate the relative area covered by PMTs
     efficiency = (

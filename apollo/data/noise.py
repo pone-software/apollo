@@ -61,7 +61,7 @@ class NoiseGenerator(ABC):
 
         return np.sum(raw_histogram, axis=2)
 
-    def generate_hits(self, config: Union[Interval, HistogramConfig]) -> ak.Array:
+    def generate_hits(self, config: Union[Interval, HistogramConfig]) -> List[ak.Array]:
         histogram = self.generate(config=config)
         hits_per_module = np.sum(histogram, axis=1)
         hits = []

@@ -24,6 +24,6 @@ class DimensionTimelineAnnotator(AbstractGraphAnnotator):
     def annotate_graph(
         self, graph: dgl.DGLGraph, histogram: np.ndarray, **kwargs
     ) -> dgl.DGLGraph:
-        graph.ndata["dimensions"] = th.tensor(self._detector.module_coords)
+        graph.ndata["dimensions"] = th.tensor(self._detector.module_coordinates)
         graph.ndata["timeline"] = th.tensor(histogram)
         return graph

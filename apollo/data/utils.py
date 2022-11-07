@@ -237,7 +237,7 @@ class FolderLoadable(ABC):
         return imported_object
 
     @classmethod
-    def from_pickle(cls: Type[FolderLoadableType], filename, **kwargs) -> Type[FolderLoadableType]:
+    def from_pickle(cls: Type[FolderLoadableType], filename, **kwargs) -> FolderLoadableType:
         """
         Imports an individual pickle file
 
