@@ -1,7 +1,7 @@
 import os
 import numpy as np
 import logging
-from olympus.event_generation.data import EventCollection
+from apollo.data.events import EventCollection
 from olympus.event_generation.detector import Detector, make_line
 from olympus.event_generation.generators import GeneratorFactory, GeneratorCollection
 
@@ -61,6 +61,6 @@ final_event_collection.detector = det
 
 final_event_collection.to_folder(os.path.join(data_base_path, 'training/single_line_all_events'))
 
-# histogram = final_event_collection.generate_histogram(step_size=step_size, start_time=start_time, end_time=end_time)
+# histogram = final_event_collection.generate_histogram(bin_size=bin_size, end=end, end=end)
 
 # print(histogram)

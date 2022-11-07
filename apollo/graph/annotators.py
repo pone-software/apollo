@@ -3,7 +3,7 @@ import dgl
 import torch as th
 import numpy as np
 
-from olympus.event_generation.data import EventCollection
+from ..data.events import EventCollection
 
 
 class AbstractGraphAnnotator(ABC):
@@ -24,6 +24,6 @@ class DimensionTimelineAnnotator(AbstractGraphAnnotator):
     def annotate_graph(
         self, graph: dgl.DGLGraph, histogram: np.ndarray, **kwargs
     ) -> dgl.DGLGraph:
-        graph.ndata["dimensions"] = th.tensor(self._detector.module_coords)
+        graph.ndata["dimensions"] = th.tensor(self._detector.module_coordinates)
         graph.ndata["timeline"] = th.tensor(histogram)
         return graph

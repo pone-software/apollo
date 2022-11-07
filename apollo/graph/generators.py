@@ -1,15 +1,13 @@
 from abc import ABC, abstractmethod
-import dgl  
-import networkx as nx
-from typing import Optional, List
 from multiprocessing import Pool, cpu_count
-import numpy as np
-import torch as th
-import time
-from tqdm import tqdm
-from apollo.graph.annotators import DimensionTimelineAnnotator
+from typing import Optional, List
 
-from olympus.event_generation.data import EventCollection
+import dgl
+import numpy as np
+from tqdm import tqdm
+
+from apollo.graph.annotators import DimensionTimelineAnnotator
+from ..data.events import EventCollection
 
 
 class AbstractGraphGenerator(ABC):
@@ -35,13 +33,13 @@ class TimeSeriesGraphGenerator(AbstractGraphGenerator):
 
     @property
     def _histogram(self) -> np.ndarray:
-        return self._event_collection.generate_histogram(self._bin_size)[0]
+        return self._event_collection.get_histogram()[0]
 
     def generate_graphs(
-        self,
-        step_length: Optional[int] = 10,
-        step_size: Optional[int] = 1,
-        **kwargs
+            self,
+            step_length: Optional[int] = 10,
+            step_size: Optional[int] = 1,
+            **kwargs
     ) -> List[dgl.DGLGraph]:
         global get_graph
         global graphs
@@ -49,7 +47,7 @@ class TimeSeriesGraphGenerator(AbstractGraphGenerator):
         graphs = []
         time_series_length = histogram.shape[1]
         annotator = DimensionTimelineAnnotator(self._event_collection)
-        
+
         def get_graph(i, base_graph, histogram):
             base_graph = annotator.annotate_graph(base_graph, histogram)
 
@@ -66,12 +64,13 @@ class TimeSeriesGraphGenerator(AbstractGraphGenerator):
         i = 0
 
         while i < time_series_length - step_length:
-            current_histogram = histogram[:, i:i+step_length]
+            current_histogram = histogram[:, i:i + step_length]
             edges = self._graph.edges()
             base_graph = dgl.graph((edges[0].clone(), edges[1].clone()))
             # graph = get_graph(i, self, current_histogram)
             # graphs.append(graph)
-            pool.apply_async(get_graph, args=(i, base_graph, current_histogram), callback=get_results, error_callback=get_error)
+            pool.apply_async(get_graph, args=(i, base_graph, current_histogram), callback=get_results,
+                             error_callback=get_error)
             i += step_size
 
         pool.close()
@@ -80,8 +79,6 @@ class TimeSeriesGraphGenerator(AbstractGraphGenerator):
         self._graphs = graphs
 
         return graphs
-
-
 
 
 class PerEventGraphGenerator(AbstractGraphGenerator):
@@ -99,13 +96,13 @@ class PerEventGraphGenerator(AbstractGraphGenerator):
         global histograms
         global get_histogram
         histograms = []
-        
+
         def get_histogram(i, event_collection, bin_size):
-            histogram = event_collection.generate_histogram(bin_size, event_index=i)
+            # TODO: Reevaluate this
+            histogram = event_collection.get_histogram(bin_size, event_index=i)
 
             return (i, histogram)
 
-        
         def get_histogram_results(result):
             global histograms
             histograms.append(result)
@@ -114,9 +111,10 @@ class PerEventGraphGenerator(AbstractGraphGenerator):
             print(error)
 
         pool = Pool(cpu_count())
-        
+
         for key, event in enumerate(self._event_collection.events):
-            pool.apply_async(get_histogram, args=(key, self._event_collection, self._bin_size), callback=get_histogram_results, error_callback=get_error)
+            pool.apply_async(get_histogram, args=(key, self._event_collection, self._bin_size),
+                             callback=get_histogram_results, error_callback=get_error)
 
         pool.close()
         pool.join()
@@ -125,24 +123,20 @@ class PerEventGraphGenerator(AbstractGraphGenerator):
         return histograms
 
     def generate_graphs(
-        self,
-        step_length: Optional[int] = 10,
-        step_size: Optional[int] = 1,
-        **kwargs
+            self,
+            step_length: Optional[int] = 10,
+            step_size: Optional[int] = 1,
+            **kwargs
     ) -> List[dgl.DGLGraph]:
         global get_graph
         global graphs
         graphs = []
         annotator = DimensionTimelineAnnotator(self._event_collection)
-        
+
         def get_graph(i, base_graph, histogram):
             base_graph = annotator.annotate_graph(base_graph, histogram)
 
             return (i, base_graph)
-
-        def get_results(result):
-            global graphs
-            graphs.append(result)
 
         def get_error(error):
             print(error)
@@ -160,7 +154,8 @@ class PerEventGraphGenerator(AbstractGraphGenerator):
             base_graph = dgl.graph((edges[0].clone(), edges[1].clone()))
             # graph = get_graph(i, self, current_histogram)
             # graphs.append(graph)
-            pool.apply_async(get_graph, args=(i, base_graph, histogram[1]), callback=get_results, error_callback=get_error)
+            pool.apply_async(get_graph, args=(i, base_graph, histogram[1]), callback=get_results,
+                             error_callback=get_error)
 
         pool.close()
         pool.join()
