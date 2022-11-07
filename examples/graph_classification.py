@@ -16,7 +16,7 @@ import os
 from apollo.graph.generators import TimeSeriesGraphGenerator, PerEventGraphGenerator
 from apollo.graph.builders import CompleteGraphBuilder
 
-from olympus.event_generation.data import EventCollection
+from apollo.data.events import EventCollection
 from olympus.event_generation.detector import make_triang, Detector, make_line
 
 if __name__ == "__main__":

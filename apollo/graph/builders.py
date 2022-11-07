@@ -2,7 +2,7 @@ from abc import ABC, abstractmethod
 import dgl
 import networkx as nx
 
-from olympus.event_generation.data import EventCollection
+from apollo.data.events import EventCollection
 
 
 class AbstractGraphBuilder(ABC):

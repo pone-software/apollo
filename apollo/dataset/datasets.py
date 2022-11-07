@@ -4,18 +4,15 @@ import numpy as np
 from enum import Enum
 import logging
 import os
+
+import pandas as pd
 from torch.utils.data import Dataset
 from torch.utils.data.dataset import T_co
 import math
 
-from apollo.utils.random import get_rng
-from olympus.event_generation.data import EventCollection
-
-
-class EventLabels(Enum):
-    starting_track = 1
-    cascade = 2
-    track = 3
+from ..data.configs import HistogramConfig
+from ..utils.random import get_rng
+from ..data.events import EventCollection
 
 
 class AbstractDataset(Dataset):
@@ -33,6 +30,7 @@ class AbstractDataset(Dataset):
     def load(cls, folder: str):
         raise NotImplementedError('Method \'load\' not implemented in subclass')
 
+
 class MultiHistogramDataset(AbstractDataset):
     def __init__(self,
                  path,
@@ -41,7 +39,6 @@ class MultiHistogramDataset(AbstractDataset):
             rng = get_rng()
         self.rng = rng
         self.path = path
-
 
     @classmethod
     def from_event_collection(cls, event_collection: EventCollection):
@@ -77,22 +74,21 @@ class SingleHistogramDataset(AbstractDataset):
         return self.histogram.shape[1] - self.sequence_length
 
     def __getitem__(self, index) -> T_co:
-        seq = self.histogram[:, index:index+self.sequence_length]
-        label = self.labels[index:index+self.sequence_length]
+        seq = self.histogram[:, index:index + self.sequence_length]
+        label = self.labels[index:index + self.sequence_length]
         return seq, label
 
     @classmethod
     def from_event_collection(cls,
                               event_collection: EventCollection,
-                              step_size: int = 50,
-                              start_time: Optional[int] = None,
-                              end_time: Optional[int] = None,
+                              histogram_config: Optional[HistogramConfig] = None,
                               sequence_length: Optional[int] = 1,
                               transform_fn: Optional[Callable] = None,
                               transform_opts: Optional[dict] = None):
-        histogram, records, times = event_collection.generate_histogram(step_size,
-                                                                 start_time,
-                                                                 end_time)
+        if histogram_config is None:
+            histogram_config = HistogramConfig()
+        histogram = event_collection.get_histogram(histogram_config=histogram_config)
+        records = event_collection.get_events_as_data_frame(include_sources=False, valid_only=True)
 
         records.assign(label=0)
         for label in EventLabels:

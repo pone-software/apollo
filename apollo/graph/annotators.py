@@ -3,7 +3,7 @@ import dgl
 import torch as th
 import numpy as np
 
-from olympus.event_generation.data import EventCollection
+from ..data.events import EventCollection
 
 
 class AbstractGraphAnnotator(ABC):
