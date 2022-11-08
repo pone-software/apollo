@@ -6,7 +6,7 @@ on:
   pull_request:
     branches:
       - main
-  workflow_run: null
+  workflow_dispatch: null
 jobs:
   docs:
     runs-on: ubuntu-latest
