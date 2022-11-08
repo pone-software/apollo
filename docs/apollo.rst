@@ -7,6 +7,7 @@ Subpackages
 .. toctree::
    :maxdepth: 4
 
+   apollo.data
    apollo.dataset
    apollo.graph
    apollo.models

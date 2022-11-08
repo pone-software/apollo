@@ -12,6 +12,7 @@ Welcome to Apollo's documentation!
 
    intro
    apollo
+   modules
    examples
 
 

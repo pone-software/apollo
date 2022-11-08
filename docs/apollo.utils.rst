@@ -12,10 +12,26 @@ apollo.utils.constants module
    :undoc-members:
    :show-inheritance:
 
+apollo.utils.detector\_helpers module
+-------------------------------------
+
+.. automodule:: apollo.utils.detector_helpers
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 apollo.utils.graph module
 -------------------------
 
 .. automodule:: apollo.utils.graph
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+apollo.utils.plotting module
+----------------------------
+
+.. automodule:: apollo.utils.plotting
    :members:
    :undoc-members:
    :show-inheritance:
