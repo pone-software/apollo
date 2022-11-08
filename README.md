@@ -30,8 +30,8 @@
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <a href="https://github.com/github_username/apollo">
-    <img src="images/logo.png" alt="Logo" width="80" height="80">
+  <a href="https://github.com/pone-software/apollo">
+    <img src="https://www.pacific-neutrino.org/typo3conf/ext/sitepackage/Resources/Public/Images/Logos/P-ONE_Rainbow-01-360p.jpg" alt="Logo" height="143" width="360">
   </a>
 
 <h3 align="center">Apollo</h3>
@@ -39,11 +39,9 @@
   <p align="center">
     P-One's Neural Network based trigger algorithm
     <br />
-    <a href="https://github.com/pone-software/apollo"><strong>Explore the docs »</strong></a>
+    <a href="https://pone-software.github.io/apollo/"><strong>Explore the docs »</strong></a>
     <br />
     <br />
-    <a href="https://github.com/pone-software/apollo">View Demo</a>
-    ·
     <a href="https://github.com/pone-software/apollo/issues">Report Bug</a>
     ·
     <a href="https://github.com/pone-software/apollo/issues">Request Feature</a>
