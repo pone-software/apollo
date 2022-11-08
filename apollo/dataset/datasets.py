@@ -90,7 +90,7 @@ class SingleHistogramDataset(AbstractDataset):
 
         records.assign(label=0)
         for label in EventLabels:
-            records.loc[records['type'] == label.name, 'label'] = label.value
+            records.loc[records['event_type'] == label.name, 'label'] = label.value
 
         records.assign(histogram_index=0)
         records['histogram_index'] = np.floor((records['time'] - times[0]) / step_size)

@@ -3,7 +3,7 @@ from typing import Any, List, Tuple
 import awkward as ak
 
 from apollo.data.detectors import Detector, Module
-from apollo.data.events import EventCollection, Event, EventRecord, EventType
+from apollo.data.events import EventCollection, Event, EventType, SourceRecord, SourceType
 from apollo.data.geometric import Vector
 
 
@@ -16,29 +16,6 @@ class ImporterMeta(ABC):
     @abstractmethod
     def from_olympus(cls, input_to_import: Any, **kwargs) -> Any:
         raise NotImplementedError('from_olympus not implemented in importer')
-
-
-class EventRecordImporter(EventRecord, ImporterMeta):
-    @classmethod
-    def from_olympus(cls, mc_record: Any, **kwargs) -> EventRecord:
-        """
-        Loads event from MC Record
-        Args:
-            mc_record (MCRecord): MCRecord from Olympus to Load
-
-        Returns:
-            Event from the apollo package
-
-        """
-        info = mc_record.mc_info[0]
-        return EventRecord(
-            type=EventType[mc_record.event_type.upper()],
-            sources=mc_record.sources,
-            direction=info["dir"],
-            energy=info["energy"],
-            time=info["time"],
-            position=info["pos"]
-        )
 
 
 class EventCollectionImporter(EventCollection, ImporterMeta):
@@ -69,11 +46,15 @@ class EventCollectionImporter(EventCollection, ImporterMeta):
         for index in range(0, len(hits)):
             event_hits = hits[index]
             record = records[index]
-            if not isinstance(record, EventRecord):
-                record = EventRecordImporter.from_olympus(record)
+            info = record.mc_info[0]
             event = Event(
+                event_type=EventType[record.event_type.upper()],
+                sources=[SourceRecordImporter.from_olympus(source) for source in record.sources],
                 hits=event_hits,
-                record=record,
+                direction=Vector.from_ndarray(info["dir"]),
+                energy=info["energy"][0],
+                time=info["time"],
+                position=Vector.from_ndarray(info["pos"]),
                 **kwargs
             )
             events.append(event)
@@ -118,6 +99,17 @@ class ModuleImporter(Module, ImporterMeta):
             noise_rate=module_to_import.noise_rate,
             efficiency=module_to_import.efficiency,
             key=module_to_import.key
+        )
+
+class SourceRecordImporter(SourceRecord, ImporterMeta):
+    @classmethod
+    def from_olympus(cls, source_to_import: Any, **kwargs) -> SourceRecord:
+        return SourceRecord(
+            direction=Vector.from_ndarray(source_to_import.direction),
+            position=Vector.from_ndarray(source_to_import.position),
+            number_of_photons=source_to_import.n_photons,
+            time=source_to_import.time,
+            source_type=SourceType[source_to_import.type.name]
         )
 
 

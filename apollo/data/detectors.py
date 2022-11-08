@@ -3,6 +3,7 @@ from typing import List, Tuple
 
 import numpy as np
 
+from apollo.data.geometric import Vector
 from apollo.data.utils import JSONSerializable
 
 
@@ -21,7 +22,7 @@ class Module(JSONSerializable):
         self.key: collection
             Module identifier
     """
-    position: np.ndarray
+    position: Vector
     key: Tuple
     noise_rate: float = 1
     efficiency: float = 0.2
@@ -33,8 +34,9 @@ class Module(JSONSerializable):
         )
 
     def as_json(self) -> dict:
+        position = np.array(self.position)
         return {
-            'position': list(self.position),
+            'position': list(position),
             'key': self.key,
             'noise_rate': self.noise_rate,
             'efficiency': self.efficiency
@@ -43,7 +45,7 @@ class Module(JSONSerializable):
     @classmethod
     def from_json(cls, dictionary: dict):
         return cls(
-            position=np.array(dictionary['position']),
+            position=Vector.from_ndarray(dictionary['position']),
             key=dictionary['key'],
             noise_rate=dictionary['noise_rate'],
             efficiency=dictionary['efficiency']
