@@ -7,8 +7,19 @@ import plotly.graph_objects as go
 def plot_timeline(
         event_collection: EventCollection,
         histogram_config: HistogramConfig,
-        draw_records=False,
+        draw_sources=False,
 ):
+    """
+    Create plots for a event collection based on their histograms.
+
+    Args:
+        event_collection: Collection of events to include in timeline
+        histogram_config: HistogramConfig to create the events for
+        draw_sources: Include sources in plot
+
+    Returns:
+
+    """
     histogram = event_collection.get_histogram(histogram_config=histogram_config)
     detector = event_collection.detector
     module_coordinates = detector.module_coordinates
@@ -40,7 +51,7 @@ def plot_timeline(
         ),
     ]
 
-    if draw_records:
+    if draw_sources:
         traces.append(
             go.Scatter3d(
                 x=[],
@@ -100,7 +111,7 @@ def plot_timeline(
 
     frames = []
     binned_sources = None
-    if draw_records:
+    if draw_sources:
         binned_sources = event_collection.get_sources_per_bin(histogram_config=histogram_config)
 
     # for k in range(5):
@@ -136,7 +147,7 @@ def plot_timeline(
                 ),
             ),
         ]
-        if draw_records:
+        if draw_sources:
             sources = binned_sources[k]
 
             source_coordinates = np.array([source.position for source in sources])

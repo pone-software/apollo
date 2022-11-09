@@ -34,12 +34,12 @@ class JSONSerializable(ABC):
 
     @classmethod
     @abstractmethod
-    def from_json(cls, json: Union[dict, list]) -> Type[JSONSerializableType]:
+    def from_json(cls, dictionary: Union[dict, list]) -> Type[JSONSerializableType]:
         """
         Load a class from a json like data type
 
         Args:
-            json: json to be parsed
+            dictionary: json to be parsed
 
         Returns:
             Object of Class

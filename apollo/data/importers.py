@@ -37,7 +37,7 @@ class EventCollectionImporter(EventCollection, ImporterMeta):
             **kwargs: parameters to be passed down
 
         Returns:
-            Event collection containing all the events from the input files
+            Event collection containing all the events from the input tuple
 
         """
         events = []
@@ -86,8 +86,22 @@ class EventCollectionImporter(EventCollection, ImporterMeta):
 
 
 class ModuleImporter(Module, ImporterMeta):
+    """
+    Importer for the module class
+    """
     @classmethod
     def from_olympus(cls, module_to_import: Any, **kwargs) -> Module:
+        """
+        loads a module from the olympus package
+
+        Args:
+            module_to_import: olympus module object
+            **kwargs: parameters to be passed down
+
+        Returns:
+            Module containing all the information
+
+        """
         position = Vector(
             x=module_to_import.pos[0],
             y=module_to_import.pos[1],
@@ -101,9 +115,24 @@ class ModuleImporter(Module, ImporterMeta):
             key=module_to_import.key
         )
 
+
 class SourceRecordImporter(SourceRecord, ImporterMeta):
+    """
+    Importer for the source record
+    """
     @classmethod
     def from_olympus(cls, source_to_import: Any, **kwargs) -> SourceRecord:
+        """
+        loads a source record from the olympus package
+
+        Args:
+            source_to_import: olympus PhotonSource object
+            **kwargs: parameters to be passed down
+
+        Returns:
+            source record containing all the information
+
+        """
         return SourceRecord(
             direction=Vector.from_ndarray(source_to_import.direction),
             position=Vector.from_ndarray(source_to_import.position),
@@ -114,8 +143,22 @@ class SourceRecordImporter(SourceRecord, ImporterMeta):
 
 
 class DetectorImporter(Detector, ImporterMeta):
+    """
+    Importer for the detector record
+    """
     @classmethod
     def from_olympus(cls, detector_to_import: Any, **kwargs) -> Detector:
+        """
+        loads a detectr from the olympus package
+
+        Args:
+            detector_to_import: olympus Detector object
+            **kwargs: parameters to be passed down
+
+        Returns:
+            detector containing all the information
+
+        """
         return Detector(
             modules=[ModuleImporter.from_olympus(module) for module in detector_to_import.modules]
         )

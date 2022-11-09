@@ -251,7 +251,7 @@ class Event(Record, JSONSerializable):
             raise ValueError(error_msg)
 
         if modified_end < modified_start:
-            modified_end = modified_start
+            modified_end = modified_start + 1
             error_msg = "Event to long for interval %s. Switched to contains hit".format(str(interval))
             logging.warning(error_msg)
 
