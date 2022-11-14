@@ -72,8 +72,7 @@ def plot_timeline(
         )
 
     figure = go.Figure(
-        data=traces,
-        title=title
+        data=traces
     )
     figure.update_layout(
         showlegend=False,

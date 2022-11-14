@@ -393,8 +393,7 @@ class EventCollection(FolderSavable, FolderLoadable, JSONSerializable):
         source_bins = [[] for _ in histogram_bins]
 
         for event in self.events:
-            record = event.record
-            for source in record.sources:
+            for source in event.sources:
                 if source.time < histogram_config.start or source.time >= histogram_config.end:
                     continue
 

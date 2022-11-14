@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from dataclasses import dataclass
+from dataclasses import dataclass, astuple
 
 import numpy as np
 
@@ -87,4 +87,27 @@ class Vector(JSONSerializable):
             Numpy array representation of the vector
 
         """
-        return np.array([self.x, self.y, self.z], dtype=dtype)
+        return np.array(astuple(self), dtype=dtype)
+
+    def __len__(self) -> int:
+        """
+        Determines the length of the point. In this case 3
+
+        Returns:
+            Array lenght of the point
+
+        """
+        return astuple(self).__len__()
+
+    def __getitem__(self, item) -> float:
+        """
+        Get a specific set of dataclass tuple
+
+        Args:
+            item: Item number or slice
+
+        Returns:
+            item of point
+
+        """
+        return astuple(self).__getitem__(item)
