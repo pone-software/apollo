@@ -9,6 +9,9 @@ jobs:
       - name: Install dependencies
         run: |
           pip install sphinx sphinx_rtd_theme
+      - name: Set pythonpath
+        run: |
+          echo "PYTHONPATH=home/runner/work/apollo" >> $GITHUB_ENV
       - name: Sphinx build
         run: |
           cd docs && make html
