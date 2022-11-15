@@ -465,6 +465,14 @@ class EventCollection(FolderSavable, FolderLoadable, JSONSerializable):
 
         return EventCollection(events=events_in_timeframe, detector=collection.detector, rng=collection.rng)
 
+    def get_event_features(self, valid_only: bool = True) -> List[dict]:
+        if valid_only:
+            events = self.valid_events
+        else:
+            events = self.events
+
+        return [event.as_features() for event in events]
+
     def get_events_as_json(self, valid_only: bool = True, include_sources: bool = False) -> List[dict]:
         if valid_only:
             events = self.valid_events

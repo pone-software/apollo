@@ -213,5 +213,5 @@ class HistogramDatasetConfig(JSONSerializable):
         return {
             'path': self.path,
             'detector': self.detector.as_json(),
-            'histogram_config': self.histogram_config.as_JSON()
+            'histogram_config': self.histogram_config.as_json()
         }
