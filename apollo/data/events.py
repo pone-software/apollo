@@ -19,7 +19,7 @@ from apollo.utils.random import get_rng
 class EventType(Enum):
     STARTING_TRACK = auto()
     CASCADE = auto()
-    TRACK = auto()
+    REALISTIC_TRACK = auto()
 
 
 class SourceType(Enum):
@@ -107,55 +107,18 @@ class SourceRecord(Record):
 
 
 @dataclass
-class EventRecord(Record):
-    type: EventType
+class Event(Record, JSONSerializable):
+    event_type: EventType
     energy: float
+    hits: List[ak.Array] = None
     sources: Optional[List[SourceRecord]] = None
-
-    def __post_init__(self):
-        if isinstance(self.type, str):
-            self.type = EventType[self.type]
-
-    def as_json(self, include_sources: bool = False) -> dict:
-        parent_dict = super().as_json()
-        child_dict = {
-            'type': self.type.name,
-            'energy': self.energy,
-        }
-
-        if include_sources:
-            child_dict['sources'] = [source.as_json() for source in self.sources],
-
-        return {
-            **parent_dict,
-            **child_dict
-        }
-
-    @classmethod
-    def from_json(cls, dictionary: dict) -> EventRecord:
-        type = dictionary['type']
-        if not type in EventType:
-            type = EventType[type.to_upper()]
-
-        return cls(
-            type=type,
-            sources=[SourceRecord.from_json(source) for source in dictionary['sources']],
-            time=dictionary['time'],
-            energy=dictionary['energy'],
-            position=Vector.from_json(dictionary['position']),
-            direction=Vector.from_json(dictionary['direction'])
-        )
-
-
-@dataclass
-class Event(JSONSerializable):
-    hits: List[ak.Array]
-    record: EventRecord
     detector: Optional[Detector] = None
     default_value: Optional[float] = 0.0
     rng: Optional[np.random.Generator] = None
 
     def __post_init__(self):
+        if isinstance(self.event_type, str):
+            self.event_type = EventType[self.event_type]
         if self.rng is None:
             self.rng = get_rng()
 
@@ -179,12 +142,12 @@ class Event(JSONSerializable):
         return np.arange(start, end, step, dtype=np.int16)
 
     @property
-    def percentiles(self) -> list | np.ndarray:
+    def percentiles(self) -> np.ndarray:
         percentile_levels = self.percentile_levels
         percentiles = np.full_like(percentile_levels, self.default_value)
         if self.number_of_hits:
             hits = ak.flatten(self.hits, axis=None)
-            percentiles[1:-1] = np.percentile(hits, percentile_levels[1:-1], method='closest_observation')
+            percentiles[1:-1] = np.percentile(hits, percentile_levels[1:-1])
 
         percentiles[0] = self.first_hit
         percentiles[-1] = self.last_hit
@@ -195,24 +158,13 @@ class Event(JSONSerializable):
     def number_of_hits(self) -> int:
         return ak.count(self.hits)
 
-    @property
-    def start_time(self) -> float:
-        return self.record.time
-
-    def to_dict(self) -> dict:
-        record_dict = self.record.as_json()
-        percentiles = self.percentiles
+    def as_features(self) -> dict:
         event_dict = {
+            **self.as_json(include_sources=False, include_hits=False, include_detector=False),
             'number_of_hits': self.number_of_hits,
+            'percentiles': list(self.percentiles)
         }
-
-        for index, percentile_level in enumerate(self.percentile_levels):
-            event_dict[str(percentile_level) + 'th_percentile'] = percentiles[index]
-
-        return {
-            **record_dict,
-            **event_dict
-        }
+        return event_dict
 
     def is_in_timeframe(self,
                         interval: Interval,
@@ -220,9 +172,9 @@ class Event(JSONSerializable):
         start = interval.start
         end = interval.end
         if is_in_timeframe_mode == EventTimeframeMode.START_TIME:
-            if start is not None and self.start_time < start:
+            if start is not None and self.time < start:
                 return False
-            if end is not None and self.start_time >= end:
+            if end is not None and self.time >= end:
                 return False
         elif is_in_timeframe_mode == EventTimeframeMode.CONTAINS_HIT:
             if start > self.last_hit:
@@ -259,16 +211,16 @@ class Event(JSONSerializable):
         modified_start = None
         modified_end = None
 
-        if is_in_timeframe_mode == EventTimeframeMode.START_TIME:
+        if is_in_timeframe_mode.value == EventTimeframeMode.START_TIME.value:
             modified_start = interval.start
             modified_end = interval.end
 
-        if is_in_timeframe_mode == EventTimeframeMode.CONTAINS_HIT:
-            modified_start = interval.start - new_event.last_hit + new_event.start_time
-            modified_end = interval.end - new_event.first_hit + new_event.start_time
+        if is_in_timeframe_mode.value == EventTimeframeMode.CONTAINS_HIT.value:
+            modified_start = interval.start - new_event.last_hit + new_event.time
+            modified_end = interval.end - new_event.first_hit + new_event.time
 
-        if is_in_timeframe_mode == EventTimeframeMode.CONTAINS_EVENT or is_in_timeframe_mode == EventTimeframeMode.CONTAINS_PERCENTAGE:
-            if is_in_timeframe_mode == EventTimeframeMode.CONTAINS_EVENT:
+        if is_in_timeframe_mode.value == EventTimeframeMode.CONTAINS_EVENT.value or is_in_timeframe_mode.value == EventTimeframeMode.CONTAINS_PERCENTAGE.value:
+            if is_in_timeframe_mode.value == EventTimeframeMode.CONTAINS_EVENT.value:
                 last_hit = new_event.last_hit
                 first_hit = new_event.first_hit
             else:
@@ -289,7 +241,7 @@ class Event(JSONSerializable):
                 first_hit = percentiles[percentile_start_index]
                 last_hit = percentiles[percentile_end_index]
             event_length = last_hit - first_hit
-            event_offset = first_hit - new_event.start_time
+            event_offset = first_hit - new_event.time
             modified_start = interval.start - event_offset
             modified_end = interval.end - event_offset - event_length
 
@@ -299,19 +251,19 @@ class Event(JSONSerializable):
             raise ValueError(error_msg)
 
         if modified_end < modified_start:
-            modified_end = modified_start
+            modified_end = modified_start + 1
             error_msg = "Event to long for interval %s. Switched to contains hit".format(str(interval))
             logging.warning(error_msg)
 
-        new_start_time = rng.random_integers(modified_start, modified_end)
-        difference = new_event.start_time - new_start_time
+        new_start_time = rng.integers(modified_start, modified_end)
+        difference = new_event.time - new_start_time
 
-        for source in new_event.record.sources:
+        for source in new_event.sources:
             source.time = source.time - difference
 
         new_event.hits = np.subtract(new_event.hits, difference)
 
-        new_event.record.time = new_start_time
+        new_event.time = new_start_time
 
         return new_event
 
@@ -322,25 +274,57 @@ class Event(JSONSerializable):
 
         for module_index, module in enumerate(self.hits):
             histogram[module_index] += \
-            np.histogram(ak.to_numpy(module), bins=number_of_bins, range=histogram_config.range)[0]
+                np.histogram(ak.to_numpy(module), bins=number_of_bins, range=histogram_config.range)[0]
 
         return histogram
 
-    def as_json(self, include_sources: bool = False) -> dict:
-        return {
-            'hits': [list(module_hits) for module_hits in self.hits],
-            'record': self.record.as_json(include_sources=include_sources),
-            'detector': self.detector.as_json(),
+    def as_json(self, include_sources: bool = True, include_hits: bool = True, include_detector: bool = True) -> dict:
+        parent_dict = super().as_json()
+        child_dict = {
+            'event_type': self.event_type.name,
+            'energy': self.energy,
             'default_value': self.default_value
+        }
+
+        if include_sources:
+            child_dict['sources'] = [source.as_json() for source in self.sources]
+
+        if include_hits:
+            child_dict['hits'] = [list(module_hits) for module_hits in self.hits]
+
+        if include_detector:
+            child_dict['detector'] = self.detector.as_json()
+
+        return {
+            **parent_dict,
+            **child_dict
         }
 
     @classmethod
     def from_json(cls, dictionary: dict) -> Event:
+        sources = None
+        detector = None
+        hits = None
+        event_type = dictionary['event_type']
+        if not event_type in EventType:
+            event_type = EventType[event_type.to_upper()]
+        if hasattr(dictionary, 'sources'):
+            sources = [SourceRecord.from_json(source) for source in dictionary['sources']]
+        if hasattr(dictionary, 'detector'):
+            detector = Detector.from_json(dictionary['detector'])
+        if hasattr(dictionary, 'hits'):
+            hits = [ak.Array(module_hits) for module_hits in dictionary['hits']]
+
         return cls(
-            hits=[ak.Array(module_hits) for module_hits in dictionary['hits']],
-            record=EventRecord.from_json(dictionary['record']),
-            detector=Detector.from_json(dictionary['detector']),
-            default_value=dictionary['default_value']
+            event_type=event_type,
+            sources=sources,
+            energy=dictionary['energy'],
+            hits=hits,
+            detector=detector,
+            default_value=dictionary['default_value'],
+            time=dictionary['time'],
+            position=Vector.from_json(dictionary['position']),
+            direction=Vector.from_json(dictionary['direction'])
         )
 
 
@@ -409,8 +393,7 @@ class EventCollection(FolderSavable, FolderLoadable, JSONSerializable):
         source_bins = [[] for _ in histogram_bins]
 
         for event in self.events:
-            record = event.record
-            for source in record.sources:
+            for source in event.sources:
                 if source.time < histogram_config.start or source.time >= histogram_config.end:
                     continue
 
@@ -466,20 +449,29 @@ class EventCollection(FolderSavable, FolderLoadable, JSONSerializable):
 
         return collection
 
-    def get_within_timeframe(self, interval: Interval, create_copy: bool = False) -> EventCollection:
+    def get_within_timeframe(self, interval: Interval, create_copy: bool = False,
+                             is_in_timeframe_mode: EventTimeframeMode = DEFAULT_EVENT_TIMEFRAME_MODE) -> EventCollection:
         collection = self.__get_reference(create_copy)
 
         events_in_timeframe = []
 
         logging.info('Start collecting events within %s (%d Events available)', str(interval), len(collection))
         for event in collection.events:
-            if event.is_in_timeframe(interval=interval):
+            if event.is_in_timeframe(interval=interval, is_in_timeframe_mode=is_in_timeframe_mode):
                 events_in_timeframe.append(event)
 
         logging.info('Finish collecting events within %s (%d Events collected)', str(interval),
                      len(events_in_timeframe))
 
         return EventCollection(events=events_in_timeframe, detector=collection.detector, rng=collection.rng)
+
+    def get_event_features(self, valid_only: bool = True) -> List[dict]:
+        if valid_only:
+            events = self.valid_events
+        else:
+            events = self.events
+
+        return [event.as_features() for event in events]
 
     def get_events_as_json(self, valid_only: bool = True, include_sources: bool = False) -> List[dict]:
         if valid_only:

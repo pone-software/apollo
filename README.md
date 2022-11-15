@@ -130,7 +130,18 @@ To be Done
 
 ## Roadmap
 
-To be Done
+### V0.0.1
+* Create DataLoader
+* Create NoisedDataLoader
+* Create Notebook showing Data Loaders
+* Cleaning up Examples Folder
+
+### v1.0.0
+* Set up ML Workflow
+* Create first simple model
+* Create runnable ML Algorithm
+* Make package installable and add prerequisites and installation in template
+
 
 See the [open issues](https://github.com/pone-software/apollo/issues) for a full list of proposed features (and known
 issues).

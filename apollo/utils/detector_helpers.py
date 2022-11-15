@@ -4,7 +4,15 @@ from apollo.data.importers import DetectorImporter
 from olympus.event_generation.detector import Detector as ODetector, make_line, make_triang
 from apollo.data.detectors import Detector
 
+
 def get_line_detector() -> Detector:
+    """
+    Helper to generate line detector with standard params from olympus.
+
+    Returns:
+        Detector having all modules in line
+
+    """
     rng = np.random.RandomState(1337)
     dark_noise_rate = 16 * 1e4 * 1e-9  # 1/ns
 
@@ -22,6 +30,13 @@ def get_line_detector() -> Detector:
 
 
 def get_triangle_detector() -> Detector:
+    """
+    Helper to generate triangular detector with standard params from olympus.
+
+    Returns:
+        Detector having three lines of modules
+
+    """
     oms_per_line = 20
     dist_z = 50  # m
     dark_noise_rate = 16 * 1e-5  # 1/ns

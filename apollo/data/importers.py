@@ -3,7 +3,7 @@ from typing import Any, List, Tuple
 import awkward as ak
 
 from apollo.data.detectors import Detector, Module
-from apollo.data.events import EventCollection, Event, EventRecord, EventType
+from apollo.data.events import EventCollection, Event, EventType, SourceRecord, SourceType
 from apollo.data.geometric import Vector
 
 
@@ -16,29 +16,6 @@ class ImporterMeta(ABC):
     @abstractmethod
     def from_olympus(cls, input_to_import: Any, **kwargs) -> Any:
         raise NotImplementedError('from_olympus not implemented in importer')
-
-
-class EventRecordImporter(EventRecord, ImporterMeta):
-    @classmethod
-    def from_olympus(cls, mc_record: Any, **kwargs) -> EventRecord:
-        """
-        Loads event from MC Record
-        Args:
-            mc_record (MCRecord): MCRecord from Olympus to Load
-
-        Returns:
-            Event from the apollo package
-
-        """
-        info = mc_record.mc_info[0]
-        return EventRecord(
-            type=EventType[mc_record.event_type.upper()],
-            sources=mc_record.sources,
-            direction=info["dir"],
-            energy=info["energy"],
-            time=info["time"],
-            position=info["pos"]
-        )
 
 
 class EventCollectionImporter(EventCollection, ImporterMeta):
@@ -60,7 +37,7 @@ class EventCollectionImporter(EventCollection, ImporterMeta):
             **kwargs: parameters to be passed down
 
         Returns:
-            Event collection containing all the events from the input files
+            Event collection containing all the events from the input tuple
 
         """
         events = []
@@ -69,11 +46,15 @@ class EventCollectionImporter(EventCollection, ImporterMeta):
         for index in range(0, len(hits)):
             event_hits = hits[index]
             record = records[index]
-            if not isinstance(record, EventRecord):
-                record = EventRecordImporter.from_olympus(record)
+            info = record.mc_info[0]
             event = Event(
+                event_type=EventType[record.event_type.upper()],
+                sources=[SourceRecordImporter.from_olympus(source) for source in record.sources],
                 hits=event_hits,
-                record=record,
+                direction=Vector.from_ndarray(info["dir"]),
+                energy=info["energy"][0],
+                time=info["time"],
+                position=Vector.from_ndarray(info["pos"]),
                 **kwargs
             )
             events.append(event)
@@ -105,8 +86,22 @@ class EventCollectionImporter(EventCollection, ImporterMeta):
 
 
 class ModuleImporter(Module, ImporterMeta):
+    """
+    Importer for the module class
+    """
     @classmethod
     def from_olympus(cls, module_to_import: Any, **kwargs) -> Module:
+        """
+        loads a module from the olympus package
+
+        Args:
+            module_to_import: olympus module object
+            **kwargs: parameters to be passed down
+
+        Returns:
+            Module containing all the information
+
+        """
         position = Vector(
             x=module_to_import.pos[0],
             y=module_to_import.pos[1],
@@ -121,9 +116,49 @@ class ModuleImporter(Module, ImporterMeta):
         )
 
 
+class SourceRecordImporter(SourceRecord, ImporterMeta):
+    """
+    Importer for the source record
+    """
+    @classmethod
+    def from_olympus(cls, source_to_import: Any, **kwargs) -> SourceRecord:
+        """
+        loads a source record from the olympus package
+
+        Args:
+            source_to_import: olympus PhotonSource object
+            **kwargs: parameters to be passed down
+
+        Returns:
+            source record containing all the information
+
+        """
+        return SourceRecord(
+            direction=Vector.from_ndarray(source_to_import.direction),
+            position=Vector.from_ndarray(source_to_import.position),
+            number_of_photons=source_to_import.n_photons,
+            time=source_to_import.time,
+            source_type=SourceType[source_to_import.type.name]
+        )
+
+
 class DetectorImporter(Detector, ImporterMeta):
+    """
+    Importer for the detector record
+    """
     @classmethod
     def from_olympus(cls, detector_to_import: Any, **kwargs) -> Detector:
+        """
+        loads a detectr from the olympus package
+
+        Args:
+            detector_to_import: olympus Detector object
+            **kwargs: parameters to be passed down
+
+        Returns:
+            detector containing all the information
+
+        """
         return Detector(
             modules=[ModuleImporter.from_olympus(module) for module in detector_to_import.modules]
         )
