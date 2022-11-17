@@ -9,9 +9,9 @@ Subpackages
 
    apollo.data
    apollo.dataset
-   apollo.graph
    apollo.models
    apollo.utils
+   apollo.visualization
 
 Module contents
 ---------------

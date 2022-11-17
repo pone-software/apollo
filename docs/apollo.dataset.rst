@@ -4,14 +4,6 @@ apollo.dataset package
 Submodules
 ----------
 
-apollo.dataset.datasets module
-------------------------------
-
-.. automodule:: apollo.dataset.datasets
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
 apollo.dataset.generators module
 --------------------------------
 

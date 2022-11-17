@@ -1,13 +1,15 @@
+from __future__ import annotations
+
 import logging
 import os
 import pickle
-from abc import abstractmethod, ABC
-from typing import TypeVar, Type, List, Any, Union
+
+from abc import ABC, abstractmethod
+from typing import Any, Dict, List, Type, TypeVar, Union
 
 
-def create_folder(path):
-    """
-    Creates a folder if it does not exist
+def create_folder(path: str) -> None:
+    """Creates a folder if it does not exist.
 
     Args:
         path: Pathlike parameter explaining which path should be created as a folder
@@ -19,24 +21,21 @@ def create_folder(path):
     is_exist = os.path.exists(path)
 
     if is_exist:
-        logging.warning('Folder %s already exists', path)
+        logging.warning("Folder %s already exists", path)
     else:
         os.makedirs(path)
 
 
-JSONSerializableType = TypeVar('JSONSerializableType', bound='JSONSerializable')
+JSONSerializableType = TypeVar("JSONSerializableType", bound="JSONSerializable")
 
 
 class JSONSerializable(ABC):
-    """
-    Interface to make a class serializable to and from json
-    """
+    """Interface to make a class serializable to and from json."""
 
     @classmethod
     @abstractmethod
-    def from_json(cls, dictionary: Union[dict, list]) -> Type[JSONSerializableType]:
-        """
-        Load a class from a json like data type
+    def from_json(cls, dictionary: Any) -> JSONSerializable:
+        """Load a class from a json like data type
 
         Args:
             dictionary: json to be parsed
@@ -45,43 +44,38 @@ class JSONSerializable(ABC):
             Object of Class
 
         """
-        raise NotImplementedError('from dict not implemented')
+        raise NotImplementedError("from dict not implemented")
 
     @abstractmethod
-    def as_json(self) -> Union[dict, list]:
-        """
-        converts the class into a json writable and readable data structure
+    def as_json(self) -> Union[Dict[str, Any], List[Any]]:
+        """converts the class into a json writable and readable data structure
 
         Returns:
             List or dict containing all the serialized information of the class
 
         """
-        raise NotImplementedError('as dict not implemented')
+        raise NotImplementedError("as dict not implemented")
 
 
-FolderSavableType = TypeVar('FolderSavableType', bound='FolderSavable')
+FolderSavableType = TypeVar("FolderSavableType", bound="FolderSavable")
 
 
 class FolderSavable(ABC):
-    """
-    Tool class that enables enumerable class to be saved to a folder using pickle
-    """
+    """Tool class that enables enumerable class to be saved to a folder using pickle."""
 
     @abstractmethod
-    def __len__(self):
-        """
-        Returns the length of the class values
+    def __len__(self) -> int:
+        """Returns the length of the class values
 
         Returns:
             Length of the Class Values
 
         """
-        raise NotImplementedError('Method __len__ not implemented')
+        raise NotImplementedError("Method __len__ not implemented")
 
     @abstractmethod
-    def __getitem__(self, key) -> Type[FolderSavableType]:
-        """
-        Returns an object containing only the selected items of the enumerable object
+    def __getitem__(self, key: Any) -> FolderSavable:
+        """Returns an object containing only the selected items of the object.
 
         Args:
             key: Slice or integer of item to select
@@ -90,45 +84,49 @@ class FolderSavable(ABC):
             Object with the selected items
 
         """
-        raise NotImplementedError('Method __getitem__ not implemented')
+        raise NotImplementedError("Method __getitem__ not implemented")
 
-    def to_folder(self, path, batch_size: int = 100, filename: str = 'part_{index}.pickle'):
-        """
-        Saves object batched to the passed folder
+    def to_folder(
+        self, path: str, batch_size: int = 100, filename: str = "part_{index}.pickle"
+    ) -> None:
+        """Saves object batched to the passed folder.
 
         Args:
             path: path where the object should be saved
             batch_size: number of sub-objects in each batch
-            filename: how the individual batch files should be named. Must contain '{index}'.
+            filename: name of the individual batch files. Must contain '{index}'.
 
         Returns:
 
         """
-        logging.info('Starting to pickle to folder %s with batch_size %s', path, batch_size)
+        logging.info(
+            "Starting to pickle to folder %s with batch_size %s", path, batch_size
+        )
 
         is_exist = os.path.exists(path)
 
         if is_exist:
-            logging.warning('Folder %s already exists', path)
+            logging.warning("Folder %s already exists", path)
         else:
             os.makedirs(path)
 
         number_of_items = len(self)
 
         if not number_of_items:
-            logging.warning('Just pickled an empty object.')
+            logging.warning("Just pickled an empty object.")
 
         loop_index = start_index = 0
 
         while start_index <= number_of_items:
-            current_object = self[start_index:start_index + batch_size]
-            current_object.to_pickle(os.path.join(path, filename.format(index=loop_index)))
+            current_object = self[start_index : start_index + batch_size]
+            current_object.to_pickle(
+                os.path.join(path, filename.format(index=loop_index))
+            )
             loop_index += 1
             start_index = loop_index * batch_size
 
-    def to_pickle(self, filename):
-        """
-        Saves object to a single pickle file
+    def to_pickle(self, filename: str) -> None:
+        """Saves object to a single pickle file.
 
         Args:
             filename: which filename should be created
@@ -136,23 +134,22 @@ class FolderSavable(ABC):
         Returns:
 
         """
-        file = open(filename, 'wb')
+        file = open(filename, "wb")
         pickle.dump(self, file)
         file.close()
 
 
-FolderLoadableType = TypeVar('FolderLoadableType', bound='FolderLoadable')
+FolderLoadableType = TypeVar("FolderLoadableType", bound="FolderLoadable")
 
 
 class FolderLoadable(ABC):
-    """
-    Tool class that enables enumerable object to be loaded from a folder
-    """
+    """Tool class that enables enumerable object to be loaded from a folder."""
 
     @classmethod
-    def from_pickles(cls: Type[FolderLoadableType], filenames: List[str], **kwargs) -> Type[FolderLoadableType]:
-        """
-        Loads object from list of filenames.
+    def from_pickles(
+        cls: Type[FolderLoadableType], filenames: List[str], **kwargs: Any
+    ) -> FolderLoadable:
+        """Loads object from list of filenames.
 
         Args:
             filenames: List of filenames to be loaded
@@ -161,14 +158,17 @@ class FolderLoadable(ABC):
         Returns:
             Enumerable object containing the information of all passed files
 
+        Raises:
+            ValueError: When no object could be loaded
+
         """
         if len(filenames) == 0:
-            logging.warning('Imported empty objects')
+            logging.warning("Imported empty objects")
             return cls(**kwargs)
 
         final_result = None
         for filename in filenames:
-            with open(filename, 'rb') as f:
+            with open(filename, "rb") as f:
                 result = pickle.load(f)
 
             if not isinstance(result, cls):
@@ -179,14 +179,19 @@ class FolderLoadable(ABC):
             else:
                 final_result = final_result + result
 
-            logging.info('File %s loaded', f)
+            logging.info("File %s loaded", f)
 
-        return final_result
+        if final_result is None:
+            raise ValueError("No object could be imported")
+
+        return final_result  # type: ignore
 
     @classmethod
-    def _load_result(cls: Type[FolderLoadableType], result: Any, **kwargs) -> Type[FolderLoadableType]:
-        """
-        helper function to enable subclasses to define an individual way of handling non-class imports via pickle
+    def _load_result(
+        cls: Type[FolderLoadableType], result: Any, **kwargs: Any
+    ) -> Type[FolderLoadableType]:
+        """helper function to enable subclasses to define an individual way of handling
+        non-class imports via pickle.
 
         Args:
             result: data of the pickle file import
@@ -196,12 +201,12 @@ class FolderLoadable(ABC):
             object of type of the class
 
         """
-        raise ValueError('Method load_result not implemented and type not matching')
+        raise ValueError("Method load_result not implemented and type not matching")
 
     @abstractmethod
-    def __add__(self, other: Type[FolderLoadableType]) -> Type[FolderLoadableType]:
-        """
-        Adds two enumerable objects together and creates a third one. All is done by reference
+    def __add__(self, other: Any) -> FolderLoadable:
+        """Adds two enumerable objects together and creates a third one.
+        All is done by reference.
 
         Args:
             other: Object to be added to initial one
@@ -210,12 +215,13 @@ class FolderLoadable(ABC):
             new object containing data from both previous objects
 
         """
-        raise NotImplementedError('Method concat not implemented')
+        raise NotImplementedError("Method concat not implemented")
 
     @classmethod
-    def from_folder(cls: Type[FolderLoadableType], folder, **kwargs) -> Type[FolderLoadableType]:
-        """
-        Loads pickles from all pickle files in one folder
+    def from_folder(
+        cls: Type[FolderLoadableType], folder: str, **kwargs: Any
+    ) -> FolderLoadableType:
+        """Loads pickles from all pickle files in one folder.
 
         Args:
             folder: folder to load pickles from
@@ -226,20 +232,21 @@ class FolderLoadable(ABC):
 
         """
         filenames = []
-        logging.info('Start to load folder %s', folder)
+        logging.info("Start to load folder %s", folder)
         for file in os.listdir(folder):
             if file.endswith(".pickle"):
                 filenames.append(os.path.join(folder, file))
 
         imported_object = cls.from_pickles(filenames, **kwargs)
-        logging.info('Finish to load folder %s', folder)
+        logging.info("Finish to load folder %s", folder)
 
-        return imported_object
+        return imported_object  # type: ignore
 
     @classmethod
-    def from_pickle(cls: Type[FolderLoadableType], filename, **kwargs) -> FolderLoadableType:
-        """
-        Imports an individual pickle file
+    def from_pickle(
+        cls: Type[FolderLoadableType], filename: str, **kwargs: Any
+    ) -> Type[FolderLoadableType]:
+        """Imports an individual pickle file.
 
         Args:
             filename: file to be loaded
@@ -249,8 +256,8 @@ class FolderLoadable(ABC):
             Object of the class to be loaded
 
         """
-        logging.info('Start to load file %s', filename)
+        logging.info("Start to load file %s", filename)
 
         imported_object = cls.from_pickles([filename], **kwargs)
-        logging.info('Finish to load file %s', filename)
-        return imported_object
+        logging.info("Finish to load file %s", filename)
+        return imported_object  # type: ignore
