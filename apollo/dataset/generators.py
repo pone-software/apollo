@@ -4,12 +4,13 @@ import os
 import uuid
 
 from abc import ABC, ABCMeta, abstractmethod
-from typing import List, Optional
+from dataclasses import field
+from typing import List
 
 import numpy as np
 import pandas as pd
 
-from numpy.random import BitGenerator
+from numpy.random import Generator
 
 from ..data.configs import HistogramConfig, HistogramDatasetConfig
 from ..data.events import EventCollection
@@ -21,7 +22,7 @@ class AbstractGenerator(ABC):
         self.event_collection = event_collection
 
     @abstractmethod
-    def generate(self, save_path):
+    def generate(self, save_path: str) -> None:
         raise NotImplementedError("Method 'generate' not implemented")
 
 
@@ -32,10 +33,12 @@ class AbstractHistogramGenerator(AbstractGenerator, metaclass=ABCMeta):
         super().__init__(event_collection)
         self.histogram_config = histogram_config
 
-    def _generate_histogram(self, event_collection: EventCollection) -> np.ndarray:
+    def _generate_histogram(
+        self, event_collection: EventCollection
+    ) -> np.typing.NDArray[np.float64]:
         return event_collection.get_histogram(histogram_config=self.histogram_config)
 
-    def save(self, save_path, data: pd.DataFrame):
+    def save(self, save_path: str, data: pd.DataFrame) -> None:
         is_exist = os.path.exists(save_path)
 
         if is_exist:
@@ -79,19 +82,17 @@ class MultiHistogramGenerator(AbstractHistogramGenerator):
         self,
         event_collection: EventCollection,
         histogram_config: HistogramConfig,
-        multi_event_poisson_lambda: Optional[float] = 0.5,
-        rng: BitGenerator = None,
+        multi_event_poisson_lambda: float = 0.5,
+        rng: Generator = field(default_factory=get_rng),
     ):
         super().__init__(event_collection, histogram_config=histogram_config)
-        if rng is None:
-            rng = get_rng()
         self.rng = rng
         self.multi_event_poisson_lambda = multi_event_poisson_lambda
 
-    def __generate_random_multi_event(self):
+    def __generate_random_multi_event(self) -> int:
         return self.rng.poisson(self.multi_event_poisson_lambda)
 
-    def generate(self, save_path):
+    def generate(self, save_path: str) -> None:
         number_of_events = len(self.event_collection)
 
         i = 0

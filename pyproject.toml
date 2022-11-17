@@ -24,6 +24,9 @@ pytest = "^7.2.0"
 jupyter = "^1.0.0"
 pytest-cov = "^4.0.0"
 isort = "^5.10.1"
+sphinx = "^5.3.0"
+sphinx-rtd-theme = "^1.1.1"
+pydocstyle = {extras = ["toml"], version = "^6.1.1"}
 
 [build-system]
 requires = ["poetry-core"]
@@ -31,28 +34,46 @@ build-backend = "poetry.core.masonry.api"
 
 
 [tool.black]
-target-version = ['py38']
+target-version = ["py38"]
 preview = true
 force-exclude = '''
 .*/setup\.py$
 '''
 
+[tool.pydocstyle]
+convention = "google"
+
 
 [tool.mypy]
+python_version = "3.8"
 files = "apollo"
-namespace_packages = true
-explicit_package_bases = true
-show_error_codes = true
 strict = true
-enable_error_code = [
-    "ignore-without-code",
-    "redundant-expr",
-    "truthy-bool",
+warn_return_any = true
+
+[[tool.mypy.overrides]]
+module = [
+    "apollo.data.importers",
+    "apollo.graph.*",
+    "examples.*",
+    "tests.*"
 ]
+ignore_errors = true
+
+[[tool.mypy.overrides]]
+module = [
+    "matplotlib",
+    "matplotlib.*",
+    "torch",
+    "plotly",
+    "plotly.*",
+    "awkward",
+    "pandas",
+    "olympus.*"
+]
+ignore_missing_imports = true
 
 [tool.pytest.ini_options]
 # Personal preference: I am too used to native traceback
-addopts = "-n auto"
 testpaths = [
     "tests"
 ]

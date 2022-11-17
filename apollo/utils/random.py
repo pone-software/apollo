@@ -1,3 +1,5 @@
+"""This module contains all the utility functions for randomness."""
+
 from typing import Sequence, Union
 
 import numpy as np
@@ -13,8 +15,7 @@ def get_rng(
         None, int, Sequence[int], SeedSequence, BitGenerator, Generator
     ] = DEFAULT_SEED
 ) -> np.random.Generator:
-    """
-    Function to be able to retrieve Random number generators with a given Seed
+    """Function to be able to retrieve Random number generators with a given Seed.
 
     Args:
         seed: Seed to set the state of the generated Generator

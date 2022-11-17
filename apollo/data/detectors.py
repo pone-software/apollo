@@ -1,5 +1,7 @@
+from __future__ import annotations
+
 from dataclasses import dataclass
-from typing import List, Tuple
+from typing import Any, Dict, List, Tuple, Union
 
 import numpy as np
 
@@ -9,18 +11,15 @@ from apollo.data.utils import JSONSerializable
 
 @dataclass
 class Module(JSONSerializable):
-    """
-    Detection module.
-    """
+    """Detection module."""
 
     position: Vector
-    key: Tuple
+    key: Tuple[int, int]
     noise_rate: float = 1
     efficiency: float = 0.2
 
-    def __repr__(self):
-        """
-        Return string representation.
+    def __repr__(self) -> str:
+        """Return string representation.
 
         Returns:
             string representation
@@ -31,9 +30,8 @@ class Module(JSONSerializable):
             f" {self.efficiency}"
         )
 
-    def as_json(self) -> dict:
-        """
-        Generates JSON dictionary of Module.
+    def as_json(self) -> Dict[str, Union[List[float], Tuple[int, int], float]]:
+        """Generates JSON dictionary of Module.
 
         Returns:
             JSON representation
@@ -48,9 +46,8 @@ class Module(JSONSerializable):
         }
 
     @classmethod
-    def from_json(cls, dictionary: dict):
-        """
-        Reads Module from dictionary
+    def from_json(cls, dictionary: Dict[str, Any]) -> Module:
+        """Reads Module from dictionary.
 
         Args:
             dictionary: dictionary representation of module
@@ -69,16 +66,13 @@ class Module(JSONSerializable):
 
 @dataclass
 class Detector(JSONSerializable):
-    """
-    Data model for a P-ONE detector.
-    """
+    """Data model for a P-ONE detector."""
 
     modules: List[Module]
 
     @property
-    def module_coordinates(self) -> np.ndarray:
-        """
-        Creates a stack of module positions in numpy
+    def module_coordinates(self) -> np.typing.NDArray[np.float64]:
+        """Creates a stack of module positions in numpy.
 
         Returns:
             numpy array of module coordinates
@@ -87,9 +81,8 @@ class Detector(JSONSerializable):
         return np.vstack([m.position for m in self.modules])
 
     @property
-    def module_efficiencies(self) -> np.array:
-        """
-        Creates an array of module efficiencies.
+    def module_efficiencies(self) -> np.typing.NDArray[np.float64]:
+        """Creates an array of module efficiencies.
 
         Returns:
             numpy array containing module efficiencies.
@@ -98,9 +91,8 @@ class Detector(JSONSerializable):
         return np.asarray([m.efficiency for m in self.modules])
 
     @property
-    def module_noise_rates(self) -> np.ndarray:
-        """
-        Creates an array of noise efficiencies.
+    def module_noise_rates(self) -> np.typing.NDArray[np.float64]:
+        """Creates an array of noise efficiencies.
 
         Returns:
             numpy array containing noise efficiencies.
@@ -110,8 +102,7 @@ class Detector(JSONSerializable):
 
     @property
     def number_of_modules(self) -> int:
-        """
-        Number of detector modules.
+        """Number of detector modules.
 
         Returns:
             length of modules
@@ -119,9 +110,8 @@ class Detector(JSONSerializable):
         """
         return len(self.modules)
 
-    def as_json(self) -> dict:
-        """
-        Transforms detector to valid json dictionary.
+    def as_json(self) -> Dict[str, List[Dict[str, Any]]]:
+        """Transforms detector to valid json dictionary.
 
         Returns:
             JSON representation of detector
@@ -130,7 +120,7 @@ class Detector(JSONSerializable):
         return {"modules": [module.as_json() for module in self.modules]}
 
     @classmethod
-    def from_json(cls, dictionary: dict):
+    def from_json(cls, dictionary: Dict[str, List[Dict[str, Any]]]) -> Detector:
         """
         Reads Detector from jsonable dictionary.
 

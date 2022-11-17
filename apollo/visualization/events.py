@@ -1,3 +1,5 @@
+from typing import Any, Dict
+
 import numpy as np
 import plotly.graph_objects as go
 
@@ -8,15 +10,12 @@ from apollo.data.events import EventCollection
 def plot_timeline(
     event_collection: EventCollection,
     histogram_config: HistogramConfig,
-    title: str,
     draw_sources: bool = False,
     show: bool = True,
-):
-    """
-    Create plots for a event collection based on their histograms.
+) -> go.Figure:
+    """Create plots for a event collection based on their histograms.
 
     Args:
-        figure: Figure to plot on
         event_collection: Collection of events to include in timeline
         histogram_config: HistogramConfig to create the events for
         draw_sources: Include sources in plot
@@ -110,10 +109,10 @@ def plot_timeline(
         x=0.1,
         y=0,
         steps=[],
-    )
+    )  # type: Dict[str, Any]
 
     frames = []
-    binned_sources = None
+    binned_sources = []
     if draw_sources:
         binned_sources = event_collection.get_sources_per_bin(
             histogram_config=histogram_config
@@ -195,7 +194,8 @@ def plot_timeline(
             label=k,
             method="animate",
         )
-        sliders["steps"].append(slider_step)
+        steps = sliders["steps"]
+        steps.append(slider_step)
 
     figure.update(frames=frames)
 
@@ -260,14 +260,11 @@ def plot_timeline(
     return figure
 
 
-def plot_histogram(histogram: np.ndarray):
-    """
-    Plots histogram based on events.
+def plot_histogram(histogram: np.typing.NDArray[np.single]) -> go.Heatmap:
+    """Plots histogram based on events.
 
     Args:
         histogram: Histogram to plot
-        title: Title for the plot
-        show: Show image in the end
 
     Returns:
 

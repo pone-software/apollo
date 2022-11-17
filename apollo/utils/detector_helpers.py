@@ -11,8 +11,7 @@ from apollo.data.importers import DetectorImporter
 
 
 def get_line_detector() -> Detector:
-    """
-    Helper to generate line detector with standard params from olympus.
+    """Helper to generate line detector with standard params from olympus.
 
     Returns:
         Detector having all modules in line
@@ -40,8 +39,7 @@ def get_line_detector() -> Detector:
 
 
 def get_triangle_detector() -> Detector:
-    """
-    Helper to generate triangular detector with standard params from olympus.
+    """Helper to generate triangular detector with standard params from olympus.
 
     Returns:
         Detector having three lines of modules

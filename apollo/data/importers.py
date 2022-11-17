@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from abc import ABC, abstractmethod
 from typing import Any, Tuple
 
@@ -13,25 +15,22 @@ from apollo.data.geometric import Vector
 
 
 class ImporterMeta(ABC):
-    """
-    Metaclass for importers
-    """
+    """Metaclass for importers."""
 
     @classmethod
     @abstractmethod
-    def from_olympus(cls, input_to_import: Any, **kwargs) -> Any:
+    def from_olympus(cls, input_to_import: Any, **kwargs: Any) -> Any:
         raise NotImplementedError("from_olympus not implemented in importer")
 
 
 class EventCollectionImporter(EventCollection, ImporterMeta):
-    """
-    Importer for the event collections
-    """
+    """Importer for the event collections."""
 
     @classmethod
-    def from_olympus(cls, event_collection_tuple: Tuple, **kwargs) -> EventCollection:
-        """
-        loads an event collection from the olympus package
+    def from_olympus(
+        cls, event_collection_tuple: Tuple, **kwargs: Any
+    ) -> EventCollection:
+        """loads an event collection from the olympus package.
 
         Args:
             event_collection_tuple: tuple containing hits and events
@@ -65,9 +64,8 @@ class EventCollectionImporter(EventCollection, ImporterMeta):
         return EventCollection(events=events, **kwargs)
 
     @classmethod
-    def _load_result(cls, input_to_load: Tuple, **kwargs) -> EventCollection:
-        """
-        Defines the possibilities to be loaded when loading foreign event collection
+    def _load_result(cls, input_to_load: Tuple, **kwargs: Any) -> EventCollection:
+        """Defines the possibilities to be loaded when loading foreign event collection
         from folder.
 
         Args:
@@ -90,14 +88,11 @@ class EventCollectionImporter(EventCollection, ImporterMeta):
 
 
 class ModuleImporter(Module, ImporterMeta):
-    """
-    Importer for the module class
-    """
+    """Importer for the module class."""
 
     @classmethod
-    def from_olympus(cls, module_to_import: Any, **kwargs) -> Module:
-        """
-        loads a module from the olympus package
+    def from_olympus(cls, module_to_import: Any, **kwargs: Any) -> Module:
+        """loads a module from the olympus package.
 
         Args:
             module_to_import: olympus module object
@@ -122,14 +117,11 @@ class ModuleImporter(Module, ImporterMeta):
 
 
 class SourceRecordImporter(SourceRecord, ImporterMeta):
-    """
-    Importer for the source record
-    """
+    """Importer for the source record."""
 
     @classmethod
-    def from_olympus(cls, source_to_import: Any, **kwargs) -> SourceRecord:
-        """
-        loads a source record from the olympus package
+    def from_olympus(cls, source_to_import: Any, **kwargs: Any) -> SourceRecord:
+        """loads a source record from the olympus package.
 
         Args:
             source_to_import: olympus PhotonSource object
@@ -149,14 +141,11 @@ class SourceRecordImporter(SourceRecord, ImporterMeta):
 
 
 class DetectorImporter(Detector, ImporterMeta):
-    """
-    Importer for the detector record
-    """
+    """Importer for the detector record."""
 
     @classmethod
-    def from_olympus(cls, detector_to_import: Any, **kwargs) -> Detector:
-        """
-        loads a detectr from the olympus package
+    def from_olympus(cls, detector_to_import: Any, **kwargs: Any) -> Detector:
+        """loads a detectr from the olympus package.
 
         Args:
             detector_to_import: olympus Detector object

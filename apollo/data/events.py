@@ -3,9 +3,9 @@ from __future__ import annotations
 import copy
 import logging
 
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from enum import Enum, auto
-from typing import List, Optional
+from typing import Any, Dict, List, Optional, Union
 
 import awkward as ak
 import numpy as np
@@ -59,7 +59,7 @@ class Record(JSONSerializable):
     position: Vector
     time: float
 
-    def as_json(self) -> dict:
+    def as_json(self) -> Dict[str, Union[Any, Dict[str, Any]]]:
         return {
             "direction": self.direction.as_json(),
             "position": self.position.as_json(),
@@ -67,7 +67,7 @@ class Record(JSONSerializable):
         }
 
     @classmethod
-    def from_json(cls, dictionary: dict) -> Record:
+    def from_json(cls, dictionary: Dict[str, Any]) -> Record:
         return cls(
             direction=Vector.from_json(dictionary["direction"]),
             position=Vector.from_json(dictionary["position"]),
@@ -80,7 +80,7 @@ class SourceRecord(Record):
     number_of_photons: int
     source_type: SourceType = SourceType.STANDARD_CHERENKOV
 
-    def as_json(self) -> dict:
+    def as_json(self) -> Dict[str, Any]:
         parent_dict = super().as_json()
         child_dict = {
             "source_type": self.source_type.name,
@@ -90,7 +90,7 @@ class SourceRecord(Record):
         return {**parent_dict, **child_dict}
 
     @classmethod
-    def from_json(cls, dictionary: dict) -> SourceRecord:
+    def from_json(cls, dictionary: Dict[str, Any]) -> SourceRecord:
         source_type = dictionary["source_type"]
         if source_type not in SourceType:
             source_type = SourceType[source_type.to_upper()]
@@ -108,41 +108,41 @@ class SourceRecord(Record):
 class Event(Record, JSONSerializable):
     event_type: EventType
     energy: float
-    hits: List[ak.Array] = None
-    sources: Optional[List[SourceRecord]] = None
-    detector: Optional[Detector] = None
-    default_value: Optional[float] = 0.0
-    rng: Optional[np.random.Generator] = None
+    detector: Optional[Detector]
+    hits: List[ak.Array] = field(default_factory=lambda: [])
+    sources: List[SourceRecord] = field(default_factory=lambda: [])
+    default_value: float = 0.0
+    rng: np.random.Generator = field(default_factory=get_rng)
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         if isinstance(self.event_type, str):
             self.event_type = EventType[self.event_type]
-        if self.rng is None:
-            self.rng = get_rng()
 
     @property
     def first_hit(self) -> float:
         if self.number_of_hits:
-            return ak.min(self.hits)
+            return float(ak.min(self.hits))
         return self.default_value
 
     @property
     def last_hit(self) -> float:
         if self.number_of_hits:
-            return ak.max(self.hits)
+            return float(ak.max(self.hits))
         return self.default_value
 
     @property
-    def percentile_levels(self) -> np.array:
+    def percentile_levels(self) -> np.typing.NDArray[np.int32]:
         start = 0
         end = 110
         step = 10
         return np.arange(start, end, step, dtype=np.int16)
 
     @property
-    def percentiles(self) -> np.ndarray:
+    def percentiles(self) -> np.typing.NDArray[np.float64]:
         percentile_levels = self.percentile_levels
-        percentiles = np.full_like(percentile_levels, self.default_value)
+        percentiles = np.full_like(
+            percentile_levels, self.default_value, dtype=np.float64
+        )
         if self.number_of_hits:
             hits = ak.flatten(self.hits, axis=None)
             percentiles[1:-1] = np.percentile(hits, percentile_levels[1:-1])
@@ -154,9 +154,9 @@ class Event(Record, JSONSerializable):
 
     @property
     def number_of_hits(self) -> int:
-        return ak.count(self.hits)
+        return int(ak.count(self.hits))
 
-    def as_features(self) -> dict:
+    def as_features(self) -> Dict[str, Any]:
         event_dict = {
             **self.as_json(
                 include_sources=False, include_hits=False, include_detector=False
@@ -174,9 +174,9 @@ class Event(Record, JSONSerializable):
         start = interval.start
         end = interval.end
         if is_in_timeframe_mode == EventTimeframeMode.START_TIME:
-            if start is not None and self.time < start:
+            if self.time < start:
                 return False
-            if end is not None and self.time >= end:
+            if self.time >= end:
                 return False
         elif is_in_timeframe_mode == EventTimeframeMode.CONTAINS_HIT:
             if start > self.last_hit:
@@ -201,7 +201,7 @@ class Event(Record, JSONSerializable):
         self,
         interval: Interval,
         is_in_timeframe_mode: EventTimeframeMode = DEFAULT_EVENT_TIMEFRAME_MODE,
-        rng: np.random.Generator = None,
+        rng: Optional[np.random.Generator] = None,
         percentile: int = 50,
         create_copy: bool = False,
     ) -> Event:
@@ -237,7 +237,7 @@ class Event(Record, JSONSerializable):
                 indices = list(percentile_levels)
                 if percentile not in indices:
                     err_message = "percentile {0} not available in ({1})".format(
-                        str(percentile), percentile_levels.join(", ")
+                        str(percentile), ", ".join(percentile_levels)
                     )
                     logging.error(err_message)
                     raise ValueError(err_message)
@@ -271,19 +271,25 @@ class Event(Record, JSONSerializable):
             )
             logging.warning(error_msg)
 
-        new_start_time = rng.integers(modified_start, modified_end)
+        new_start_time = rng.integers(
+            int(np.floor(modified_start)), int(np.ceil(modified_end))
+        )
         difference = new_event.time - new_start_time
 
         for source in new_event.sources:
             source.time = source.time - difference
 
-        new_event.hits = np.subtract(new_event.hits, difference)
+        new_event.hits = list(np.subtract(new_event.hits, difference))
 
         new_event.time = new_start_time
 
         return new_event
 
-    def get_histogram(self, histogram_config: HistogramConfig) -> np.ndarray:
+    def get_histogram(
+        self, histogram_config: HistogramConfig
+    ) -> np.typing.NDArray[np.single]:
+        if self.detector is None:
+            raise ValueError("Histogram only possible for a given detector")
         number_of_modules = len(self.detector.modules)
         number_of_bins = histogram_config.number_of_bins
         histogram = np.zeros([number_of_modules, number_of_bins])
@@ -300,7 +306,7 @@ class Event(Record, JSONSerializable):
         include_sources: bool = True,
         include_hits: bool = True,
         include_detector: bool = True,
-    ) -> dict:
+    ) -> Dict[str, Union[str, float, object, Dict[str, Any]]]:
         parent_dict = super().as_json()
         child_dict = {
             "event_type": self.event_type.name,
@@ -314,16 +320,16 @@ class Event(Record, JSONSerializable):
         if include_hits:
             child_dict["hits"] = [list(module_hits) for module_hits in self.hits]
 
-        if include_detector:
+        if include_detector and self.detector is not None:
             child_dict["detector"] = self.detector.as_json()
 
         return {**parent_dict, **child_dict}
 
     @classmethod
-    def from_json(cls, dictionary: dict) -> Event:
-        sources = None
+    def from_json(cls, dictionary: Dict[str, Any]) -> Event:
+        sources = []
         detector = None
-        hits = None
+        hits = []
         event_type = dictionary["event_type"]
         if event_type not in EventType:
             event_type = EventType[event_type.to_upper()]
@@ -356,20 +362,13 @@ class EventCollection(FolderSavable, FolderLoadable, JSONSerializable):
     """
 
     detector: Detector
-    events: Optional[List[Event]] = None
-    rng: Optional[np.random.Generator] = None
-
-    def __post_init__(self):
-        if self.rng is None:
-            self.rng = get_rng()
-
-        if self.events is None:
-            self.events = []
+    events: List[Event] = field(default_factory=lambda: [])
+    rng: Optional[np.random.Generator] = field(default_factory=get_rng)
 
     def __len__(self) -> int:
         return len(self.events)
 
-    def __getitem__(self, item):
+    def __getitem__(self, item: Any) -> EventCollection:
         events = self.events[item]
         return EventCollection(events=events, detector=self.detector, rng=self.rng)
 
@@ -406,7 +405,9 @@ class EventCollection(FolderSavable, FolderLoadable, JSONSerializable):
 
         return valid_events
 
-    def get_sources_per_bin(self, histogram_config: Optional[HistogramConfig] = None):
+    def get_sources_per_bin(
+        self, histogram_config: Optional[HistogramConfig] = None
+    ) -> List[List[SourceRecord]]:
         if histogram_config is None:
             histogram_config = HistogramConfig()
 
@@ -416,7 +417,7 @@ class EventCollection(FolderSavable, FolderLoadable, JSONSerializable):
                 histogram_config.start, histogram_config.end, histogram_config.bin_size
             )
         ]
-        source_bins = [[] for _ in histogram_bins]
+        source_bins = [[] for _ in histogram_bins]  # type: List[List[SourceRecord]]
 
         for event in self.events:
             for source in event.sources:
@@ -438,7 +439,7 @@ class EventCollection(FolderSavable, FolderLoadable, JSONSerializable):
 
     def get_histogram(
         self, histogram_config: Optional[HistogramConfig] = None
-    ) -> np.ndarray:
+    ) -> np.typing.NDArray[np.float64]:
         if histogram_config is None:
             histogram_config = HistogramConfig()
         events_to_account = self.valid_events
@@ -459,11 +460,11 @@ class EventCollection(FolderSavable, FolderLoadable, JSONSerializable):
     def redistribute(
         self,
         interval: Interval,
-        nr_events: int = None,
+        nr_events: Optional[int] = None,
         is_in_timeframe_mode: EventTimeframeMode = EventTimeframeMode.START_TIME,
-        rng: np.random.Generator = None,
+        rng: Optional[np.random.Generator] = None,
         create_copy: bool = False,
-        **kwargs,
+        **kwargs: Any,
     ) -> EventCollection:
         logging.info(
             "Start redistribute events (%s, mode %s)",
@@ -474,12 +475,15 @@ class EventCollection(FolderSavable, FolderLoadable, JSONSerializable):
         collection = self.__get_reference(create_copy)
         events_to_account = collection.events
 
-        if nr_events is not None:
-            indices = rng.random_integers(0, len(collection), nr_events)
-            events_to_account = [collection.events[index] for index in indices]
-
         if rng is None:
             rng = collection.rng
+
+        if rng is None:
+            rng = get_rng()
+
+        if nr_events is not None:
+            indices = rng.random_integers(0, len(collection), nr_events)  # type: ignore
+            events_to_account = [collection.events[index] for index in indices]
 
         for event in events_to_account:
             event.redistribute(
@@ -529,7 +533,7 @@ class EventCollection(FolderSavable, FolderLoadable, JSONSerializable):
             events=events_in_timeframe, detector=collection.detector, rng=collection.rng
         )
 
-    def get_event_features(self, valid_only: bool = True) -> List[dict]:
+    def get_event_features(self, valid_only: bool = True) -> List[Dict[str, Any]]:
         if valid_only:
             events = self.valid_events
         else:
@@ -539,14 +543,16 @@ class EventCollection(FolderSavable, FolderLoadable, JSONSerializable):
 
     def get_events_as_json(
         self, valid_only: bool = True, include_sources: bool = False
-    ) -> List[dict]:
+    ) -> List[Dict[str, Any]]:
         if valid_only:
             events = self.valid_events
         else:
             events = self.events
         return [event.as_json(include_sources=include_sources) for event in events]
 
-    def as_json(self, valid_only: bool = True, include_sources: bool = False) -> dict:
+    def as_json(
+        self, valid_only: bool = True, include_sources: bool = False
+    ) -> Dict[str, Union[Dict[str, Any], List[Any]]]:
         return {
             "events": self.get_events_as_json(
                 valid_only=valid_only, include_sources=include_sources
@@ -555,7 +561,7 @@ class EventCollection(FolderSavable, FolderLoadable, JSONSerializable):
         }
 
     @classmethod
-    def from_json(cls, dictionary: dict) -> EventCollection:
+    def from_json(cls, dictionary: Dict[str, Any]) -> EventCollection:
         return cls(
             events=[Event.from_json(event) for event in dictionary["events"]],
             detector=Detector.from_json(dictionary["events"]),

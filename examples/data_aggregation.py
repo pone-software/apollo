@@ -14,14 +14,19 @@ logging.getLogger().setLevel(logging.INFO)
 data_base_path = os.path.join("../../data/")
 
 
-def load_events_by_type(type: str):
+def load_events_by_type(type: str) -> EventCollection:
     return EventCollection.from_folder(os.path.join(data_base_path, type))
 
 
-# cascades = EventCollection.from_pickle(os.path.join(data_base_path, 'cascades/events_cascade_0.pickle'))
-# tracks = EventCollection.from_pickle(os.path.join(data_base_path, 'tracks/events_track_0.pickle'))
-# starting_tracks = EventCollection.from_pickle(os.path.join(data_base_path, 'starting_tracks/events_starting_track_0.pickle'))
-
+"""
+cascades = EventCollection
+.from_pickle(os.path.join(data_base_path, 'cascades/events_cascade_0.pickle'))
+tracks = EventCollection
+.from_pickle(os.path.join(data_base_path, 'tracks/events_track_0.pickle'))
+starting_tracks = EventCollection
+.from_pickle(
+os.path.join(data_base_path, 'starting_tracks/events_starting_track_0.pickle'))
+"""
 
 cascades = load_events_by_type("cascades")
 tracks = load_events_by_type("tracks")
@@ -77,6 +82,7 @@ final_event_collection.to_folder(
     os.path.join(data_base_path, "training/single_line_all_events")
 )
 
-# histogram = final_event_collection.generate_histogram(bin_size=bin_size, end=end, end=end)
+# histogram = final_event_collection
+# .generate_histogram(bin_size=bin_size, end=end, end=end)
 
 # print(histogram)
