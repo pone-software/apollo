@@ -1,16 +1,16 @@
-import logging
 from abc import ABC, abstractmethod
 from enum import Enum
-from typing import Union, Optional, Tuple, List, TypeVar, Type
+from typing import List, Optional, Tuple, Type, TypeVar, Union
 
-import numpy as np
 import awkward as ak
+import numpy as np
 
 from apollo.data.configs import HistogramConfig, Interval
 from apollo.data.detectors import Detector
 from apollo.utils.random import get_rng
 
-NoiseGeneratorType = TypeVar('NoiseGeneratorType', bound='NoiseGenerator')
+
+NoiseGeneratorType = TypeVar("NoiseGeneratorType", bound="NoiseGenerator")
 
 
 class NoiseGenerator(ABC):
@@ -18,9 +18,13 @@ class NoiseGenerator(ABC):
     Abstract class as parent for all noise generators
     """
 
-    def __init__(self, detector: Detector, distribution: str,
-                 rng: Optional[np.random.Generator] = None,
-                 **kwargs):
+    def __init__(
+        self,
+        detector: Detector,
+        distribution: str,
+        rng: Optional[np.random.Generator] = None,
+        **kwargs,
+    ):
         """
         Constructor for the NoiseGenerator
 
@@ -35,7 +39,9 @@ class NoiseGenerator(ABC):
             rng = get_rng()
         self.rng = rng
         if not hasattr(rng, distribution):
-            raise ValueError(f'Generator does not have distribution {distribution} implemented')
+            raise ValueError(
+                f"Generator does not have distribution {distribution} implemented"
+            )
         self.distribution = getattr(self.rng, distribution)
         self.kwargs = kwargs
 
@@ -56,18 +62,20 @@ class NoiseGenerator(ABC):
     @abstractmethod
     def number_of_parameters(self) -> int:
         """
-        Calculates the number of parameters to later be able to work with the distributed probabilities.
+        Calculates the number of parameters to later be able to work with the
+        distributed probabilities.
 
         Returns:
             number of parameters for the distribution
 
         Example:
-            The poisson distribution is called with ``self.rng.poisson(size=5, lambda=(3,4))``. Then the number of
+            The poisson distribution is called with
+            ``self.rng.poisson(size=5, lambda=(3,4))``. Then the number of
             parameters should be three.
 
 
         """
-        raise NotImplementedError('number_of_parameters not implemented')
+        raise NotImplementedError("number_of_parameters not implemented")
 
     def __get_size(self, histogram_config: HistogramConfig) -> Tuple[int, int, int]:
         """
@@ -99,18 +107,25 @@ class NoiseGenerator(ABC):
 
         """
         if type(config) is Interval:
-            config = HistogramConfig(start=config.start, end=config.end, bin_size=config.length)
+            config = HistogramConfig(
+                start=config.start, end=config.end, bin_size=config.length
+            )
         size = self.__get_size(histogram_config=config)
 
-        distribution_parameters = self.get_distribution_parameters(histogram_config=config)
+        distribution_parameters = self.get_distribution_parameters(
+            histogram_config=config
+        )
 
-        raw_histogram = self.distribution(size=size, **distribution_parameters, **self.kwargs)
+        raw_histogram = self.distribution(
+            size=size, **distribution_parameters, **self.kwargs
+        )
 
         return np.sum(raw_histogram, axis=2)
 
     def generate_hits(self, config: Union[Interval, HistogramConfig]) -> List[ak.Array]:
         """
-        Generates an awkward array containing hits per module for a given interval or histogram
+        Generates an awkward array containing hits per module for a given
+        interval or histogram
 
         Args:
             config: interval or histogram to generate noise for
@@ -124,15 +139,23 @@ class NoiseGenerator(ABC):
         hits = []
 
         for hits_for_module in hits_per_module:
-            hits.append(ak.Array(self.rng.uniform(low=config.start, high=config.end, size=hits_for_module)))
+            hits.append(
+                ak.Array(
+                    self.rng.uniform(
+                        low=config.start, high=config.end, size=hits_for_module
+                    )
+                )
+            )
 
         return hits
 
     @staticmethod
-    def scale_per_bin_size(histogram_config: HistogramConfig, parameter: Union[float, Tuple[float, ...]]):
+    def scale_per_bin_size(
+        histogram_config: HistogramConfig, parameter: Union[float, Tuple[float, ...]]
+    ):
         """
-        As each histogram bin could have a length larger than one the distribution parameters like ``lambda`` have to
-        be scaled to achieve a valid output.
+        As each histogram bin could have a length larger than one the distribution
+        parameters like ``lambda`` have to be scaled to achieve a valid output.
 
         Args:
             histogram_config: Histogram config by which to scale the parameter.
@@ -153,7 +176,10 @@ class PoissonNoiseGenerator(NoiseGenerator):
     """
     Generates noise based on the poisson distribution.
     """
-    def __init__(self, detector: Detector, lam: Union[float, Tuple[float, ...]], **kwargs):
+
+    def __init__(
+        self, detector: Detector, lam: Union[float, Tuple[float, ...]], **kwargs
+    ):
         """
         Constructor for the poisson noise generator.
 
@@ -162,7 +188,7 @@ class PoissonNoiseGenerator(NoiseGenerator):
             lam: lambda value(s) to generate the distribution for.
             **kwargs: arguments to be passed on
         """
-        super().__init__(detector, distribution='poisson', **kwargs)
+        super().__init__(detector, distribution="poisson", **kwargs)
         self.lam = lam
 
     @property
@@ -191,20 +217,21 @@ class PoissonNoiseGenerator(NoiseGenerator):
         """
         lam = self.scale_per_bin_size(histogram_config, self.lam)
 
-        return {
-            'lam': lam
-        }
+        return {"lam": lam}
 
 
 class NormalNoiseGenerator(NoiseGenerator):
     """
     Generates noise based on the normal distribution.
     """
-    def __init__(self,
-                 detector: Detector,
-                 location: Union[float, Tuple[float, ...]],
-                 scale: Union[float, Tuple[float, ...]],
-                 **kwargs):
+
+    def __init__(
+        self,
+        detector: Detector,
+        location: Union[float, Tuple[float, ...]],
+        scale: Union[float, Tuple[float, ...]],
+        **kwargs,
+    ):
         """
         Constructor for the poisson noise generator.
 
@@ -214,7 +241,7 @@ class NormalNoiseGenerator(NoiseGenerator):
             scale: value(s) for the scale.
             **kwargs: arguments to be passed on
         """
-        super().__init__(detector, distribution='normal', **kwargs)
+        super().__init__(detector, distribution="normal", **kwargs)
         self.location = location
         self.scale = scale
 
@@ -248,16 +275,14 @@ class NormalNoiseGenerator(NoiseGenerator):
         """
         location = self.scale_per_bin_size(histogram_config, self.location)
         scale = self.scale_per_bin_size(histogram_config, self.scale)
-        return {
-            'loc': location,
-            'scale': scale
-        }
+        return {"loc": location, "scale": scale}
 
 
 class NoiseGeneratorEnum(Enum):
     """
     Enum of implemented noise generators
     """
+
     POISSON = PoissonNoiseGenerator
     NORMAL = NormalNoiseGenerator
 
@@ -266,6 +291,7 @@ class NoiseGeneratorFactory:
     """
     Provides a standardized way of creating a noise generator
     """
+
     def __init__(self, detector: Detector, rng: np.random.Generator = None):
         """
         Constructor of Factory.
@@ -277,7 +303,9 @@ class NoiseGeneratorFactory:
         self.detector = detector
         self.rng = rng
 
-    def create(self, noise_generator_type: NoiseGeneratorEnum, **kwargs) -> Type[NoiseGeneratorType]:
+    def create(
+        self, noise_generator_type: NoiseGeneratorEnum, **kwargs
+    ) -> Type[NoiseGeneratorType]:
         """
         Construct a noise generator based on arguments.
 
@@ -288,14 +316,22 @@ class NoiseGeneratorFactory:
         Returns:
 
         """
-        return noise_generator_type.value(detector=self.detector, rng=self.rng, **kwargs)
+        return noise_generator_type.value(
+            detector=self.detector, rng=self.rng, **kwargs
+        )
 
 
 class NoiseGeneratorCollection:
     """
     Build a collection of noise generators to collectively generate noise.
     """
-    def __init__(self, noise_generators: Union[Type[NoiseGeneratorType], List[Type[NoiseGeneratorType]]]):
+
+    def __init__(
+        self,
+        noise_generators: Union[
+            Type[NoiseGeneratorType], List[Type[NoiseGeneratorType]]
+        ],
+    ):
         """
         Constructor of the NoiseGeneratorCollection.
 
@@ -304,7 +340,9 @@ class NoiseGeneratorCollection:
         """
         self.noise_generators = noise_generators
 
-    def generate(self, histogram_config: Union[Interval, HistogramConfig]) -> np.ndarray:
+    def generate(
+        self, histogram_config: Union[Interval, HistogramConfig]
+    ) -> np.ndarray:
         """
         Generates noise for all the noise generators in the collection and combines it.
 
@@ -319,7 +357,7 @@ class NoiseGeneratorCollection:
             return self.noise_generators.generate(config=histogram_config)
 
         if len(self.noise_generators) == 0:
-            raise ValueError('Cannot generate histograms with no generator in place')
+            raise ValueError("Cannot generate histograms with no generator in place")
         final_histogram = None
 
         for noise_generator in self.noise_generators:

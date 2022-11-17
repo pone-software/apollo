@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from dataclasses import dataclass, astuple
+from dataclasses import astuple, dataclass
 
 import numpy as np
 
@@ -12,6 +12,7 @@ class Vector(JSONSerializable):
     """
     Three-dimensional vector.
     """
+
     x: float
     y: float
     z: float
@@ -20,7 +21,7 @@ class Vector(JSONSerializable):
     def from_json(cls, dictionary: dict) -> Vector:
         """
         Reads Histogram Config from jsonable dictionary.
-        
+
         Args:
             dictionary: json dictionary to read in
 
@@ -28,11 +29,7 @@ class Vector(JSONSerializable):
             Config read from input dictionary
 
         """
-        return cls(
-            x=dictionary['x'],
-            y=dictionary['y'],
-            z=dictionary['z']
-        )
+        return cls(x=dictionary["x"], y=dictionary["y"], z=dictionary["z"])
 
     def as_json(self) -> dict:
         """
@@ -42,11 +39,7 @@ class Vector(JSONSerializable):
             JSON representation of vector
 
         """
-        return {
-            'x': self.x,
-            'y': self.y,
-            'z': self.z
-        }
+        return {"x": self.x, "y": self.y, "z": self.z}
 
     @classmethod
     def from_ndarray(cls, ndarray: np.ndarray) -> Vector:
@@ -60,11 +53,7 @@ class Vector(JSONSerializable):
             Vector read in from numpy array
 
         """
-        return cls(
-            x=ndarray[0],
-            y=ndarray[1],
-            z=ndarray[2]
-        )
+        return cls(x=ndarray[0], y=ndarray[1], z=ndarray[2])
 
     def __repr__(self):
         """

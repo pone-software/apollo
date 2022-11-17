@@ -14,6 +14,7 @@ class Interval(JSONSerializable):
     """
     Class defining a basic interval
     """
+
     start: Optional[float] = 0
     end: Optional[float] = 1000
 
@@ -65,10 +66,7 @@ class Interval(JSONSerializable):
             Interval read in from dict
 
         """
-        return cls(
-            start=dictionary['start'],
-            end=dictionary['end']
-        )
+        return cls(start=dictionary["start"], end=dictionary["end"])
 
     def as_json(self) -> dict:
         """
@@ -78,10 +76,7 @@ class Interval(JSONSerializable):
             json compatible dict of interval config
 
         """
-        return {
-            'start': self.start,
-            'end': self.end
-        }
+        return {"start": self.start, "end": self.end}
 
     def __repr__(self):
         """
@@ -112,6 +107,7 @@ class HistogramConfig(Interval):
     """
     Subclass of Interval adding tht bin size to configure a histogram.
     """
+
     bin_size: int = 10
 
     @classmethod
@@ -126,15 +122,17 @@ class HistogramConfig(Interval):
             histogram config object based on json
 
         """
-        return HistogramConfig(start=dictionary['start'],
-                               end=dictionary['end'],
-                               bin_size=dictionary['bin_size'])
+        return HistogramConfig(
+            start=dictionary["start"],
+            end=dictionary["end"],
+            bin_size=dictionary["bin_size"],
+        )
 
     @property
     def number_of_bins(self) -> int:
         """
         Calculate how many bins are between start and end
-        
+
         Returns:
             number of bins
 
@@ -150,13 +148,13 @@ class HistogramConfig(Interval):
 
         """
         return_json = super().as_json()
-        return_json['bin_size'] = self.bin_size
+        return_json["bin_size"] = self.bin_size
         return return_json
 
     def __repr__(self):
         """
         String representation of the histogram config
-        
+
         Returns:
             string representation
 
@@ -166,7 +164,7 @@ class HistogramConfig(Interval):
     def __array__(self, dtype=None):
         """
         Enable numpy type coercion.
-        
+
         Args:
             dtype: Numpy dtype of final interval
 
@@ -182,6 +180,7 @@ class HistogramDatasetConfig(JSONSerializable):
     """
     Configuration for creating and reading histogram dataset.
     """
+
     path: str
     detector: Detector
     histogram_config: HistogramConfig
@@ -190,7 +189,7 @@ class HistogramDatasetConfig(JSONSerializable):
     def from_json(cls, dictionary: dict):
         """
         Reads Histogram Config from jsonable dictionary.
-        
+
         Args:
             dictionary: json dictionary to read in
 
@@ -198,20 +197,22 @@ class HistogramDatasetConfig(JSONSerializable):
             Config read from input dictionary
 
         """
-        return HistogramDatasetConfig(path=dictionary['path'],
-                                      detector=Detector.from_json(dictionary['detector']),
-                                      histogram_config=HistogramConfig.from_json(dictionary['histogram_config']))
+        return HistogramDatasetConfig(
+            path=dictionary["path"],
+            detector=Detector.from_json(dictionary["detector"]),
+            histogram_config=HistogramConfig.from_json(dictionary["histogram_config"]),
+        )
 
     def as_json(self) -> dict:
         """
         Transforms config to valid json dictionary.
-        
+
         Returns:
             JSON representation of config
 
         """
         return {
-            'path': self.path,
-            'detector': self.detector.as_json(),
-            'histogram_config': self.histogram_config.as_json()
+            "path": self.path,
+            "detector": self.detector.as_json(),
+            "histogram_config": self.histogram_config.as_json(),
         }

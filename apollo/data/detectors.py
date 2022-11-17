@@ -12,6 +12,7 @@ class Module(JSONSerializable):
     """
     Detection module.
     """
+
     position: Vector
     key: Tuple
     noise_rate: float = 1
@@ -26,7 +27,8 @@ class Module(JSONSerializable):
 
         """
         return repr(
-            f"Module {self.key}, {str(self.position)} [m], {self.noise_rate} [Hz], {self.efficiency}"
+            f"Module {self.key}, {str(self.position)} [m], {self.noise_rate} [Hz],"
+            f" {self.efficiency}"
         )
 
     def as_json(self) -> dict:
@@ -39,10 +41,10 @@ class Module(JSONSerializable):
         """
         position = np.array(self.position)
         return {
-            'position': list(position),
-            'key': self.key,
-            'noise_rate': self.noise_rate,
-            'efficiency': self.efficiency
+            "position": list(position),
+            "key": self.key,
+            "noise_rate": self.noise_rate,
+            "efficiency": self.efficiency,
         }
 
     @classmethod
@@ -58,17 +60,19 @@ class Module(JSONSerializable):
 
         """
         return cls(
-            position=Vector.from_ndarray(dictionary['position']),
-            key=dictionary['key'],
-            noise_rate=dictionary['noise_rate'],
-            efficiency=dictionary['efficiency']
+            position=Vector.from_ndarray(dictionary["position"]),
+            key=dictionary["key"],
+            noise_rate=dictionary["noise_rate"],
+            efficiency=dictionary["efficiency"],
         )
+
 
 @dataclass
 class Detector(JSONSerializable):
     """
     Data model for a P-ONE detector.
     """
+
     modules: List[Module]
 
     @property
@@ -123,9 +127,7 @@ class Detector(JSONSerializable):
             JSON representation of detector
 
         """
-        return {
-            'modules': [module.as_json() for module in self.modules]
-        }
+        return {"modules": [module.as_json() for module in self.modules]}
 
     @classmethod
     def from_json(cls, dictionary: dict):
@@ -139,4 +141,6 @@ class Detector(JSONSerializable):
             Detector read from input dictionary
 
         """
-        return cls(modules=[Module.from_json(module) for module in dictionary['modules']])
+        return cls(
+            modules=[Module.from_json(module) for module in dictionary["modules"]]
+        )

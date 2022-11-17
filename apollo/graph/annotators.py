@@ -1,7 +1,8 @@
 from abc import ABC, abstractmethod
+
 import dgl
-import torch as th
 import numpy as np
+import torch as th
 
 from ..data.events import EventCollection
 
