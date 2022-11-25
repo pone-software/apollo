@@ -3,7 +3,8 @@ import os
 
 import numpy as np
 
-from olympus.event_generation.detector import Detector, make_line
+from ananke.schemas.detector import DetectorConfiguration
+from olympus.event_generation.detector import Detector, make_line, DetectorBuilder
 from olympus.event_generation.generators import GeneratorCollection, GeneratorFactory
 
 from apollo.data.events import EventCollection
@@ -46,10 +47,29 @@ end_time = 10000000
 step_size = 50
 
 # Calculate the relative area covered by PMTs
-efficiency = (
-    pmts_per_module * (pmt_cath_area_r) ** 2 * np.pi / (4 * np.pi * module_radius**2)
-)
-det = Detector(make_line(0, 0, 20, 50, rng, dark_noise_rate, 0, efficiency=efficiency))
+efficiency = pmts_per_module * (pmt_cath_area_r) ** 2 * np.pi / (
+            4 * np.pi * module_radius ** 2)
+
+detector_builder = DetectorBuilder()
+detector_configuration_dict = {
+    "string": {
+        "module_number": 20,
+        "module_distance": 50
+    },
+    "pmt": {
+        "efficiency": efficiency,
+        "noise_rate": dark_noise_rate,
+        "area": pmt_cath_area_r
+    },
+    "module": {
+        "radius": module_radius
+    },
+    "geometry": {
+        "type": "single",
+    },
+    "seed": 31338
+}
+det = detector_builder.get(DetectorConfiguration.parse_obj(detector_configuration_dict))
 # det = make_triang(100, 20, dist_z, dark_noise_rate, rng, efficiency)
 
 generator_factory = GeneratorFactory(det)

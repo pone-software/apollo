@@ -7,13 +7,14 @@ SPHINXOPTS    ?=
 SPHINXBUILD   ?= sphinx-build
 SOURCEDIR     = .
 BUILDDIR      = _build
+PACKAGEDIR	  = ../apollo/
 
 # Put it first so that "make" without argument is like "make help".
 help:
 	@$(SPHINXBUILD) -M help "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
 
 apidoc:
-	@sphinx-apidoc -o . ../apollo/
+	@sphinx-apidoc -o "$(SOURCEDIR)" "$(PACKAGEDIR)"
 
 .PHONY: help Makefile
 

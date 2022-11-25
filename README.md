@@ -85,7 +85,13 @@
 [![Product Name Screen Shot][product-screenshot]](https://example.com)
 
 Like the greek god Apollo, this repository is all about predicting things.
-The [Pacific Ocean Neutrino Experimen (P-ONE)](https://www.pacific-neutrino.org/) is a neutrino detector to be built in the Pacific Ocean. High event rates and limited bandwidth require a preselection of "interesting", in our case extragalactic high-energy neutrino, events. This has to be done in real time as the data stream does not stop. This repository contains neural network models that classify whether the current timeframe contains something interesting or not based on simulated events of different detector structures.
+The [Pacific Ocean Neutrino Experimen (P-ONE)](https://www.pacific-neutrino.org/) is a
+neutrino detector to be built in the Pacific Ocean. High event rates and limited
+bandwidth require a preselection of "interesting", in our case extragalactic high-energy
+neutrino, events. This has to be done in real time as the data stream does not stop.
+This repository contains neural network models that classify whether the current
+timeframe contains something interesting or not based on simulated events of different
+detector structures.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -102,25 +108,35 @@ The [Pacific Ocean Neutrino Experimen (P-ONE)](https://www.pacific-neutrino.org/
 
 ## Getting Started
 
-To be Done
+This section tells you how to set up the package and be able to run with it.
 
 ### Prerequisites
 
-To be Done
+This package is built and updated using [Poetry](https://python-poetry.org/). 
+Please install it and make yourself familiar if you never heard of it.
 
 ### Installation
 
-To be Done
+To install the virtual environment of the package call the following console command
+
+```console
+foo@bar:apollo/$ poetry install
+```
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
 
 <!-- USAGE EXAMPLES -->
 
 ## Usage
 
-To be Done
+To use it, either call the commands of the `Makefile`. To list them call `make help`.
+If you want to have a granular check, you can run
+
+```console
+foo@bar:apollo/$ poetry shell
+```
+
+To open a virtual environment.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -131,19 +147,21 @@ To be Done
 ## Roadmap
 
 ### V0.0.1
+
 * Create DataLoader
 * Create NoisedDataLoader
 * Create Notebook showing Data Loaders
 * Cleaning up Examples Folder
 
 ### v1.0.0
+
 * Set up ML Workflow
 * Create first simple model
 * Create runnable ML Algorithm
 * Make package installable and add prerequisites and installation in template
 
-
-See the [open issues](https://github.com/pone-software/apollo/issues) for a full list of proposed features (and known
+See the [open issues](https://github.com/pone-software/apollo/issues) for a full list of
+proposed features (and known
 issues).
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
@@ -154,12 +172,16 @@ issues).
 
 ## Contributing
 
-Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any
+Contributions are what make the open source community such an amazing place to learn,
+inspire, and create. Any
 contributions you make are **greatly appreciated**.
 
-If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also
+If you have a suggestion that would make this better, please fork the repo and create a
+pull request. You can also
 simply open an issue with the tag "enhancement".
 Don't forget to give the project a star! Thanks again!
+
+### How to branch
 
 1. Fork the Project
 2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
@@ -185,9 +207,11 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 
 ## Contact
 
-Janik Prottung - [@janikprottung](https://linkedin.com/in/janikprottung) - janik.prottung@tum.de
+Janik Prottung - [@janikprottung](https://linkedin.com/in/janikprottung) -
+janik.prottung@tum.de
 
-Project Link: [https://github.com/pone-software/apollo](https://github.com/pone-software/apollo)
+Project
+Link: [https://github.com/pone-software/apollo](https://github.com/pone-software/apollo)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 

@@ -46,6 +46,7 @@ convention = "google"
 
 [tool.mypy]
 python_version = "3.8"
+plugins = "numpy.typing.mypy_plugin"
 files = "apollo"
 strict = true
 warn_return_any = true
