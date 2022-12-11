@@ -1,0 +1,1372 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>apollo.data package &mdash; Apollo 0.0.1 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+    <link rel="shortcut icon" href="_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="apollo.dataset package" href="apollo.dataset.html" />
+    <link rel="prev" title="apollo package" href="apollo.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> Apollo
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="intro.html">Introduction</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="apollo.html">apollo package</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="apollo.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">apollo.data package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-apollo.data.configs">apollo.data.configs module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-apollo.data.detectors">apollo.data.detectors module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-apollo.data.events">apollo.data.events module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-apollo.data.geometric">apollo.data.geometric module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-apollo.data.importers">apollo.data.importers module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-apollo.data.noise">apollo.data.noise module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-apollo.data.utils">apollo.data.utils module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-apollo.data">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="apollo.dataset.html">apollo.dataset package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="apollo.models.html">apollo.models package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="apollo.utils.html">apollo.utils package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="apollo.visualization.html">apollo.visualization package</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="apollo.html#module-apollo">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Apollo</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="apollo.html">apollo package</a></li>
+      <li class="breadcrumb-item active">apollo.data package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/apollo.data.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="apollo-data-package">
+<h1>apollo.data package<a class="headerlink" href="#apollo-data-package" title="Permalink to this heading"></a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading"></a></h2>
+</section>
+<section id="module-apollo.data.configs">
+<span id="apollo-data-configs-module"></span><h2>apollo.data.configs module<a class="headerlink" href="#module-apollo.data.configs" title="Permalink to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="apollo.data.configs.Interval">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">apollo.data.configs.</span></span><span class="sig-name descname"><span class="pre">Interval</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">start</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1000</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/apollo/data/configs.html#Interval"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apollo.data.configs.Interval" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#apollo.data.utils.JSONSerializable" title="apollo.data.utils.JSONSerializable"><code class="xref py py-class docutils literal notranslate"><span class="pre">JSONSerializable</span></code></a></p>
+<p>Class defining a basic interval [start, end).</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apollo.data.configs.Interval.start">
+<span class="sig-name descname"><span class="pre">start</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#apollo.data.configs.Interval.start" title="Permalink to this definition"></a></dt>
+<dd><p>Start time of the interval (&gt;=).</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apollo.data.configs.Interval.end">
+<span class="sig-name descname"><span class="pre">end</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1000</span></em><a class="headerlink" href="#apollo.data.configs.Interval.end" title="Permalink to this definition"></a></dt>
+<dd><p>End time of the interval (&lt;).</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="apollo.data.configs.Interval.range">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">range</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#apollo.data.configs.Interval.range" title="Permalink to this definition"></a></dt>
+<dd><p>Tuple containing the interval range.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="apollo.data.configs.Interval.length">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">length</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#apollo.data.configs.Interval.length" title="Permalink to this definition"></a></dt>
+<dd><p>Represents length of the interval.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="apollo.data.configs.Interval.is_between">
+<span class="sig-name descname"><span class="pre">is_between</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/apollo/data/configs.html#Interval.is_between"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apollo.data.configs.Interval.is_between" title="Permalink to this definition"></a></dt>
+<dd><p>Tells you whether your value is between or outside.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>value</strong> – Value to check</p>
+</dd>
+</dl>
+<p>Returns: Boolean containing whether value is between start and end.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="apollo.data.configs.Interval.from_json">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_json</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dictionary</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#apollo.data.configs.Interval" title="apollo.data.configs.Interval"><span class="pre">Interval</span></a></span></span><a class="reference internal" href="_modules/apollo/data/configs.html#Interval.from_json"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apollo.data.configs.Interval.from_json" title="Permalink to this definition"></a></dt>
+<dd><p>Reads from JSON dict.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>dictionary</strong> – json dict to read in</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Interval read in from dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="apollo.data.configs.Interval.as_json">
+<span class="sig-name descname"><span class="pre">as_json</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/apollo/data/configs.html#Interval.as_json"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apollo.data.configs.Interval.as_json" title="Permalink to this definition"></a></dt>
+<dd><p>Creates a json compatible version of interval config.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>json compatible dict of interval config</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="apollo.data.configs.HistogramConfig">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">apollo.data.configs.</span></span><span class="sig-name descname"><span class="pre">HistogramConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">start</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bin_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">10</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/apollo/data/configs.html#HistogramConfig"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apollo.data.configs.HistogramConfig" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#apollo.data.configs.Interval" title="apollo.data.configs.Interval"><code class="xref py py-class docutils literal notranslate"><span class="pre">Interval</span></code></a></p>
+<p>Subclass of Interval adding tht bin size to configure a histogram.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apollo.data.configs.HistogramConfig.bin_size">
+<span class="sig-name descname"><span class="pre">bin_size</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">10</span></em><a class="headerlink" href="#apollo.data.configs.HistogramConfig.bin_size" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="apollo.data.configs.HistogramConfig.from_json">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_json</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dictionary</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#apollo.data.configs.HistogramConfig" title="apollo.data.configs.HistogramConfig"><span class="pre">HistogramConfig</span></a></span></span><a class="reference internal" href="_modules/apollo/data/configs.html#HistogramConfig.from_json"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apollo.data.configs.HistogramConfig.from_json" title="Permalink to this definition"></a></dt>
+<dd><p>creates histogram config from json like dict.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>dictionary</strong> – json like version of histogram config</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>histogram config object based on json</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="apollo.data.configs.HistogramConfig.number_of_bins">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">number_of_bins</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#apollo.data.configs.HistogramConfig.number_of_bins" title="Permalink to this definition"></a></dt>
+<dd><p>Calculate how many bins are between start and end.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>number of bins</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="apollo.data.configs.HistogramConfig.as_json">
+<span class="sig-name descname"><span class="pre">as_json</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/apollo/data/configs.html#HistogramConfig.as_json"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apollo.data.configs.HistogramConfig.as_json" title="Permalink to this definition"></a></dt>
+<dd><p>Generates a json compatible histogram config.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>json compatible histogram config</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="apollo.data.configs.HistogramDatasetConfig">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">apollo.data.configs.</span></span><span class="sig-name descname"><span class="pre">HistogramDatasetConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">detector</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#apollo.data.detectors.Detector" title="apollo.data.detectors.Detector"><span class="pre">Detector</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">histogram_config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#apollo.data.configs.HistogramConfig" title="apollo.data.configs.HistogramConfig"><span class="pre">HistogramConfig</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/apollo/data/configs.html#HistogramDatasetConfig"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apollo.data.configs.HistogramDatasetConfig" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#apollo.data.utils.JSONSerializable" title="apollo.data.utils.JSONSerializable"><code class="xref py py-class docutils literal notranslate"><span class="pre">JSONSerializable</span></code></a></p>
+<p>Configuration for creating and reading histogram dataset.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apollo.data.configs.HistogramDatasetConfig.path">
+<span class="sig-name descname"><span class="pre">path</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#apollo.data.configs.HistogramDatasetConfig.path" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apollo.data.configs.HistogramDatasetConfig.detector">
+<span class="sig-name descname"><span class="pre">detector</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#apollo.data.detectors.Detector" title="apollo.data.detectors.Detector"><span class="pre">Detector</span></a></em><a class="headerlink" href="#apollo.data.configs.HistogramDatasetConfig.detector" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apollo.data.configs.HistogramDatasetConfig.histogram_config">
+<span class="sig-name descname"><span class="pre">histogram_config</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#apollo.data.configs.HistogramConfig" title="apollo.data.configs.HistogramConfig"><span class="pre">HistogramConfig</span></a></em><a class="headerlink" href="#apollo.data.configs.HistogramDatasetConfig.histogram_config" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="apollo.data.configs.HistogramDatasetConfig.from_json">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_json</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dictionary</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#apollo.data.configs.HistogramDatasetConfig" title="apollo.data.configs.HistogramDatasetConfig"><span class="pre">HistogramDatasetConfig</span></a></span></span><a class="reference internal" href="_modules/apollo/data/configs.html#HistogramDatasetConfig.from_json"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apollo.data.configs.HistogramDatasetConfig.from_json" title="Permalink to this definition"></a></dt>
+<dd><p>Reads Histogram Config from jsonable dictionary.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>dictionary</strong> – json dictionary to read in</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Config read from input dictionary</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="apollo.data.configs.HistogramDatasetConfig.as_json">
+<span class="sig-name descname"><span class="pre">as_json</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/apollo/data/configs.html#HistogramDatasetConfig.as_json"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apollo.data.configs.HistogramDatasetConfig.as_json" title="Permalink to this definition"></a></dt>
+<dd><p>Transforms config to valid json dictionary.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>JSON representation of config</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-apollo.data.detectors">
+<span id="apollo-data-detectors-module"></span><h2>apollo.data.detectors module<a class="headerlink" href="#module-apollo.data.detectors" title="Permalink to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="apollo.data.detectors.Module">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">apollo.data.detectors.</span></span><span class="sig-name descname"><span class="pre">Module</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">position</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#apollo.data.geometric.Vector" title="apollo.data.geometric.Vector"><span class="pre">Vector</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">noise_rate</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">efficiency</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/apollo/data/detectors.html#Module"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apollo.data.detectors.Module" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#apollo.data.utils.JSONSerializable" title="apollo.data.utils.JSONSerializable"><code class="xref py py-class docutils literal notranslate"><span class="pre">JSONSerializable</span></code></a></p>
+<p>Detection module.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apollo.data.detectors.Module.position">
+<span class="sig-name descname"><span class="pre">position</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#apollo.data.geometric.Vector" title="apollo.data.geometric.Vector"><span class="pre">Vector</span></a></em><a class="headerlink" href="#apollo.data.detectors.Module.position" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apollo.data.detectors.Module.key">
+<span class="sig-name descname"><span class="pre">key</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#apollo.data.detectors.Module.key" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apollo.data.detectors.Module.noise_rate">
+<span class="sig-name descname"><span class="pre">noise_rate</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#apollo.data.detectors.Module.noise_rate" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apollo.data.detectors.Module.efficiency">
+<span class="sig-name descname"><span class="pre">efficiency</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0.2</span></em><a class="headerlink" href="#apollo.data.detectors.Module.efficiency" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="apollo.data.detectors.Module.as_json">
+<span class="sig-name descname"><span class="pre">as_json</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/apollo/data/detectors.html#Module.as_json"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apollo.data.detectors.Module.as_json" title="Permalink to this definition"></a></dt>
+<dd><p>Generates JSON dictionary of Module.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>JSON representation</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="apollo.data.detectors.Module.from_json">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_json</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dictionary</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#apollo.data.detectors.Module" title="apollo.data.detectors.Module"><span class="pre">Module</span></a></span></span><a class="reference internal" href="_modules/apollo/data/detectors.html#Module.from_json"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apollo.data.detectors.Module.from_json" title="Permalink to this definition"></a></dt>
+<dd><p>Reads Module from dictionary.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>dictionary</strong> – dictionary representation of module</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Module based on input dictionary</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="apollo.data.detectors.Detector">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">apollo.data.detectors.</span></span><span class="sig-name descname"><span class="pre">Detector</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">modules</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#apollo.data.detectors.Module" title="apollo.data.detectors.Module"><span class="pre">Module</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/apollo/data/detectors.html#Detector"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apollo.data.detectors.Detector" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#apollo.data.utils.JSONSerializable" title="apollo.data.utils.JSONSerializable"><code class="xref py py-class docutils literal notranslate"><span class="pre">JSONSerializable</span></code></a></p>
+<p>Data model for a P-ONE detector.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apollo.data.detectors.Detector.modules">
+<span class="sig-name descname"><span class="pre">modules</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#apollo.data.detectors.Module" title="apollo.data.detectors.Module"><span class="pre">Module</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#apollo.data.detectors.Detector.modules" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="apollo.data.detectors.Detector.module_coordinates">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">module_coordinates</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">np.typing.NDArray</span><span class="p"><span class="pre">[</span></span><span class="pre">np.float64</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#apollo.data.detectors.Detector.module_coordinates" title="Permalink to this definition"></a></dt>
+<dd><p>Creates a stack of module positions in numpy.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>numpy array of module coordinates</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="apollo.data.detectors.Detector.module_efficiencies">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">module_efficiencies</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">np.typing.NDArray</span><span class="p"><span class="pre">[</span></span><span class="pre">np.float64</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#apollo.data.detectors.Detector.module_efficiencies" title="Permalink to this definition"></a></dt>
+<dd><p>Creates an array of module efficiencies.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>numpy array containing module efficiencies.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="apollo.data.detectors.Detector.module_noise_rates">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">module_noise_rates</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">np.typing.NDArray</span><span class="p"><span class="pre">[</span></span><span class="pre">np.float64</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#apollo.data.detectors.Detector.module_noise_rates" title="Permalink to this definition"></a></dt>
+<dd><p>Creates an array of noise efficiencies.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>numpy array containing noise efficiencies.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="apollo.data.detectors.Detector.number_of_modules">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">number_of_modules</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#apollo.data.detectors.Detector.number_of_modules" title="Permalink to this definition"></a></dt>
+<dd><p>Number of detector modules.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>length of modules</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="apollo.data.detectors.Detector.as_json">
+<span class="sig-name descname"><span class="pre">as_json</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/apollo/data/detectors.html#Detector.as_json"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apollo.data.detectors.Detector.as_json" title="Permalink to this definition"></a></dt>
+<dd><p>Transforms detector to valid json dictionary.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>JSON representation of detector</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="apollo.data.detectors.Detector.from_json">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_json</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dictionary</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#apollo.data.detectors.Detector" title="apollo.data.detectors.Detector"><span class="pre">Detector</span></a></span></span><a class="reference internal" href="_modules/apollo/data/detectors.html#Detector.from_json"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apollo.data.detectors.Detector.from_json" title="Permalink to this definition"></a></dt>
+<dd><p>Reads Detector from jsonable dictionary.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>dictionary</strong> – json dictionary to read in</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Detector read from input dictionary</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-apollo.data.events">
+<span id="apollo-data-events-module"></span><h2>apollo.data.events module<a class="headerlink" href="#module-apollo.data.events" title="Permalink to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="apollo.data.events.EventType">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">apollo.data.events.</span></span><span class="sig-name descname"><span class="pre">EventType</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/apollo/data/events.html#EventType"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apollo.data.events.EventType" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Enum</span></code></p>
+<p>An enumeration.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apollo.data.events.EventType.STARTING_TRACK">
+<span class="sig-name descname"><span class="pre">STARTING_TRACK</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#apollo.data.events.EventType.STARTING_TRACK" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apollo.data.events.EventType.CASCADE">
+<span class="sig-name descname"><span class="pre">CASCADE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></em><a class="headerlink" href="#apollo.data.events.EventType.CASCADE" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apollo.data.events.EventType.REALISTIC_TRACK">
+<span class="sig-name descname"><span class="pre">REALISTIC_TRACK</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">3</span></em><a class="headerlink" href="#apollo.data.events.EventType.REALISTIC_TRACK" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="apollo.data.events.SourceType">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">apollo.data.events.</span></span><span class="sig-name descname"><span class="pre">SourceType</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/apollo/data/events.html#SourceType"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apollo.data.events.SourceType" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Enum</span></code></p>
+<p>Enum for photon source types.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apollo.data.events.SourceType.STANDARD_CHERENKOV">
+<span class="sig-name descname"><span class="pre">STANDARD_CHERENKOV</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#apollo.data.events.SourceType.STANDARD_CHERENKOV" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apollo.data.events.SourceType.ISOTROPIC">
+<span class="sig-name descname"><span class="pre">ISOTROPIC</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></em><a class="headerlink" href="#apollo.data.events.SourceType.ISOTROPIC" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="apollo.data.events.EventTimeframeMode">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">apollo.data.events.</span></span><span class="sig-name descname"><span class="pre">EventTimeframeMode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/apollo/data/events.html#EventTimeframeMode"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apollo.data.events.EventTimeframeMode" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Enum</span></code></p>
+<p>An enumeration.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apollo.data.events.EventTimeframeMode.START_TIME">
+<span class="sig-name descname"><span class="pre">START_TIME</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#apollo.data.events.EventTimeframeMode.START_TIME" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apollo.data.events.EventTimeframeMode.CONTAINS_HIT">
+<span class="sig-name descname"><span class="pre">CONTAINS_HIT</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></em><a class="headerlink" href="#apollo.data.events.EventTimeframeMode.CONTAINS_HIT" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apollo.data.events.EventTimeframeMode.CONTAINS_EVENT">
+<span class="sig-name descname"><span class="pre">CONTAINS_EVENT</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">3</span></em><a class="headerlink" href="#apollo.data.events.EventTimeframeMode.CONTAINS_EVENT" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apollo.data.events.EventTimeframeMode.CONTAINS_PERCENTAGE">
+<span class="sig-name descname"><span class="pre">CONTAINS_PERCENTAGE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">4</span></em><a class="headerlink" href="#apollo.data.events.EventTimeframeMode.CONTAINS_PERCENTAGE" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="apollo.data.events.Record">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">apollo.data.events.</span></span><span class="sig-name descname"><span class="pre">Record</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">direction</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="s"><span class="pre">'Vector'</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">position</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="s"><span class="pre">'Vector'</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="s"><span class="pre">'float'</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/apollo/data/events.html#Record"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apollo.data.events.Record" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#apollo.data.utils.JSONSerializable" title="apollo.data.utils.JSONSerializable"><code class="xref py py-class docutils literal notranslate"><span class="pre">JSONSerializable</span></code></a></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apollo.data.events.Record.direction">
+<span class="sig-name descname"><span class="pre">direction</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#apollo.data.geometric.Vector" title="apollo.data.geometric.Vector"><span class="pre">Vector</span></a></em><a class="headerlink" href="#apollo.data.events.Record.direction" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apollo.data.events.Record.position">
+<span class="sig-name descname"><span class="pre">position</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#apollo.data.geometric.Vector" title="apollo.data.geometric.Vector"><span class="pre">Vector</span></a></em><a class="headerlink" href="#apollo.data.events.Record.position" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apollo.data.events.Record.time">
+<span class="sig-name descname"><span class="pre">time</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#apollo.data.events.Record.time" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="apollo.data.events.Record.as_json">
+<span class="sig-name descname"><span class="pre">as_json</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/apollo/data/events.html#Record.as_json"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apollo.data.events.Record.as_json" title="Permalink to this definition"></a></dt>
+<dd><p>converts the class into a json writable and readable data structure</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>List or dict containing all the serialized information of the class</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="apollo.data.events.Record.from_json">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_json</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dictionary</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#apollo.data.events.Record" title="apollo.data.events.Record"><span class="pre">Record</span></a></span></span><a class="reference internal" href="_modules/apollo/data/events.html#Record.from_json"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apollo.data.events.Record.from_json" title="Permalink to this definition"></a></dt>
+<dd><p>Load a class from a json like data type</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>dictionary</strong> – json to be parsed</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Object of Class</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="apollo.data.events.SourceRecord">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">apollo.data.events.</span></span><span class="sig-name descname"><span class="pre">SourceRecord</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">direction:</span> <span class="pre">'Vector'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">position:</span> <span class="pre">'Vector'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time:</span> <span class="pre">'float'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">number_of_photons:</span> <span class="pre">'int'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source_type:</span> <span class="pre">'SourceType'</span> <span class="pre">=</span> <span class="pre">&lt;SourceType.STANDARD_CHERENKOV:</span> <span class="pre">1&gt;</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/apollo/data/events.html#SourceRecord"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apollo.data.events.SourceRecord" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#apollo.data.events.Record" title="apollo.data.events.Record"><code class="xref py py-class docutils literal notranslate"><span class="pre">Record</span></code></a></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apollo.data.events.SourceRecord.number_of_photons">
+<span class="sig-name descname"><span class="pre">number_of_photons</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#apollo.data.events.SourceRecord.number_of_photons" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apollo.data.events.SourceRecord.source_type">
+<span class="sig-name descname"><span class="pre">source_type</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#apollo.data.events.SourceType" title="apollo.data.events.SourceType"><span class="pre">SourceType</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#apollo.data.events.SourceRecord.source_type" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="apollo.data.events.SourceRecord.as_json">
+<span class="sig-name descname"><span class="pre">as_json</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/apollo/data/events.html#SourceRecord.as_json"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apollo.data.events.SourceRecord.as_json" title="Permalink to this definition"></a></dt>
+<dd><p>converts the class into a json writable and readable data structure</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>List or dict containing all the serialized information of the class</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="apollo.data.events.SourceRecord.from_json">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_json</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dictionary</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#apollo.data.events.SourceRecord" title="apollo.data.events.SourceRecord"><span class="pre">SourceRecord</span></a></span></span><a class="reference internal" href="_modules/apollo/data/events.html#SourceRecord.from_json"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apollo.data.events.SourceRecord.from_json" title="Permalink to this definition"></a></dt>
+<dd><p>Load a class from a json like data type</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>dictionary</strong> – json to be parsed</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Object of Class</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="apollo.data.events.Event">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">apollo.data.events.</span></span><span class="sig-name descname"><span class="pre">Event</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">direction:</span> <span class="pre">'Vector'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">position:</span> <span class="pre">'Vector'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time:</span> <span class="pre">'float'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">event_type:</span> <span class="pre">'EventType'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">energy:</span> <span class="pre">'float'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">detector:</span> <span class="pre">'Optional[Detector]'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hits:</span> <span class="pre">'List[ak.Array]'</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sources:</span> <span class="pre">'List[SourceRecord]'</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default_value:</span> <span class="pre">'float'</span> <span class="pre">=</span> <span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rng:</span> <span class="pre">'np.random.Generator'</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/apollo/data/events.html#Event"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apollo.data.events.Event" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#apollo.data.events.Record" title="apollo.data.events.Record"><code class="xref py py-class docutils literal notranslate"><span class="pre">Record</span></code></a>, <a class="reference internal" href="#apollo.data.utils.JSONSerializable" title="apollo.data.utils.JSONSerializable"><code class="xref py py-class docutils literal notranslate"><span class="pre">JSONSerializable</span></code></a></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apollo.data.events.Event.event_type">
+<span class="sig-name descname"><span class="pre">event_type</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#apollo.data.events.EventType" title="apollo.data.events.EventType"><span class="pre">EventType</span></a></em><a class="headerlink" href="#apollo.data.events.Event.event_type" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apollo.data.events.Event.energy">
+<span class="sig-name descname"><span class="pre">energy</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#apollo.data.events.Event.energy" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apollo.data.events.Event.detector">
+<span class="sig-name descname"><span class="pre">detector</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#apollo.data.detectors.Detector" title="apollo.data.detectors.Detector"><span class="pre">Detector</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#apollo.data.events.Event.detector" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apollo.data.events.Event.hits">
+<span class="sig-name descname"><span class="pre">hits</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Array</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#apollo.data.events.Event.hits" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apollo.data.events.Event.sources">
+<span class="sig-name descname"><span class="pre">sources</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#apollo.data.events.SourceRecord" title="apollo.data.events.SourceRecord"><span class="pre">SourceRecord</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#apollo.data.events.Event.sources" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apollo.data.events.Event.default_value">
+<span class="sig-name descname"><span class="pre">default_value</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0.0</span></em><a class="headerlink" href="#apollo.data.events.Event.default_value" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apollo.data.events.Event.rng">
+<span class="sig-name descname"><span class="pre">rng</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Generator</span></em><a class="headerlink" href="#apollo.data.events.Event.rng" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="apollo.data.events.Event.first_hit">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">first_hit</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#apollo.data.events.Event.first_hit" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="apollo.data.events.Event.last_hit">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">last_hit</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#apollo.data.events.Event.last_hit" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="apollo.data.events.Event.percentile_levels">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">percentile_levels</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">np.typing.NDArray</span><span class="p"><span class="pre">[</span></span><span class="pre">np.int32</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#apollo.data.events.Event.percentile_levels" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="apollo.data.events.Event.percentiles">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">percentiles</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">np.typing.NDArray</span><span class="p"><span class="pre">[</span></span><span class="pre">np.float64</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#apollo.data.events.Event.percentiles" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="apollo.data.events.Event.number_of_hits">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">number_of_hits</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#apollo.data.events.Event.number_of_hits" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="apollo.data.events.Event.as_features">
+<span class="sig-name descname"><span class="pre">as_features</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/apollo/data/events.html#Event.as_features"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apollo.data.events.Event.as_features" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="apollo.data.events.Event.is_in_timeframe">
+<span class="sig-name descname"><span class="pre">is_in_timeframe</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">interval</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#apollo.data.configs.Interval" title="apollo.data.configs.Interval"><span class="pre">Interval</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_in_timeframe_mode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#apollo.data.events.EventTimeframeMode" title="apollo.data.events.EventTimeframeMode"><span class="pre">EventTimeframeMode</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">EventTimeframeMode.START_TIME</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/apollo/data/events.html#Event.is_in_timeframe"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apollo.data.events.Event.is_in_timeframe" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="apollo.data.events.Event.redistribute">
+<span class="sig-name descname"><span class="pre">redistribute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">interval</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#apollo.data.configs.Interval" title="apollo.data.configs.Interval"><span class="pre">Interval</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_in_timeframe_mode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#apollo.data.events.EventTimeframeMode" title="apollo.data.events.EventTimeframeMode"><span class="pre">EventTimeframeMode</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">EventTimeframeMode.START_TIME</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rng</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Generator</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">percentile</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">50</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">create_copy</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#apollo.data.events.Event" title="apollo.data.events.Event"><span class="pre">Event</span></a></span></span><a class="reference internal" href="_modules/apollo/data/events.html#Event.redistribute"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apollo.data.events.Event.redistribute" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="apollo.data.events.Event.get_histogram">
+<span class="sig-name descname"><span class="pre">get_histogram</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">histogram_config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#apollo.data.configs.HistogramConfig" title="apollo.data.configs.HistogramConfig"><span class="pre">HistogramConfig</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">np.typing.NDArray</span><span class="p"><span class="pre">[</span></span><span class="pre">np.single</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/apollo/data/events.html#Event.get_histogram"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apollo.data.events.Event.get_histogram" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="apollo.data.events.Event.as_json">
+<span class="sig-name descname"><span class="pre">as_json</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">include_sources</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_hits</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_detector</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">object</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/apollo/data/events.html#Event.as_json"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apollo.data.events.Event.as_json" title="Permalink to this definition"></a></dt>
+<dd><p>converts the class into a json writable and readable data structure</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>List or dict containing all the serialized information of the class</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="apollo.data.events.Event.from_json">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_json</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dictionary</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#apollo.data.events.Event" title="apollo.data.events.Event"><span class="pre">Event</span></a></span></span><a class="reference internal" href="_modules/apollo/data/events.html#Event.from_json"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apollo.data.events.Event.from_json" title="Permalink to this definition"></a></dt>
+<dd><p>Load a class from a json like data type</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>dictionary</strong> – json to be parsed</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Object of Class</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="apollo.data.events.EventCollection">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">apollo.data.events.</span></span><span class="sig-name descname"><span class="pre">EventCollection</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">detector:</span> <span class="pre">~apollo.data.detectors.Detector</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">events:</span> <span class="pre">~typing.List[~apollo.data.events.Event]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rng:</span> <span class="pre">~typing.Optional[~numpy.random._generator.Generator]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/apollo/data/events.html#EventCollection"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apollo.data.events.EventCollection" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#apollo.data.utils.FolderSavable" title="apollo.data.utils.FolderSavable"><code class="xref py py-class docutils literal notranslate"><span class="pre">FolderSavable</span></code></a>, <a class="reference internal" href="#apollo.data.utils.FolderLoadable" title="apollo.data.utils.FolderLoadable"><code class="xref py py-class docutils literal notranslate"><span class="pre">FolderLoadable</span></code></a>, <a class="reference internal" href="#apollo.data.utils.JSONSerializable" title="apollo.data.utils.JSONSerializable"><code class="xref py py-class docutils literal notranslate"><span class="pre">JSONSerializable</span></code></a></p>
+<p>Global class for maintaining a common form of Events</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apollo.data.events.EventCollection.detector">
+<span class="sig-name descname"><span class="pre">detector</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#apollo.data.detectors.Detector" title="apollo.data.detectors.Detector"><span class="pre">Detector</span></a></em><a class="headerlink" href="#apollo.data.events.EventCollection.detector" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apollo.data.events.EventCollection.events">
+<span class="sig-name descname"><span class="pre">events</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#apollo.data.events.Event" title="apollo.data.events.Event"><span class="pre">Event</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#apollo.data.events.EventCollection.events" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apollo.data.events.EventCollection.rng">
+<span class="sig-name descname"><span class="pre">rng</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Generator</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#apollo.data.events.EventCollection.rng" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="apollo.data.events.EventCollection.valid_events">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">valid_events</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#apollo.data.events.Event" title="apollo.data.events.Event"><span class="pre">Event</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#apollo.data.events.EventCollection.valid_events" title="Permalink to this definition"></a></dt>
+<dd><p>Property containing only the events with hits for every detector module</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>List of events with matching hits and module count</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="apollo.data.events.EventCollection.get_sources_per_bin">
+<span class="sig-name descname"><span class="pre">get_sources_per_bin</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">histogram_config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#apollo.data.configs.HistogramConfig" title="apollo.data.configs.HistogramConfig"><span class="pre">HistogramConfig</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#apollo.data.events.SourceRecord" title="apollo.data.events.SourceRecord"><span class="pre">SourceRecord</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/apollo/data/events.html#EventCollection.get_sources_per_bin"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apollo.data.events.EventCollection.get_sources_per_bin" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="apollo.data.events.EventCollection.get_histogram">
+<span class="sig-name descname"><span class="pre">get_histogram</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">histogram_config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#apollo.data.configs.HistogramConfig" title="apollo.data.configs.HistogramConfig"><span class="pre">HistogramConfig</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">np.typing.NDArray</span><span class="p"><span class="pre">[</span></span><span class="pre">np.float64</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/apollo/data/events.html#EventCollection.get_histogram"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apollo.data.events.EventCollection.get_histogram" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="apollo.data.events.EventCollection.redistribute">
+<span class="sig-name descname"><span class="pre">redistribute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">interval</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#apollo.data.configs.Interval" title="apollo.data.configs.Interval"><span class="pre">Interval</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">nr_events</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_in_timeframe_mode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#apollo.data.events.EventTimeframeMode" title="apollo.data.events.EventTimeframeMode"><span class="pre">EventTimeframeMode</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">EventTimeframeMode.START_TIME</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rng</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Generator</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">create_copy</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#apollo.data.events.EventCollection" title="apollo.data.events.EventCollection"><span class="pre">EventCollection</span></a></span></span><a class="reference internal" href="_modules/apollo/data/events.html#EventCollection.redistribute"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apollo.data.events.EventCollection.redistribute" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="apollo.data.events.EventCollection.get_within_timeframe">
+<span class="sig-name descname"><span class="pre">get_within_timeframe</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">interval</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#apollo.data.configs.Interval" title="apollo.data.configs.Interval"><span class="pre">Interval</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">create_copy</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_in_timeframe_mode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#apollo.data.events.EventTimeframeMode" title="apollo.data.events.EventTimeframeMode"><span class="pre">EventTimeframeMode</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">EventTimeframeMode.START_TIME</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#apollo.data.events.EventCollection" title="apollo.data.events.EventCollection"><span class="pre">EventCollection</span></a></span></span><a class="reference internal" href="_modules/apollo/data/events.html#EventCollection.get_within_timeframe"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apollo.data.events.EventCollection.get_within_timeframe" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="apollo.data.events.EventCollection.get_event_features">
+<span class="sig-name descname"><span class="pre">get_event_features</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">valid_only</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/apollo/data/events.html#EventCollection.get_event_features"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apollo.data.events.EventCollection.get_event_features" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="apollo.data.events.EventCollection.get_events_as_json">
+<span class="sig-name descname"><span class="pre">get_events_as_json</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">valid_only</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_sources</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/apollo/data/events.html#EventCollection.get_events_as_json"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apollo.data.events.EventCollection.get_events_as_json" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="apollo.data.events.EventCollection.as_json">
+<span class="sig-name descname"><span class="pre">as_json</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">valid_only</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_sources</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/apollo/data/events.html#EventCollection.as_json"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apollo.data.events.EventCollection.as_json" title="Permalink to this definition"></a></dt>
+<dd><p>converts the class into a json writable and readable data structure</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>List or dict containing all the serialized information of the class</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="apollo.data.events.EventCollection.from_json">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_json</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dictionary</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#apollo.data.events.EventCollection" title="apollo.data.events.EventCollection"><span class="pre">EventCollection</span></a></span></span><a class="reference internal" href="_modules/apollo/data/events.html#EventCollection.from_json"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apollo.data.events.EventCollection.from_json" title="Permalink to this definition"></a></dt>
+<dd><p>Load a class from a json like data type</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>dictionary</strong> – json to be parsed</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Object of Class</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-apollo.data.geometric">
+<span id="apollo-data-geometric-module"></span><h2>apollo.data.geometric module<a class="headerlink" href="#module-apollo.data.geometric" title="Permalink to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="apollo.data.geometric.Vector">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">apollo.data.geometric.</span></span><span class="sig-name descname"><span class="pre">Vector</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/apollo/data/geometric.html#Vector"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apollo.data.geometric.Vector" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#apollo.data.utils.JSONSerializable" title="apollo.data.utils.JSONSerializable"><code class="xref py py-class docutils literal notranslate"><span class="pre">JSONSerializable</span></code></a></p>
+<p>Three-dimensional vector.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apollo.data.geometric.Vector.x">
+<span class="sig-name descname"><span class="pre">x</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#apollo.data.geometric.Vector.x" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apollo.data.geometric.Vector.y">
+<span class="sig-name descname"><span class="pre">y</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#apollo.data.geometric.Vector.y" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apollo.data.geometric.Vector.z">
+<span class="sig-name descname"><span class="pre">z</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#apollo.data.geometric.Vector.z" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="apollo.data.geometric.Vector.from_json">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_json</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dictionary</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#apollo.data.geometric.Vector" title="apollo.data.geometric.Vector"><span class="pre">Vector</span></a></span></span><a class="reference internal" href="_modules/apollo/data/geometric.html#Vector.from_json"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apollo.data.geometric.Vector.from_json" title="Permalink to this definition"></a></dt>
+<dd><p>Reads Histogram Config from jsonable dictionary.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>dictionary</strong> – json dictionary to read in</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Config read from input dictionary</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="apollo.data.geometric.Vector.as_json">
+<span class="sig-name descname"><span class="pre">as_json</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/apollo/data/geometric.html#Vector.as_json"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apollo.data.geometric.Vector.as_json" title="Permalink to this definition"></a></dt>
+<dd><p>Transforms vector to valid json dictionary.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>JSON representation of vector</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="apollo.data.geometric.Vector.from_ndarray">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_ndarray</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ndarray</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">np.typing.NDArray</span><span class="p"><span class="pre">[</span></span><span class="pre">np.float64</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#apollo.data.geometric.Vector" title="apollo.data.geometric.Vector"><span class="pre">Vector</span></a></span></span><a class="reference internal" href="_modules/apollo/data/geometric.html#Vector.from_ndarray"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apollo.data.geometric.Vector.from_ndarray" title="Permalink to this definition"></a></dt>
+<dd><p>Reads Vector from numpy array.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>ndarray</strong> – numpy array to read in</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Vector read in from numpy array</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-apollo.data.importers">
+<span id="apollo-data-importers-module"></span><h2>apollo.data.importers module<a class="headerlink" href="#module-apollo.data.importers" title="Permalink to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="apollo.data.importers.ImporterMeta">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">apollo.data.importers.</span></span><span class="sig-name descname"><span class="pre">ImporterMeta</span></span><a class="reference internal" href="_modules/apollo/data/importers.html#ImporterMeta"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apollo.data.importers.ImporterMeta" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ABC</span></code></p>
+<p>Metaclass for importers.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="apollo.data.importers.ImporterMeta.from_olympus">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_olympus</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_to_import</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Any</span></span></span><a class="reference internal" href="_modules/apollo/data/importers.html#ImporterMeta.from_olympus"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apollo.data.importers.ImporterMeta.from_olympus" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="apollo.data.importers.EventCollectionImporter">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">apollo.data.importers.</span></span><span class="sig-name descname"><span class="pre">EventCollectionImporter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">detector:</span> <span class="pre">~apollo.data.detectors.Detector</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">events:</span> <span class="pre">~typing.List[~apollo.data.events.Event]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rng:</span> <span class="pre">~typing.Optional[~numpy.random._generator.Generator]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/apollo/data/importers.html#EventCollectionImporter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apollo.data.importers.EventCollectionImporter" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#apollo.data.events.EventCollection" title="apollo.data.events.EventCollection"><code class="xref py py-class docutils literal notranslate"><span class="pre">EventCollection</span></code></a>, <a class="reference internal" href="#apollo.data.importers.ImporterMeta" title="apollo.data.importers.ImporterMeta"><code class="xref py py-class docutils literal notranslate"><span class="pre">ImporterMeta</span></code></a></p>
+<p>Importer for the event collections.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="apollo.data.importers.EventCollectionImporter.from_olympus">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_olympus</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event_collection_tuple</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tuple</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#apollo.data.events.EventCollection" title="apollo.data.events.EventCollection"><span class="pre">EventCollection</span></a></span></span><a class="reference internal" href="_modules/apollo/data/importers.html#EventCollectionImporter.from_olympus"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apollo.data.importers.EventCollectionImporter.from_olympus" title="Permalink to this definition"></a></dt>
+<dd><p>loads an event collection from the olympus package.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>event_collection_tuple</strong> – tuple containing hits and events</p></li>
+<li><p><strong>**kwargs</strong> – parameters to be passed down</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Event collection containing all the events from the input tuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apollo.data.importers.EventCollectionImporter.detector">
+<span class="sig-name descname"><span class="pre">detector</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#apollo.data.detectors.Detector" title="apollo.data.detectors.Detector"><span class="pre">Detector</span></a></em><a class="headerlink" href="#apollo.data.importers.EventCollectionImporter.detector" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apollo.data.importers.EventCollectionImporter.events">
+<span class="sig-name descname"><span class="pre">events</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#apollo.data.events.Event" title="apollo.data.events.Event"><span class="pre">Event</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#apollo.data.importers.EventCollectionImporter.events" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apollo.data.importers.EventCollectionImporter.rng">
+<span class="sig-name descname"><span class="pre">rng</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">np.random.Generator</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#apollo.data.importers.EventCollectionImporter.rng" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="apollo.data.importers.ModuleImporter">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">apollo.data.importers.</span></span><span class="sig-name descname"><span class="pre">ModuleImporter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">position</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#apollo.data.geometric.Vector" title="apollo.data.geometric.Vector"><span class="pre">Vector</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">noise_rate</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">efficiency</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/apollo/data/importers.html#ModuleImporter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apollo.data.importers.ModuleImporter" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#apollo.data.detectors.Module" title="apollo.data.detectors.Module"><code class="xref py py-class docutils literal notranslate"><span class="pre">Module</span></code></a>, <a class="reference internal" href="#apollo.data.importers.ImporterMeta" title="apollo.data.importers.ImporterMeta"><code class="xref py py-class docutils literal notranslate"><span class="pre">ImporterMeta</span></code></a></p>
+<p>Importer for the module class.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="apollo.data.importers.ModuleImporter.from_olympus">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_olympus</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">module_to_import</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#apollo.data.detectors.Module" title="apollo.data.detectors.Module"><span class="pre">Module</span></a></span></span><a class="reference internal" href="_modules/apollo/data/importers.html#ModuleImporter.from_olympus"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apollo.data.importers.ModuleImporter.from_olympus" title="Permalink to this definition"></a></dt>
+<dd><p>loads a module from the olympus package.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>module_to_import</strong> – olympus module object</p></li>
+<li><p><strong>**kwargs</strong> – parameters to be passed down</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Module containing all the information</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apollo.data.importers.ModuleImporter.position">
+<span class="sig-name descname"><span class="pre">position</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#apollo.data.geometric.Vector" title="apollo.data.geometric.Vector"><span class="pre">Vector</span></a></em><a class="headerlink" href="#apollo.data.importers.ModuleImporter.position" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apollo.data.importers.ModuleImporter.key">
+<span class="sig-name descname"><span class="pre">key</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#apollo.data.importers.ModuleImporter.key" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="apollo.data.importers.SourceRecordImporter">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">apollo.data.importers.</span></span><span class="sig-name descname"><span class="pre">SourceRecordImporter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">direction</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#apollo.data.geometric.Vector" title="apollo.data.geometric.Vector"><span class="pre">Vector</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">position</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#apollo.data.geometric.Vector" title="apollo.data.geometric.Vector"><span class="pre">Vector</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">number_of_photons</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#apollo.data.events.SourceType" title="apollo.data.events.SourceType"><span class="pre">SourceType</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">SourceType.STANDARD_CHERENKOV</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/apollo/data/importers.html#SourceRecordImporter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apollo.data.importers.SourceRecordImporter" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#apollo.data.events.SourceRecord" title="apollo.data.events.SourceRecord"><code class="xref py py-class docutils literal notranslate"><span class="pre">SourceRecord</span></code></a>, <a class="reference internal" href="#apollo.data.importers.ImporterMeta" title="apollo.data.importers.ImporterMeta"><code class="xref py py-class docutils literal notranslate"><span class="pre">ImporterMeta</span></code></a></p>
+<p>Importer for the source record.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="apollo.data.importers.SourceRecordImporter.from_olympus">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_olympus</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source_to_import</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#apollo.data.events.SourceRecord" title="apollo.data.events.SourceRecord"><span class="pre">SourceRecord</span></a></span></span><a class="reference internal" href="_modules/apollo/data/importers.html#SourceRecordImporter.from_olympus"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apollo.data.importers.SourceRecordImporter.from_olympus" title="Permalink to this definition"></a></dt>
+<dd><p>loads a source record from the olympus package.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>source_to_import</strong> – olympus PhotonSource object</p></li>
+<li><p><strong>**kwargs</strong> – parameters to be passed down</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>source record containing all the information</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apollo.data.importers.SourceRecordImporter.number_of_photons">
+<span class="sig-name descname"><span class="pre">number_of_photons</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#apollo.data.importers.SourceRecordImporter.number_of_photons" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apollo.data.importers.SourceRecordImporter.direction">
+<span class="sig-name descname"><span class="pre">direction</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#apollo.data.geometric.Vector" title="apollo.data.geometric.Vector"><span class="pre">Vector</span></a></em><a class="headerlink" href="#apollo.data.importers.SourceRecordImporter.direction" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apollo.data.importers.SourceRecordImporter.position">
+<span class="sig-name descname"><span class="pre">position</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#apollo.data.geometric.Vector" title="apollo.data.geometric.Vector"><span class="pre">Vector</span></a></em><a class="headerlink" href="#apollo.data.importers.SourceRecordImporter.position" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apollo.data.importers.SourceRecordImporter.time">
+<span class="sig-name descname"><span class="pre">time</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#apollo.data.importers.SourceRecordImporter.time" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="apollo.data.importers.DetectorImporter">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">apollo.data.importers.</span></span><span class="sig-name descname"><span class="pre">DetectorImporter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">modules</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#apollo.data.detectors.Module" title="apollo.data.detectors.Module"><span class="pre">Module</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/apollo/data/importers.html#DetectorImporter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apollo.data.importers.DetectorImporter" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#apollo.data.detectors.Detector" title="apollo.data.detectors.Detector"><code class="xref py py-class docutils literal notranslate"><span class="pre">Detector</span></code></a>, <a class="reference internal" href="#apollo.data.importers.ImporterMeta" title="apollo.data.importers.ImporterMeta"><code class="xref py py-class docutils literal notranslate"><span class="pre">ImporterMeta</span></code></a></p>
+<p>Importer for the detector record.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="apollo.data.importers.DetectorImporter.from_olympus">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_olympus</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">detector_to_import</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#apollo.data.detectors.Detector" title="apollo.data.detectors.Detector"><span class="pre">Detector</span></a></span></span><a class="reference internal" href="_modules/apollo/data/importers.html#DetectorImporter.from_olympus"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apollo.data.importers.DetectorImporter.from_olympus" title="Permalink to this definition"></a></dt>
+<dd><p>loads a detectr from the olympus package.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>detector_to_import</strong> – olympus Detector object</p></li>
+<li><p><strong>**kwargs</strong> – parameters to be passed down</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>detector containing all the information</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apollo.data.importers.DetectorImporter.modules">
+<span class="sig-name descname"><span class="pre">modules</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#apollo.data.detectors.Module" title="apollo.data.detectors.Module"><span class="pre">Module</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#apollo.data.importers.DetectorImporter.modules" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-apollo.data.noise">
+<span id="apollo-data-noise-module"></span><h2>apollo.data.noise module<a class="headerlink" href="#module-apollo.data.noise" title="Permalink to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="apollo.data.noise.NoiseGenerator">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">apollo.data.noise.</span></span><span class="sig-name descname"><span class="pre">NoiseGenerator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">detector</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#apollo.data.detectors.Detector" title="apollo.data.detectors.Detector"><span class="pre">Detector</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">distribution</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rng</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Generator</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/apollo/data/noise.html#NoiseGenerator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apollo.data.noise.NoiseGenerator" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ABC</span></code></p>
+<p>Abstract class as parent for all noise generators.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="apollo.data.noise.NoiseGenerator.get_distribution_parameters">
+<span class="sig-name descname"><span class="pre">get_distribution_parameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">histogram_config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#apollo.data.configs.HistogramConfig" title="apollo.data.configs.HistogramConfig"><span class="pre">HistogramConfig</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/apollo/data/noise.html#NoiseGenerator.get_distribution_parameters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apollo.data.noise.NoiseGenerator.get_distribution_parameters" title="Permalink to this definition"></a></dt>
+<dd><p>method to construct the parameters to be passed to the probability
+distribution.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>histogram_config</strong> – to scale parameters according to the bin size</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>dictionary with all the kwargs for the distribution</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="apollo.data.noise.NoiseGenerator.number_of_parameters">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">number_of_parameters</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#apollo.data.noise.NoiseGenerator.number_of_parameters" title="Permalink to this definition"></a></dt>
+<dd><p>Calculates the number of parameters.</p>
+<p class="rubric">Example</p>
+<p>The poisson distribution is called with
+<code class="docutils literal notranslate"><span class="pre">self.rng.poisson(size=5,</span> <span class="pre">lambda=(3,4))</span></code>. Then the number of
+parameters should be three.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="apollo.data.noise.NoiseGenerator.generate">
+<span class="sig-name descname"><span class="pre">generate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#apollo.data.configs.Interval" title="apollo.data.configs.Interval"><span class="pre">Interval</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="#apollo.data.configs.HistogramConfig" title="apollo.data.configs.HistogramConfig"><span class="pre">HistogramConfig</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">np.typing.NDArray</span><span class="p"><span class="pre">[</span></span><span class="pre">np.float64</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/apollo/data/noise.html#NoiseGenerator.generate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apollo.data.noise.NoiseGenerator.generate" title="Permalink to this definition"></a></dt>
+<dd><p>Generates Noise given for a certain interval or histogram config.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>config</strong> – interval and histogram to generate noise for</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Array containing the noise for a given histogram</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="apollo.data.noise.NoiseGenerator.generate_hits">
+<span class="sig-name descname"><span class="pre">generate_hits</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#apollo.data.configs.Interval" title="apollo.data.configs.Interval"><span class="pre">Interval</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="#apollo.data.configs.HistogramConfig" title="apollo.data.configs.HistogramConfig"><span class="pre">HistogramConfig</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Array</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/apollo/data/noise.html#NoiseGenerator.generate_hits"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apollo.data.noise.NoiseGenerator.generate_hits" title="Permalink to this definition"></a></dt>
+<dd><p>Generates an awkward array containing hits per module for a given
+interval or histogram.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>config</strong> – interval or histogram to generate noise for</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Awkward array containing hits per module</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="apollo.data.noise.NoiseGenerator.scale_per_bin_size">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">scale_per_bin_size</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">histogram_config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#apollo.data.configs.HistogramConfig" title="apollo.data.configs.HistogramConfig"><span class="pre">HistogramConfig</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/apollo/data/noise.html#NoiseGenerator.scale_per_bin_size"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apollo.data.noise.NoiseGenerator.scale_per_bin_size" title="Permalink to this definition"></a></dt>
+<dd><p>As each histogram bin could have a length larger than one the distribution
+parameters like <code class="docutils literal notranslate"><span class="pre">lambda</span></code> have to be scaled to achieve a valid output.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>histogram_config</strong> – Histogram config by which to scale the parameter.</p></li>
+<li><p><strong>parameter</strong> – Parameter value(s) to scale</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Scaled set of parameters</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="apollo.data.noise.PoissonNoiseGenerator">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">apollo.data.noise.</span></span><span class="sig-name descname"><span class="pre">PoissonNoiseGenerator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">detector</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#apollo.data.detectors.Detector" title="apollo.data.detectors.Detector"><span class="pre">Detector</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">lam</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/apollo/data/noise.html#PoissonNoiseGenerator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apollo.data.noise.PoissonNoiseGenerator" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#apollo.data.noise.NoiseGenerator" title="apollo.data.noise.NoiseGenerator"><code class="xref py py-class docutils literal notranslate"><span class="pre">NoiseGenerator</span></code></a></p>
+<p>Generates noise based on the poisson distribution.</p>
+<dl class="py property">
+<dt class="sig sig-object py" id="apollo.data.noise.PoissonNoiseGenerator.number_of_parameters">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">number_of_parameters</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#apollo.data.noise.PoissonNoiseGenerator.number_of_parameters" title="Permalink to this definition"></a></dt>
+<dd><p>Calculates the number of poisson distribution parameters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>length of passed lambda values</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="apollo.data.noise.PoissonNoiseGenerator.get_distribution_parameters">
+<span class="sig-name descname"><span class="pre">get_distribution_parameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">histogram_config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#apollo.data.configs.HistogramConfig" title="apollo.data.configs.HistogramConfig"><span class="pre">HistogramConfig</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/apollo/data/noise.html#PoissonNoiseGenerator.get_distribution_parameters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apollo.data.noise.PoissonNoiseGenerator.get_distribution_parameters" title="Permalink to this definition"></a></dt>
+<dd><p>Creates kwargs for the poisson distribution.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>histogram_config</strong> – to scale parameters according to the bin size</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>kwargs for poisson distribution</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="apollo.data.noise.NormalNoiseGenerator">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">apollo.data.noise.</span></span><span class="sig-name descname"><span class="pre">NormalNoiseGenerator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">detector</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#apollo.data.detectors.Detector" title="apollo.data.detectors.Detector"><span class="pre">Detector</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">location</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scale</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/apollo/data/noise.html#NormalNoiseGenerator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apollo.data.noise.NormalNoiseGenerator" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#apollo.data.noise.NoiseGenerator" title="apollo.data.noise.NoiseGenerator"><code class="xref py py-class docutils literal notranslate"><span class="pre">NoiseGenerator</span></code></a></p>
+<p>Generates noise based on the normal distribution.</p>
+<dl class="py property">
+<dt class="sig sig-object py" id="apollo.data.noise.NormalNoiseGenerator.number_of_parameters">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">number_of_parameters</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#apollo.data.noise.NormalNoiseGenerator.number_of_parameters" title="Permalink to this definition"></a></dt>
+<dd><p>Calculates the number of normal distribution parameters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>length of passed scale and location values</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="apollo.data.noise.NormalNoiseGenerator.get_distribution_parameters">
+<span class="sig-name descname"><span class="pre">get_distribution_parameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">histogram_config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#apollo.data.configs.HistogramConfig" title="apollo.data.configs.HistogramConfig"><span class="pre">HistogramConfig</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/apollo/data/noise.html#NormalNoiseGenerator.get_distribution_parameters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apollo.data.noise.NormalNoiseGenerator.get_distribution_parameters" title="Permalink to this definition"></a></dt>
+<dd><p>Creates kwargs for the normal distribution.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>histogram_config</strong> – to scale parameters according to the bin size</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>kwargs for normal distribution</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="apollo.data.noise.NoiseGeneratorEnum">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">apollo.data.noise.</span></span><span class="sig-name descname"><span class="pre">NoiseGeneratorEnum</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/apollo/data/noise.html#NoiseGeneratorEnum"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apollo.data.noise.NoiseGeneratorEnum" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Enum</span></code></p>
+<p>Enum of implemented noise generators.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apollo.data.noise.NoiseGeneratorEnum.POISSON">
+<span class="sig-name descname"><span class="pre">POISSON</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;class</span> <span class="pre">'apollo.data.noise.PoissonNoiseGenerator'&gt;</span></em><a class="headerlink" href="#apollo.data.noise.NoiseGeneratorEnum.POISSON" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apollo.data.noise.NoiseGeneratorEnum.NORMAL">
+<span class="sig-name descname"><span class="pre">NORMAL</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;class</span> <span class="pre">'apollo.data.noise.NormalNoiseGenerator'&gt;</span></em><a class="headerlink" href="#apollo.data.noise.NoiseGeneratorEnum.NORMAL" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="apollo.data.noise.NoiseGeneratorFactory">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">apollo.data.noise.</span></span><span class="sig-name descname"><span class="pre">NoiseGeneratorFactory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">detector</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#apollo.data.detectors.Detector" title="apollo.data.detectors.Detector"><span class="pre">Detector</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">rng</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Generator</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/apollo/data/noise.html#NoiseGeneratorFactory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apollo.data.noise.NoiseGeneratorFactory" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Provides a standardized way of creating a noise generator.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="apollo.data.noise.NoiseGeneratorFactory.create">
+<span class="sig-name descname"><span class="pre">create</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">noise_generator_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#apollo.data.noise.NoiseGeneratorEnum" title="apollo.data.noise.NoiseGeneratorEnum"><span class="pre">NoiseGeneratorEnum</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#apollo.data.noise.NoiseGenerator" title="apollo.data.noise.NoiseGenerator"><span class="pre">NoiseGenerator</span></a></span></span><a class="reference internal" href="_modules/apollo/data/noise.html#NoiseGeneratorFactory.create"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apollo.data.noise.NoiseGeneratorFactory.create" title="Permalink to this definition"></a></dt>
+<dd><p>Construct a noise generator based on arguments.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>noise_generator_type</strong> – Noise generator to construct.</p></li>
+<li><p><strong>**kwargs</strong> – Arguments to be passed down</p></li>
+</ul>
+</dd>
+</dl>
+<p>Returns:</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="apollo.data.noise.NoiseGeneratorCollection">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">apollo.data.noise.</span></span><span class="sig-name descname"><span class="pre">NoiseGeneratorCollection</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">noise_generators</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#apollo.data.noise.NoiseGenerator" title="apollo.data.noise.NoiseGenerator"><span class="pre">NoiseGenerator</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#apollo.data.noise.NoiseGenerator" title="apollo.data.noise.NoiseGenerator"><span class="pre">NoiseGenerator</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/apollo/data/noise.html#NoiseGeneratorCollection"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apollo.data.noise.NoiseGeneratorCollection" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Build a collection of noise generators to collectively generate noise.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="apollo.data.noise.NoiseGeneratorCollection.generate">
+<span class="sig-name descname"><span class="pre">generate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">histogram_config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#apollo.data.configs.Interval" title="apollo.data.configs.Interval"><span class="pre">Interval</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="#apollo.data.configs.HistogramConfig" title="apollo.data.configs.HistogramConfig"><span class="pre">HistogramConfig</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">np.typing.NDArray</span><span class="p"><span class="pre">[</span></span><span class="pre">np.float64</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/apollo/data/noise.html#NoiseGeneratorCollection.generate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apollo.data.noise.NoiseGeneratorCollection.generate" title="Permalink to this definition"></a></dt>
+<dd><p>Generates noise for all the noise generators in the collection and combines
+it.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>histogram_config</strong> – Histogram to generate events by</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Numpy array containing the combined noise.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-apollo.data.utils">
+<span id="apollo-data-utils-module"></span><h2>apollo.data.utils module<a class="headerlink" href="#module-apollo.data.utils" title="Permalink to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="apollo.data.utils.create_folder">
+<span class="sig-prename descclassname"><span class="pre">apollo.data.utils.</span></span><span class="sig-name descname"><span class="pre">create_folder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/apollo/data/utils.html#create_folder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apollo.data.utils.create_folder" title="Permalink to this definition"></a></dt>
+<dd><p>Creates a folder if it does not exist.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>path</strong> – Pathlike parameter explaining which path should be created as a folder</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Nothing</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="apollo.data.utils.JSONSerializable">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">apollo.data.utils.</span></span><span class="sig-name descname"><span class="pre">JSONSerializable</span></span><a class="reference internal" href="_modules/apollo/data/utils.html#JSONSerializable"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apollo.data.utils.JSONSerializable" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ABC</span></code></p>
+<p>Interface to make a class serializable to and from json.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="apollo.data.utils.JSONSerializable.from_json">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_json</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dictionary</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#apollo.data.utils.JSONSerializable" title="apollo.data.utils.JSONSerializable"><span class="pre">JSONSerializable</span></a></span></span><a class="reference internal" href="_modules/apollo/data/utils.html#JSONSerializable.from_json"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apollo.data.utils.JSONSerializable.from_json" title="Permalink to this definition"></a></dt>
+<dd><p>Load a class from a json like data type</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>dictionary</strong> – json to be parsed</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Object of Class</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="apollo.data.utils.JSONSerializable.as_json">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">as_json</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/apollo/data/utils.html#JSONSerializable.as_json"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apollo.data.utils.JSONSerializable.as_json" title="Permalink to this definition"></a></dt>
+<dd><p>converts the class into a json writable and readable data structure</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>List or dict containing all the serialized information of the class</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="apollo.data.utils.FolderSavable">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">apollo.data.utils.</span></span><span class="sig-name descname"><span class="pre">FolderSavable</span></span><a class="reference internal" href="_modules/apollo/data/utils.html#FolderSavable"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apollo.data.utils.FolderSavable" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ABC</span></code></p>
+<p>Tool class that enables enumerable class to be saved to a folder using pickle.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="apollo.data.utils.FolderSavable.to_folder">
+<span class="sig-name descname"><span class="pre">to_folder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'part_{index}.pickle'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/apollo/data/utils.html#FolderSavable.to_folder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apollo.data.utils.FolderSavable.to_folder" title="Permalink to this definition"></a></dt>
+<dd><p>Saves object batched to the passed folder.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>path</strong> – path where the object should be saved</p></li>
+<li><p><strong>batch_size</strong> – number of sub-objects in each batch</p></li>
+<li><p><strong>filename</strong> – name of the individual batch files. Must contain ‘{index}’.</p></li>
+</ul>
+</dd>
+</dl>
+<p>Returns:</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="apollo.data.utils.FolderSavable.to_pickle">
+<span class="sig-name descname"><span class="pre">to_pickle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/apollo/data/utils.html#FolderSavable.to_pickle"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apollo.data.utils.FolderSavable.to_pickle" title="Permalink to this definition"></a></dt>
+<dd><p>Saves object to a single pickle file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>filename</strong> – which filename should be created</p>
+</dd>
+</dl>
+<p>Returns:</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="apollo.data.utils.FolderLoadable">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">apollo.data.utils.</span></span><span class="sig-name descname"><span class="pre">FolderLoadable</span></span><a class="reference internal" href="_modules/apollo/data/utils.html#FolderLoadable"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apollo.data.utils.FolderLoadable" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ABC</span></code></p>
+<p>Tool class that enables enumerable object to be loaded from a folder.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="apollo.data.utils.FolderLoadable.from_pickles">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_pickles</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filenames</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#apollo.data.utils.FolderLoadable" title="apollo.data.utils.FolderLoadable"><span class="pre">FolderLoadable</span></a></span></span><a class="reference internal" href="_modules/apollo/data/utils.html#FolderLoadable.from_pickles"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apollo.data.utils.FolderLoadable.from_pickles" title="Permalink to this definition"></a></dt>
+<dd><p>Loads object from list of filenames.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>filenames</strong> – List of filenames to be loaded</p></li>
+<li><p><strong>**kwargs</strong> – arguments to be passed down to the object</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Enumerable object containing the information of all passed files</p>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><strong>ValueError</strong> – When no object could be loaded</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="apollo.data.utils.FolderLoadable.from_folder">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_folder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">folder</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">FolderLoadableType</span></span></span><a class="reference internal" href="_modules/apollo/data/utils.html#FolderLoadable.from_folder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apollo.data.utils.FolderLoadable.from_folder" title="Permalink to this definition"></a></dt>
+<dd><p>Loads pickles from all pickle files in one folder.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>folder</strong> – folder to load pickles from</p></li>
+<li><p><strong>**kwargs</strong> – arguments to be passed down during creation</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Object of the class to be loaded</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="apollo.data.utils.FolderLoadable.from_pickle">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_pickle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Type</span><span class="p"><span class="pre">[</span></span><span class="pre">FolderLoadableType</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/apollo/data/utils.html#FolderLoadable.from_pickle"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apollo.data.utils.FolderLoadable.from_pickle" title="Permalink to this definition"></a></dt>
+<dd><p>Imports an individual pickle file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>filename</strong> – file to be loaded</p></li>
+<li><p><strong>**kwargs</strong> – arguments to be passed down during creation</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Object of the class to be loaded</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-apollo.data">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-apollo.data" title="Permalink to this heading"></a></h2>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="apollo.html" class="btn btn-neutral float-left" title="apollo package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="apollo.dataset.html" class="btn btn-neutral float-right" title="apollo.dataset package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Janik Prottung.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

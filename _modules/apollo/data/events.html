@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>apollo.data.events &mdash; Apollo 0.0.1 documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+    <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/sphinx_highlight.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../index.html" class="icon icon-home"> Apollo
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../apollo.html">apollo package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples.html">Examples</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Apollo</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">apollo.data.events</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for apollo.data.events</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
+
+<span class="kn">import</span> <span class="nn">copy</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+
+<span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span><span class="p">,</span> <span class="n">field</span>
+<span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">Enum</span><span class="p">,</span> <span class="n">auto</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span>
+
+<span class="kn">import</span> <span class="nn">awkward</span> <span class="k">as</span> <span class="nn">ak</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="kn">from</span> <span class="nn">apollo.data.configs</span> <span class="kn">import</span> <span class="n">HistogramConfig</span><span class="p">,</span> <span class="n">Interval</span>
+<span class="kn">from</span> <span class="nn">apollo.data.detectors</span> <span class="kn">import</span> <span class="n">Detector</span>
+<span class="kn">from</span> <span class="nn">apollo.data.geometric</span> <span class="kn">import</span> <span class="n">Vector</span>
+<span class="kn">from</span> <span class="nn">apollo.data.utils</span> <span class="kn">import</span> <span class="n">FolderLoadable</span><span class="p">,</span> <span class="n">FolderSavable</span><span class="p">,</span> <span class="n">JSONSerializable</span>
+<span class="kn">from</span> <span class="nn">apollo.utils.random</span> <span class="kn">import</span> <span class="n">get_rng</span>
+
+
+<div class="viewcode-block" id="EventType"><a class="viewcode-back" href="../../../apollo.data.html#apollo.data.events.EventType">[docs]</a><span class="k">class</span> <span class="nc">EventType</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+    <span class="n">STARTING_TRACK</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
+    <span class="n">CASCADE</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
+    <span class="n">REALISTIC_TRACK</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="SourceType"><a class="viewcode-back" href="../../../apollo.data.html#apollo.data.events.SourceType">[docs]</a><span class="k">class</span> <span class="nc">SourceType</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Enum for photon source types.&quot;&quot;&quot;</span>
+
+    <span class="n">STANDARD_CHERENKOV</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
+    <span class="n">ISOTROPIC</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="EventTimeframeMode"><a class="viewcode-back" href="../../../apollo.data.html#apollo.data.events.EventTimeframeMode">[docs]</a><span class="k">class</span> <span class="nc">EventTimeframeMode</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+    <span class="c1"># I want the start time be that it is in the interval</span>
+    <span class="c1"># ..............start....first_hit....last_hit........</span>
+    <span class="c1"># ...........[..............................]..............</span>
+    <span class="n">START_TIME</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
+    <span class="c1"># I want the new start time be that the at least one hit overlaps with the time</span>
+    <span class="c1"># ....start....first_hit....last_hit........</span>
+    <span class="c1"># ...........[.................].................</span>
+    <span class="n">CONTAINS_HIT</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
+    <span class="c1"># I want the new start time be that all hits overlap with the time</span>
+    <span class="c1"># ....start....first_hit....last_hit........</span>
+    <span class="c1"># ...........[..............................]....</span>
+    <span class="n">CONTAINS_EVENT</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
+    <span class="c1"># I want the new start time to be that x percent of the event are included</span>
+    <span class="c1"># I want the new start time be that all hits overlap with the time</span>
+    <span class="c1"># ....start....first_hit....last_hit........</span>
+    <span class="c1"># ....................[..............]...........</span>
+    <span class="n">CONTAINS_PERCENTAGE</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span></div>
+
+
+<span class="n">DEFAULT_EVENT_TIMEFRAME_MODE</span> <span class="o">=</span> <span class="n">EventTimeframeMode</span><span class="o">.</span><span class="n">START_TIME</span>
+
+
+<div class="viewcode-block" id="Record"><a class="viewcode-back" href="../../../apollo.data.html#apollo.data.events.Record">[docs]</a><span class="nd">@dataclass</span>
+<span class="k">class</span> <span class="nc">Record</span><span class="p">(</span><span class="n">JSONSerializable</span><span class="p">):</span>
+    <span class="n">direction</span><span class="p">:</span> <span class="n">Vector</span>
+    <span class="n">position</span><span class="p">:</span> <span class="n">Vector</span>
+    <span class="n">time</span><span class="p">:</span> <span class="nb">float</span>
+
+<div class="viewcode-block" id="Record.as_json"><a class="viewcode-back" href="../../../apollo.data.html#apollo.data.events.Record.as_json">[docs]</a>    <span class="k">def</span> <span class="nf">as_json</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Union</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]]:</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s2">&quot;direction&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">direction</span><span class="o">.</span><span class="n">as_json</span><span class="p">(),</span>
+            <span class="s2">&quot;position&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">position</span><span class="o">.</span><span class="n">as_json</span><span class="p">(),</span>
+            <span class="s2">&quot;time&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">time</span><span class="p">,</span>
+        <span class="p">}</span></div>
+
+<div class="viewcode-block" id="Record.from_json"><a class="viewcode-back" href="../../../apollo.data.html#apollo.data.events.Record.from_json">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">from_json</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">dictionary</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Record</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span>
+            <span class="n">direction</span><span class="o">=</span><span class="n">Vector</span><span class="o">.</span><span class="n">from_json</span><span class="p">(</span><span class="n">dictionary</span><span class="p">[</span><span class="s2">&quot;direction&quot;</span><span class="p">]),</span>
+            <span class="n">position</span><span class="o">=</span><span class="n">Vector</span><span class="o">.</span><span class="n">from_json</span><span class="p">(</span><span class="n">dictionary</span><span class="p">[</span><span class="s2">&quot;position&quot;</span><span class="p">]),</span>
+            <span class="n">time</span><span class="o">=</span><span class="n">dictionary</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">],</span>
+        <span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="SourceRecord"><a class="viewcode-back" href="../../../apollo.data.html#apollo.data.events.SourceRecord">[docs]</a><span class="nd">@dataclass</span>
+<span class="k">class</span> <span class="nc">SourceRecord</span><span class="p">(</span><span class="n">Record</span><span class="p">):</span>
+    <span class="n">number_of_photons</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">source_type</span><span class="p">:</span> <span class="n">SourceType</span> <span class="o">=</span> <span class="n">SourceType</span><span class="o">.</span><span class="n">STANDARD_CHERENKOV</span>
+
+<div class="viewcode-block" id="SourceRecord.as_json"><a class="viewcode-back" href="../../../apollo.data.html#apollo.data.events.SourceRecord.as_json">[docs]</a>    <span class="k">def</span> <span class="nf">as_json</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+        <span class="n">parent_dict</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">as_json</span><span class="p">()</span>
+        <span class="n">child_dict</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;source_type&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">source_type</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+            <span class="s2">&quot;number_of_photons&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">number_of_photons</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="k">return</span> <span class="p">{</span><span class="o">**</span><span class="n">parent_dict</span><span class="p">,</span> <span class="o">**</span><span class="n">child_dict</span><span class="p">}</span></div>
+
+<div class="viewcode-block" id="SourceRecord.from_json"><a class="viewcode-back" href="../../../apollo.data.html#apollo.data.events.SourceRecord.from_json">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">from_json</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">dictionary</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">SourceRecord</span><span class="p">:</span>
+        <span class="n">source_type</span> <span class="o">=</span> <span class="n">dictionary</span><span class="p">[</span><span class="s2">&quot;source_type&quot;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">source_type</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">SourceType</span><span class="p">:</span>
+            <span class="n">source_type</span> <span class="o">=</span> <span class="n">SourceType</span><span class="p">[</span><span class="n">source_type</span><span class="o">.</span><span class="n">to_upper</span><span class="p">()]</span>
+
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span>
+            <span class="n">source_type</span><span class="o">=</span><span class="n">source_type</span><span class="p">,</span>
+            <span class="n">time</span><span class="o">=</span><span class="n">dictionary</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">],</span>
+            <span class="n">position</span><span class="o">=</span><span class="n">Vector</span><span class="o">.</span><span class="n">from_json</span><span class="p">(</span><span class="n">dictionary</span><span class="p">[</span><span class="s2">&quot;position&quot;</span><span class="p">]),</span>
+            <span class="n">direction</span><span class="o">=</span><span class="n">Vector</span><span class="o">.</span><span class="n">from_json</span><span class="p">(</span><span class="n">dictionary</span><span class="p">[</span><span class="s2">&quot;direction&quot;</span><span class="p">]),</span>
+            <span class="n">number_of_photons</span><span class="o">=</span><span class="n">dictionary</span><span class="p">[</span><span class="s2">&quot;number_of_photons&quot;</span><span class="p">],</span>
+        <span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="Event"><a class="viewcode-back" href="../../../apollo.data.html#apollo.data.events.Event">[docs]</a><span class="nd">@dataclass</span>
+<span class="k">class</span> <span class="nc">Event</span><span class="p">(</span><span class="n">Record</span><span class="p">,</span> <span class="n">JSONSerializable</span><span class="p">):</span>
+    <span class="n">event_type</span><span class="p">:</span> <span class="n">EventType</span>
+    <span class="n">energy</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="n">detector</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Detector</span><span class="p">]</span>
+    <span class="n">hits</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">ak</span><span class="o">.</span><span class="n">Array</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="p">[])</span>
+    <span class="n">sources</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">SourceRecord</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="p">[])</span>
+    <span class="n">default_value</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="n">rng</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">Generator</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="n">get_rng</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">event_type</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">event_type</span> <span class="o">=</span> <span class="n">EventType</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">event_type</span><span class="p">]</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">first_hit</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">number_of_hits</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">ak</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">hits</span><span class="p">))</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">default_value</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">last_hit</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">number_of_hits</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">ak</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">hits</span><span class="p">))</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">default_value</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">percentile_levels</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">typing</span><span class="o">.</span><span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">]:</span>
+        <span class="n">start</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">end</span> <span class="o">=</span> <span class="mi">110</span>
+        <span class="n">step</span> <span class="o">=</span> <span class="mi">10</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">,</span> <span class="n">step</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int16</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">percentiles</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">typing</span><span class="o">.</span><span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">]:</span>
+        <span class="n">percentile_levels</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">percentile_levels</span>
+        <span class="n">percentiles</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full_like</span><span class="p">(</span>
+            <span class="n">percentile_levels</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">default_value</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">number_of_hits</span><span class="p">:</span>
+            <span class="n">hits</span> <span class="o">=</span> <span class="n">ak</span><span class="o">.</span><span class="n">flatten</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">hits</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+            <span class="n">percentiles</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">percentile</span><span class="p">(</span><span class="n">hits</span><span class="p">,</span> <span class="n">percentile_levels</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+
+        <span class="n">percentiles</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">first_hit</span>
+        <span class="n">percentiles</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">last_hit</span>
+
+        <span class="k">return</span> <span class="n">percentiles</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">number_of_hits</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">ak</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">hits</span><span class="p">))</span>
+
+<div class="viewcode-block" id="Event.as_features"><a class="viewcode-back" href="../../../apollo.data.html#apollo.data.events.Event.as_features">[docs]</a>    <span class="k">def</span> <span class="nf">as_features</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+        <span class="n">event_dict</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">as_json</span><span class="p">(</span>
+                <span class="n">include_sources</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">include_hits</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">include_detector</span><span class="o">=</span><span class="kc">False</span>
+            <span class="p">),</span>
+            <span class="s2">&quot;number_of_hits&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">number_of_hits</span><span class="p">,</span>
+            <span class="s2">&quot;percentiles&quot;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">percentiles</span><span class="p">),</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">event_dict</span></div>
+
+<div class="viewcode-block" id="Event.is_in_timeframe"><a class="viewcode-back" href="../../../apollo.data.html#apollo.data.events.Event.is_in_timeframe">[docs]</a>    <span class="k">def</span> <span class="nf">is_in_timeframe</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">interval</span><span class="p">:</span> <span class="n">Interval</span><span class="p">,</span>
+        <span class="n">is_in_timeframe_mode</span><span class="p">:</span> <span class="n">EventTimeframeMode</span> <span class="o">=</span> <span class="n">DEFAULT_EVENT_TIMEFRAME_MODE</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="n">start</span> <span class="o">=</span> <span class="n">interval</span><span class="o">.</span><span class="n">start</span>
+        <span class="n">end</span> <span class="o">=</span> <span class="n">interval</span><span class="o">.</span><span class="n">end</span>
+        <span class="k">if</span> <span class="n">is_in_timeframe_mode</span> <span class="o">==</span> <span class="n">EventTimeframeMode</span><span class="o">.</span><span class="n">START_TIME</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">time</span> <span class="o">&lt;</span> <span class="n">start</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">False</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">time</span> <span class="o">&gt;=</span> <span class="n">end</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">elif</span> <span class="n">is_in_timeframe_mode</span> <span class="o">==</span> <span class="n">EventTimeframeMode</span><span class="o">.</span><span class="n">CONTAINS_HIT</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">start</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">last_hit</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">False</span>
+            <span class="k">if</span> <span class="n">end</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">first_hit</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">elif</span> <span class="n">is_in_timeframe_mode</span> <span class="o">==</span> <span class="n">EventTimeframeMode</span><span class="o">.</span><span class="n">CONTAINS_EVENT</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">start</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">first_hit</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">False</span>
+            <span class="k">if</span> <span class="n">end</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">last_hit</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">error_msg</span> <span class="o">=</span> <span class="s2">&quot;EventInTimeframeMode </span><span class="si">{0}</span><span class="s2"> not implemented&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="n">is_in_timeframe_mode</span><span class="o">.</span><span class="n">name</span>
+            <span class="p">)</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">error_msg</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">error_msg</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="kc">True</span></div>
+
+<div class="viewcode-block" id="Event.redistribute"><a class="viewcode-back" href="../../../apollo.data.html#apollo.data.events.Event.redistribute">[docs]</a>    <span class="k">def</span> <span class="nf">redistribute</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">interval</span><span class="p">:</span> <span class="n">Interval</span><span class="p">,</span>
+        <span class="n">is_in_timeframe_mode</span><span class="p">:</span> <span class="n">EventTimeframeMode</span> <span class="o">=</span> <span class="n">DEFAULT_EVENT_TIMEFRAME_MODE</span><span class="p">,</span>
+        <span class="n">rng</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">Generator</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">percentile</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">50</span><span class="p">,</span>
+        <span class="n">create_copy</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Event</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">create_copy</span><span class="p">:</span>
+            <span class="n">new_event</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">new_event</span> <span class="o">=</span> <span class="bp">self</span>
+
+        <span class="k">if</span> <span class="n">rng</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">rng</span> <span class="o">=</span> <span class="n">new_event</span><span class="o">.</span><span class="n">rng</span>
+
+        <span class="n">modified_start</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">modified_end</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="k">if</span> <span class="n">is_in_timeframe_mode</span><span class="o">.</span><span class="n">value</span> <span class="o">==</span> <span class="n">EventTimeframeMode</span><span class="o">.</span><span class="n">START_TIME</span><span class="o">.</span><span class="n">value</span><span class="p">:</span>
+            <span class="n">modified_start</span> <span class="o">=</span> <span class="n">interval</span><span class="o">.</span><span class="n">start</span>
+            <span class="n">modified_end</span> <span class="o">=</span> <span class="n">interval</span><span class="o">.</span><span class="n">end</span>
+
+        <span class="k">if</span> <span class="n">is_in_timeframe_mode</span><span class="o">.</span><span class="n">value</span> <span class="o">==</span> <span class="n">EventTimeframeMode</span><span class="o">.</span><span class="n">CONTAINS_HIT</span><span class="o">.</span><span class="n">value</span><span class="p">:</span>
+            <span class="n">modified_start</span> <span class="o">=</span> <span class="n">interval</span><span class="o">.</span><span class="n">start</span> <span class="o">-</span> <span class="n">new_event</span><span class="o">.</span><span class="n">last_hit</span> <span class="o">+</span> <span class="n">new_event</span><span class="o">.</span><span class="n">time</span>
+            <span class="n">modified_end</span> <span class="o">=</span> <span class="n">interval</span><span class="o">.</span><span class="n">end</span> <span class="o">-</span> <span class="n">new_event</span><span class="o">.</span><span class="n">first_hit</span> <span class="o">+</span> <span class="n">new_event</span><span class="o">.</span><span class="n">time</span>
+
+        <span class="k">if</span> <span class="p">(</span>
+            <span class="n">is_in_timeframe_mode</span><span class="o">.</span><span class="n">value</span> <span class="o">==</span> <span class="n">EventTimeframeMode</span><span class="o">.</span><span class="n">CONTAINS_EVENT</span><span class="o">.</span><span class="n">value</span>
+            <span class="ow">or</span> <span class="n">is_in_timeframe_mode</span><span class="o">.</span><span class="n">value</span>
+            <span class="o">==</span> <span class="n">EventTimeframeMode</span><span class="o">.</span><span class="n">CONTAINS_PERCENTAGE</span><span class="o">.</span><span class="n">value</span>
+        <span class="p">):</span>
+            <span class="k">if</span> <span class="n">is_in_timeframe_mode</span><span class="o">.</span><span class="n">value</span> <span class="o">==</span> <span class="n">EventTimeframeMode</span><span class="o">.</span><span class="n">CONTAINS_EVENT</span><span class="o">.</span><span class="n">value</span><span class="p">:</span>
+                <span class="n">last_hit</span> <span class="o">=</span> <span class="n">new_event</span><span class="o">.</span><span class="n">last_hit</span>
+                <span class="n">first_hit</span> <span class="o">=</span> <span class="n">new_event</span><span class="o">.</span><span class="n">first_hit</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">percentile_levels</span> <span class="o">=</span> <span class="n">new_event</span><span class="o">.</span><span class="n">percentile_levels</span>
+                <span class="n">indices</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">percentile_levels</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">percentile</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">indices</span><span class="p">:</span>
+                    <span class="n">err_message</span> <span class="o">=</span> <span class="s2">&quot;percentile </span><span class="si">{0}</span><span class="s2"> not available in (</span><span class="si">{1}</span><span class="s2">)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                        <span class="nb">str</span><span class="p">(</span><span class="n">percentile</span><span class="p">),</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">percentile_levels</span><span class="p">)</span>
+                    <span class="p">)</span>
+                    <span class="n">logging</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">err_message</span><span class="p">)</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">err_message</span><span class="p">)</span>
+                <span class="n">index</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">indices</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">indices</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">percentile</span><span class="p">)</span>
+                <span class="n">percentiles</span> <span class="o">=</span> <span class="n">new_event</span><span class="o">.</span><span class="n">percentiles</span>
+                <span class="n">rounded_half</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">index</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+                <span class="c1"># fill up from front if uneven</span>
+                <span class="n">percentile_start_index</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">index</span> <span class="o">-</span> <span class="n">rounded_half</span><span class="p">)</span>
+                <span class="c1"># starting to take of in the end</span>
+                <span class="n">percentile_end_index</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span> <span class="o">*</span> <span class="p">(</span><span class="n">rounded_half</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
+                <span class="n">first_hit</span> <span class="o">=</span> <span class="n">percentiles</span><span class="p">[</span><span class="n">percentile_start_index</span><span class="p">]</span>
+                <span class="n">last_hit</span> <span class="o">=</span> <span class="n">percentiles</span><span class="p">[</span><span class="n">percentile_end_index</span><span class="p">]</span>
+            <span class="n">event_length</span> <span class="o">=</span> <span class="n">last_hit</span> <span class="o">-</span> <span class="n">first_hit</span>
+            <span class="n">event_offset</span> <span class="o">=</span> <span class="n">first_hit</span> <span class="o">-</span> <span class="n">new_event</span><span class="o">.</span><span class="n">time</span>
+            <span class="n">modified_start</span> <span class="o">=</span> <span class="n">interval</span><span class="o">.</span><span class="n">start</span> <span class="o">-</span> <span class="n">event_offset</span>
+            <span class="n">modified_end</span> <span class="o">=</span> <span class="n">interval</span><span class="o">.</span><span class="n">end</span> <span class="o">-</span> <span class="n">event_offset</span> <span class="o">-</span> <span class="n">event_length</span>
+
+        <span class="k">if</span> <span class="n">modified_start</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">modified_end</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">error_msg</span> <span class="o">=</span> <span class="s2">&quot;EventInTimeframeMode </span><span class="si">{0}</span><span class="s2"> not implemented&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="n">is_in_timeframe_mode</span><span class="o">.</span><span class="n">name</span>
+            <span class="p">)</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">error_msg</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">error_msg</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">modified_end</span> <span class="o">&lt;</span> <span class="n">modified_start</span><span class="p">:</span>
+            <span class="n">modified_end</span> <span class="o">=</span> <span class="n">modified_start</span> <span class="o">+</span> <span class="mi">1</span>
+            <span class="n">error_msg</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="s2">&quot;Event to long for interval </span><span class="si">{0}</span><span class="s2">. Switched to contains hit&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                    <span class="nb">str</span><span class="p">(</span><span class="n">interval</span><span class="p">)</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="n">error_msg</span><span class="p">)</span>
+
+        <span class="n">new_start_time</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">integers</span><span class="p">(</span>
+            <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">floor</span><span class="p">(</span><span class="n">modified_start</span><span class="p">)),</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">modified_end</span><span class="p">))</span>
+        <span class="p">)</span>
+        <span class="n">difference</span> <span class="o">=</span> <span class="n">new_event</span><span class="o">.</span><span class="n">time</span> <span class="o">-</span> <span class="n">new_start_time</span>
+
+        <span class="k">for</span> <span class="n">source</span> <span class="ow">in</span> <span class="n">new_event</span><span class="o">.</span><span class="n">sources</span><span class="p">:</span>
+            <span class="n">source</span><span class="o">.</span><span class="n">time</span> <span class="o">=</span> <span class="n">source</span><span class="o">.</span><span class="n">time</span> <span class="o">-</span> <span class="n">difference</span>
+
+        <span class="n">new_event</span><span class="o">.</span><span class="n">hits</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">subtract</span><span class="p">(</span><span class="n">new_event</span><span class="o">.</span><span class="n">hits</span><span class="p">,</span> <span class="n">difference</span><span class="p">))</span>
+
+        <span class="n">new_event</span><span class="o">.</span><span class="n">time</span> <span class="o">=</span> <span class="n">new_start_time</span>
+
+        <span class="k">return</span> <span class="n">new_event</span></div>
+
+<div class="viewcode-block" id="Event.get_histogram"><a class="viewcode-back" href="../../../apollo.data.html#apollo.data.events.Event.get_histogram">[docs]</a>    <span class="k">def</span> <span class="nf">get_histogram</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">histogram_config</span><span class="p">:</span> <span class="n">HistogramConfig</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">typing</span><span class="o">.</span><span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">single</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">detector</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Histogram only possible for a given detector&quot;</span><span class="p">)</span>
+        <span class="n">number_of_modules</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">detector</span><span class="o">.</span><span class="n">modules</span><span class="p">)</span>
+        <span class="n">number_of_bins</span> <span class="o">=</span> <span class="n">histogram_config</span><span class="o">.</span><span class="n">number_of_bins</span>
+        <span class="n">histogram</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="n">number_of_modules</span><span class="p">,</span> <span class="n">number_of_bins</span><span class="p">])</span>
+
+        <span class="k">for</span> <span class="n">module_index</span><span class="p">,</span> <span class="n">module</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">hits</span><span class="p">):</span>
+            <span class="n">histogram</span><span class="p">[</span><span class="n">module_index</span><span class="p">]</span> <span class="o">+=</span> <span class="n">np</span><span class="o">.</span><span class="n">histogram</span><span class="p">(</span>
+                <span class="n">ak</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(</span><span class="n">module</span><span class="p">),</span> <span class="n">bins</span><span class="o">=</span><span class="n">number_of_bins</span><span class="p">,</span> <span class="nb">range</span><span class="o">=</span><span class="n">histogram_config</span><span class="o">.</span><span class="n">range</span>
+            <span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">histogram</span></div>
+
+<div class="viewcode-block" id="Event.as_json"><a class="viewcode-back" href="../../../apollo.data.html#apollo.data.events.Event.as_json">[docs]</a>    <span class="k">def</span> <span class="nf">as_json</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">include_sources</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="n">include_hits</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="n">include_detector</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">object</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]]:</span>
+        <span class="n">parent_dict</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">as_json</span><span class="p">()</span>
+        <span class="n">child_dict</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;event_type&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">event_type</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+            <span class="s2">&quot;energy&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">energy</span><span class="p">,</span>
+            <span class="s2">&quot;default_value&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">default_value</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="k">if</span> <span class="n">include_sources</span><span class="p">:</span>
+            <span class="n">child_dict</span><span class="p">[</span><span class="s2">&quot;sources&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">source</span><span class="o">.</span><span class="n">as_json</span><span class="p">()</span> <span class="k">for</span> <span class="n">source</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">sources</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="n">include_hits</span><span class="p">:</span>
+            <span class="n">child_dict</span><span class="p">[</span><span class="s2">&quot;hits&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="nb">list</span><span class="p">(</span><span class="n">module_hits</span><span class="p">)</span> <span class="k">for</span> <span class="n">module_hits</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">hits</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="n">include_detector</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">detector</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">child_dict</span><span class="p">[</span><span class="s2">&quot;detector&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">detector</span><span class="o">.</span><span class="n">as_json</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="p">{</span><span class="o">**</span><span class="n">parent_dict</span><span class="p">,</span> <span class="o">**</span><span class="n">child_dict</span><span class="p">}</span></div>
+
+<div class="viewcode-block" id="Event.from_json"><a class="viewcode-back" href="../../../apollo.data.html#apollo.data.events.Event.from_json">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">from_json</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">dictionary</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Event</span><span class="p">:</span>
+        <span class="n">sources</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">detector</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">hits</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">event_type</span> <span class="o">=</span> <span class="n">dictionary</span><span class="p">[</span><span class="s2">&quot;event_type&quot;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">event_type</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">EventType</span><span class="p">:</span>
+            <span class="n">event_type</span> <span class="o">=</span> <span class="n">EventType</span><span class="p">[</span><span class="n">event_type</span><span class="o">.</span><span class="n">to_upper</span><span class="p">()]</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">dictionary</span><span class="p">,</span> <span class="s2">&quot;sources&quot;</span><span class="p">):</span>
+            <span class="n">sources</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="n">SourceRecord</span><span class="o">.</span><span class="n">from_json</span><span class="p">(</span><span class="n">source</span><span class="p">)</span> <span class="k">for</span> <span class="n">source</span> <span class="ow">in</span> <span class="n">dictionary</span><span class="p">[</span><span class="s2">&quot;sources&quot;</span><span class="p">]</span>
+            <span class="p">]</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">dictionary</span><span class="p">,</span> <span class="s2">&quot;detector&quot;</span><span class="p">):</span>
+            <span class="n">detector</span> <span class="o">=</span> <span class="n">Detector</span><span class="o">.</span><span class="n">from_json</span><span class="p">(</span><span class="n">dictionary</span><span class="p">[</span><span class="s2">&quot;detector&quot;</span><span class="p">])</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">dictionary</span><span class="p">,</span> <span class="s2">&quot;hits&quot;</span><span class="p">):</span>
+            <span class="n">hits</span> <span class="o">=</span> <span class="p">[</span><span class="n">ak</span><span class="o">.</span><span class="n">Array</span><span class="p">(</span><span class="n">module_hits</span><span class="p">)</span> <span class="k">for</span> <span class="n">module_hits</span> <span class="ow">in</span> <span class="n">dictionary</span><span class="p">[</span><span class="s2">&quot;hits&quot;</span><span class="p">]]</span>
+
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span>
+            <span class="n">event_type</span><span class="o">=</span><span class="n">event_type</span><span class="p">,</span>
+            <span class="n">sources</span><span class="o">=</span><span class="n">sources</span><span class="p">,</span>
+            <span class="n">energy</span><span class="o">=</span><span class="n">dictionary</span><span class="p">[</span><span class="s2">&quot;energy&quot;</span><span class="p">],</span>
+            <span class="n">hits</span><span class="o">=</span><span class="n">hits</span><span class="p">,</span>
+            <span class="n">detector</span><span class="o">=</span><span class="n">detector</span><span class="p">,</span>
+            <span class="n">default_value</span><span class="o">=</span><span class="n">dictionary</span><span class="p">[</span><span class="s2">&quot;default_value&quot;</span><span class="p">],</span>
+            <span class="n">time</span><span class="o">=</span><span class="n">dictionary</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">],</span>
+            <span class="n">position</span><span class="o">=</span><span class="n">Vector</span><span class="o">.</span><span class="n">from_json</span><span class="p">(</span><span class="n">dictionary</span><span class="p">[</span><span class="s2">&quot;position&quot;</span><span class="p">]),</span>
+            <span class="n">direction</span><span class="o">=</span><span class="n">Vector</span><span class="o">.</span><span class="n">from_json</span><span class="p">(</span><span class="n">dictionary</span><span class="p">[</span><span class="s2">&quot;direction&quot;</span><span class="p">]),</span>
+        <span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="EventCollection"><a class="viewcode-back" href="../../../apollo.data.html#apollo.data.events.EventCollection">[docs]</a><span class="nd">@dataclass</span>
+<span class="k">class</span> <span class="nc">EventCollection</span><span class="p">(</span><span class="n">FolderSavable</span><span class="p">,</span> <span class="n">FolderLoadable</span><span class="p">,</span> <span class="n">JSONSerializable</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Global class for maintaining a common form of Events</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">detector</span><span class="p">:</span> <span class="n">Detector</span>
+    <span class="n">events</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Event</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="p">[])</span>
+    <span class="n">rng</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">Generator</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="n">get_rng</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">events</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">EventCollection</span><span class="p">:</span>
+        <span class="n">events</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">events</span><span class="p">[</span><span class="n">item</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">EventCollection</span><span class="p">(</span><span class="n">events</span><span class="o">=</span><span class="n">events</span><span class="p">,</span> <span class="n">detector</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">detector</span><span class="p">,</span> <span class="n">rng</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">rng</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__add__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">EventCollection</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">EventCollection</span><span class="p">:</span>
+        <span class="n">events</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">events</span> <span class="o">+</span> <span class="n">other</span><span class="o">.</span><span class="n">events</span>
+        <span class="k">return</span> <span class="n">EventCollection</span><span class="p">(</span><span class="n">detector</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">detector</span><span class="p">,</span> <span class="n">events</span><span class="o">=</span><span class="n">events</span><span class="p">,</span> <span class="n">rng</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">rng</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__get_reference</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">create_copy</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">EventCollection</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">create_copy</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">self</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">valid_events</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Event</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Property containing only the events with hits for every detector module</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            List of events with matching hits and module count</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">valid_events</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">detector</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;detector is not provided.&quot;</span><span class="p">)</span>
+        <span class="n">number_of_modules</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">detector</span><span class="o">.</span><span class="n">number_of_modules</span>
+
+        <span class="k">for</span> <span class="n">event</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">events</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">event</span><span class="o">.</span><span class="n">hits</span><span class="p">)</span> <span class="o">!=</span> <span class="n">number_of_modules</span><span class="p">:</span>
+                <span class="k">continue</span>
+
+            <span class="n">valid_events</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">event</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">valid_events</span>
+
+<div class="viewcode-block" id="EventCollection.get_sources_per_bin"><a class="viewcode-back" href="../../../apollo.data.html#apollo.data.events.EventCollection.get_sources_per_bin">[docs]</a>    <span class="k">def</span> <span class="nf">get_sources_per_bin</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">histogram_config</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">HistogramConfig</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">SourceRecord</span><span class="p">]]:</span>
+        <span class="k">if</span> <span class="n">histogram_config</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">histogram_config</span> <span class="o">=</span> <span class="n">HistogramConfig</span><span class="p">()</span>
+
+        <span class="n">histogram_bins</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">x</span> <span class="o">+</span> <span class="n">histogram_config</span><span class="o">.</span><span class="n">bin_size</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span>
+                <span class="n">histogram_config</span><span class="o">.</span><span class="n">start</span><span class="p">,</span> <span class="n">histogram_config</span><span class="o">.</span><span class="n">end</span><span class="p">,</span> <span class="n">histogram_config</span><span class="o">.</span><span class="n">bin_size</span>
+            <span class="p">)</span>
+        <span class="p">]</span>
+        <span class="n">source_bins</span> <span class="o">=</span> <span class="p">[[]</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">histogram_bins</span><span class="p">]</span>  <span class="c1"># type: List[List[SourceRecord]]</span>
+
+        <span class="k">for</span> <span class="n">event</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">events</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">source</span> <span class="ow">in</span> <span class="n">event</span><span class="o">.</span><span class="n">sources</span><span class="p">:</span>
+                <span class="k">if</span> <span class="p">(</span>
+                    <span class="n">source</span><span class="o">.</span><span class="n">time</span> <span class="o">&lt;</span> <span class="n">histogram_config</span><span class="o">.</span><span class="n">start</span>
+                    <span class="ow">or</span> <span class="n">source</span><span class="o">.</span><span class="n">time</span> <span class="o">&gt;=</span> <span class="n">histogram_config</span><span class="o">.</span><span class="n">end</span>
+                <span class="p">):</span>
+                    <span class="k">continue</span>
+
+                <span class="n">index</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span>
+                    <span class="n">np</span><span class="o">.</span><span class="n">floor</span><span class="p">(</span>
+                        <span class="p">(</span><span class="n">source</span><span class="o">.</span><span class="n">time</span> <span class="o">-</span> <span class="n">histogram_config</span><span class="o">.</span><span class="n">start</span><span class="p">)</span>
+                        <span class="o">/</span> <span class="n">histogram_config</span><span class="o">.</span><span class="n">bin_size</span>
+                    <span class="p">)</span>
+                <span class="p">)</span>
+                <span class="n">source_bins</span><span class="p">[</span><span class="n">index</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">source</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">source_bins</span></div>
+
+<div class="viewcode-block" id="EventCollection.get_histogram"><a class="viewcode-back" href="../../../apollo.data.html#apollo.data.events.EventCollection.get_histogram">[docs]</a>    <span class="k">def</span> <span class="nf">get_histogram</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">histogram_config</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">HistogramConfig</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">typing</span><span class="o">.</span><span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="n">histogram_config</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">histogram_config</span> <span class="o">=</span> <span class="n">HistogramConfig</span><span class="p">()</span>
+        <span class="n">events_to_account</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">valid_events</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">len</span><span class="p">(</span><span class="n">events_to_account</span><span class="p">):</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;No events to generate Histogram&quot;</span><span class="p">)</span>
+
+        <span class="n">total_histogram</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span>
+            <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">detector</span><span class="o">.</span><span class="n">number_of_modules</span><span class="p">,</span> <span class="n">histogram_config</span><span class="o">.</span><span class="n">number_of_bins</span><span class="p">)</span>
+        <span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">event</span> <span class="ow">in</span> <span class="n">events_to_account</span><span class="p">:</span>
+            <span class="n">histogram</span> <span class="o">=</span> <span class="n">event</span><span class="o">.</span><span class="n">get_histogram</span><span class="p">(</span><span class="n">histogram_config</span><span class="o">=</span><span class="n">histogram_config</span><span class="p">)</span>
+            <span class="n">total_histogram</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">total_histogram</span><span class="p">,</span> <span class="n">histogram</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">total_histogram</span></div>
+
+<div class="viewcode-block" id="EventCollection.redistribute"><a class="viewcode-back" href="../../../apollo.data.html#apollo.data.events.EventCollection.redistribute">[docs]</a>    <span class="k">def</span> <span class="nf">redistribute</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">interval</span><span class="p">:</span> <span class="n">Interval</span><span class="p">,</span>
+        <span class="n">nr_events</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">is_in_timeframe_mode</span><span class="p">:</span> <span class="n">EventTimeframeMode</span> <span class="o">=</span> <span class="n">EventTimeframeMode</span><span class="o">.</span><span class="n">START_TIME</span><span class="p">,</span>
+        <span class="n">rng</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">Generator</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">create_copy</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">EventCollection</span><span class="p">:</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+            <span class="s2">&quot;Start redistribute events (</span><span class="si">%s</span><span class="s2">, mode </span><span class="si">%s</span><span class="s2">)&quot;</span><span class="p">,</span>
+            <span class="nb">str</span><span class="p">(</span><span class="n">interval</span><span class="p">),</span>
+            <span class="n">is_in_timeframe_mode</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="n">collection</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__get_reference</span><span class="p">(</span><span class="n">create_copy</span><span class="p">)</span>
+        <span class="n">events_to_account</span> <span class="o">=</span> <span class="n">collection</span><span class="o">.</span><span class="n">events</span>
+
+        <span class="k">if</span> <span class="n">rng</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">rng</span> <span class="o">=</span> <span class="n">collection</span><span class="o">.</span><span class="n">rng</span>
+
+        <span class="k">if</span> <span class="n">rng</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">rng</span> <span class="o">=</span> <span class="n">get_rng</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="n">nr_events</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">indices</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">random_integers</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">collection</span><span class="p">),</span> <span class="n">nr_events</span><span class="p">)</span>  <span class="c1"># type: ignore</span>
+            <span class="n">events_to_account</span> <span class="o">=</span> <span class="p">[</span><span class="n">collection</span><span class="o">.</span><span class="n">events</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="n">indices</span><span class="p">]</span>
+
+        <span class="k">for</span> <span class="n">event</span> <span class="ow">in</span> <span class="n">events_to_account</span><span class="p">:</span>
+            <span class="n">event</span><span class="o">.</span><span class="n">redistribute</span><span class="p">(</span>
+                <span class="n">interval</span><span class="o">=</span><span class="n">interval</span><span class="p">,</span>
+                <span class="n">is_in_timeframe_mode</span><span class="o">=</span><span class="n">is_in_timeframe_mode</span><span class="p">,</span>
+                <span class="n">rng</span><span class="o">=</span><span class="n">rng</span><span class="p">,</span>
+                <span class="n">create_copy</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+            <span class="p">)</span>
+
+        <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+            <span class="s2">&quot;Finish redistribute events (</span><span class="si">%s</span><span class="s2">, mode </span><span class="si">%s</span><span class="s2">)&quot;</span><span class="p">,</span>
+            <span class="nb">str</span><span class="p">(</span><span class="n">interval</span><span class="p">),</span>
+            <span class="n">is_in_timeframe_mode</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">collection</span></div>
+
+<div class="viewcode-block" id="EventCollection.get_within_timeframe"><a class="viewcode-back" href="../../../apollo.data.html#apollo.data.events.EventCollection.get_within_timeframe">[docs]</a>    <span class="k">def</span> <span class="nf">get_within_timeframe</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">interval</span><span class="p">:</span> <span class="n">Interval</span><span class="p">,</span>
+        <span class="n">create_copy</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">is_in_timeframe_mode</span><span class="p">:</span> <span class="n">EventTimeframeMode</span> <span class="o">=</span> <span class="n">DEFAULT_EVENT_TIMEFRAME_MODE</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">EventCollection</span><span class="p">:</span>
+        <span class="n">collection</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__get_reference</span><span class="p">(</span><span class="n">create_copy</span><span class="p">)</span>
+
+        <span class="n">events_in_timeframe</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+            <span class="s2">&quot;Start collecting events within </span><span class="si">%s</span><span class="s2"> (</span><span class="si">%d</span><span class="s2"> Events available)&quot;</span><span class="p">,</span>
+            <span class="nb">str</span><span class="p">(</span><span class="n">interval</span><span class="p">),</span>
+            <span class="nb">len</span><span class="p">(</span><span class="n">collection</span><span class="p">),</span>
+        <span class="p">)</span>
+        <span class="k">for</span> <span class="n">event</span> <span class="ow">in</span> <span class="n">collection</span><span class="o">.</span><span class="n">events</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">event</span><span class="o">.</span><span class="n">is_in_timeframe</span><span class="p">(</span>
+                <span class="n">interval</span><span class="o">=</span><span class="n">interval</span><span class="p">,</span> <span class="n">is_in_timeframe_mode</span><span class="o">=</span><span class="n">is_in_timeframe_mode</span>
+            <span class="p">):</span>
+                <span class="n">events_in_timeframe</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">event</span><span class="p">)</span>
+
+        <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+            <span class="s2">&quot;Finish collecting events within </span><span class="si">%s</span><span class="s2"> (</span><span class="si">%d</span><span class="s2"> Events collected)&quot;</span><span class="p">,</span>
+            <span class="nb">str</span><span class="p">(</span><span class="n">interval</span><span class="p">),</span>
+            <span class="nb">len</span><span class="p">(</span><span class="n">events_in_timeframe</span><span class="p">),</span>
+        <span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">EventCollection</span><span class="p">(</span>
+            <span class="n">events</span><span class="o">=</span><span class="n">events_in_timeframe</span><span class="p">,</span> <span class="n">detector</span><span class="o">=</span><span class="n">collection</span><span class="o">.</span><span class="n">detector</span><span class="p">,</span> <span class="n">rng</span><span class="o">=</span><span class="n">collection</span><span class="o">.</span><span class="n">rng</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="EventCollection.get_event_features"><a class="viewcode-back" href="../../../apollo.data.html#apollo.data.events.EventCollection.get_event_features">[docs]</a>    <span class="k">def</span> <span class="nf">get_event_features</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">valid_only</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]:</span>
+        <span class="k">if</span> <span class="n">valid_only</span><span class="p">:</span>
+            <span class="n">events</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">valid_events</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">events</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">events</span>
+
+        <span class="k">return</span> <span class="p">[</span><span class="n">event</span><span class="o">.</span><span class="n">as_features</span><span class="p">()</span> <span class="k">for</span> <span class="n">event</span> <span class="ow">in</span> <span class="n">events</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="EventCollection.get_events_as_json"><a class="viewcode-back" href="../../../apollo.data.html#apollo.data.events.EventCollection.get_events_as_json">[docs]</a>    <span class="k">def</span> <span class="nf">get_events_as_json</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">valid_only</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">include_sources</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]:</span>
+        <span class="k">if</span> <span class="n">valid_only</span><span class="p">:</span>
+            <span class="n">events</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">valid_events</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">events</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">events</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">event</span><span class="o">.</span><span class="n">as_json</span><span class="p">(</span><span class="n">include_sources</span><span class="o">=</span><span class="n">include_sources</span><span class="p">)</span> <span class="k">for</span> <span class="n">event</span> <span class="ow">in</span> <span class="n">events</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="EventCollection.as_json"><a class="viewcode-back" href="../../../apollo.data.html#apollo.data.events.EventCollection.as_json">[docs]</a>    <span class="k">def</span> <span class="nf">as_json</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">valid_only</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">include_sources</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Union</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="n">Any</span><span class="p">]]]:</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s2">&quot;events&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_events_as_json</span><span class="p">(</span>
+                <span class="n">valid_only</span><span class="o">=</span><span class="n">valid_only</span><span class="p">,</span> <span class="n">include_sources</span><span class="o">=</span><span class="n">include_sources</span>
+            <span class="p">),</span>
+            <span class="s2">&quot;detector&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">detector</span><span class="o">.</span><span class="n">as_json</span><span class="p">(),</span>
+        <span class="p">}</span></div>
+
+<div class="viewcode-block" id="EventCollection.from_json"><a class="viewcode-back" href="../../../apollo.data.html#apollo.data.events.EventCollection.from_json">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">from_json</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">dictionary</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">EventCollection</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span>
+            <span class="n">events</span><span class="o">=</span><span class="p">[</span><span class="n">Event</span><span class="o">.</span><span class="n">from_json</span><span class="p">(</span><span class="n">event</span><span class="p">)</span> <span class="k">for</span> <span class="n">event</span> <span class="ow">in</span> <span class="n">dictionary</span><span class="p">[</span><span class="s2">&quot;events&quot;</span><span class="p">]],</span>
+            <span class="n">detector</span><span class="o">=</span><span class="n">Detector</span><span class="o">.</span><span class="n">from_json</span><span class="p">(</span><span class="n">dictionary</span><span class="p">[</span><span class="s2">&quot;events&quot;</span><span class="p">]),</span>
+        <span class="p">)</span></div></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Janik Prottung.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
