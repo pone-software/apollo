@@ -5,7 +5,9 @@ description = ""
 authors = ["Janik Prottung <me@jprottung.com>"]
 license = "GPL-3.0-or-later"
 readme = "README.md"
-packages = [{include = "apollo"}]
+packages = [
+    {include = "apollo"}
+]
 
 [tool.poetry.dependencies]
 python = "^3.8"
